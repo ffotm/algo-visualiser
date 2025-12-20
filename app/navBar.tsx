@@ -23,7 +23,7 @@ const NavBar = () => {
                 <ul className="menu menu-horizontal px-1">
                     <li>
                         <details>
-                            <summary>The Sorts <FaSortAmountUp /></summary>
+                            <summary>The Sorts <FaSortAmountUp className='text-green-600' /></summary>
                             <li>
 
                                 <ul className="p-2 w-40 z-1">
@@ -40,7 +40,7 @@ const NavBar = () => {
                     <li>
                         <details>
 
-                            <summary>The Algorithms <GiMaze /></summary>
+                            <summary>The Algorithms <GiMaze className='text-green-600' /></summary>
                             <li>
 
                                 <ul className="p-2 w-40 z-1">
@@ -53,7 +53,7 @@ const NavBar = () => {
                     </li>
                     <li>
                         <details>
-                            <summary>Data structures <GiDatabase /></summary>
+                            <summary>Data structures <GiDatabase className='text-green-600' /></summary>
                             <li>
 
                                 <ul className="p-2 w-40 z-1">
@@ -73,7 +73,7 @@ const NavBar = () => {
                 {currentTheme === 'dark' ? (<FaMoon className="m-2" />) : (<FaSun className='m-2' />)}
 
 
-                <a className="btn">Login</a>
+                <a className="btn bg-green-600 border-0">Login</a>
 
             </div>
 
