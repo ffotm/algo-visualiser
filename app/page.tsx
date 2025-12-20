@@ -24,15 +24,13 @@ export default function Home() {
               clickEffect={true}
               spotlightRadius={300}
               particleCount={12}
-              glowColor="0, 120, 1"
-
-            /></div>
+              glowColor="0, 120, 1" /></div>
         </div>
 
         <div className="relative z-10 h-full flex flex-col justify-center pointer-events-none">
           <h1 className="text-4xl font-bold p-2 pb-0 ">
             Algorithm Visualizer
-            <FaArrowTrendUp className="inline-block ml-2 relative bottom-1 text-green-900" />
+            <FaArrowTrendUp className="inline-block ml-2 relative bottom-1 text-green-800" />
           </h1>
 
         </div>

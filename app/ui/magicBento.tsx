@@ -8,6 +8,7 @@ export interface BentoCardProps {
     description?: string;
     label?: string;
     textAutoHide?: boolean;
+    location?: string;
     disableAnimations?: boolean;
 }
 
@@ -23,6 +24,7 @@ export interface BentoProps {
     glowColor?: string;
     clickEffect?: boolean;
     enableMagnetism?: boolean;
+
 }
 
 const DEFAULT_PARTICLE_COUNT = 12;
@@ -35,36 +37,42 @@ const cardData: BentoCardProps[] = [
         color: '#0a0a0a',
         title: '',
         description: 'Visualize how different sorting algorithms work step by step.',
+        location: '/sorts',
         label: 'Sorting Algorithms'
     },
     {
         color: '#0a0a0a',
         title: '',
         description: 'See how data is stored, accessed, and modified.',
+        location: '/datastruct',
         label: 'Data Structures'
     },
     {
         color: '#0a0a0a',
         title: '',
         description: 'Explore how algorithms move through graphs and trees.',
+        location: '/graphs',
         label: 'Graph Traversal & Search'
     },
     {
         color: '#0a0a0a',
         title: '',
         description: 'Watch algorithms find the shortest path in a grid.',
+        location: '/pathfind',
         label: 'Pathfinding'
     },
     {
         color: '#0a0a0a',
         title: '',
         description: 'Compare algorithms side-by-side.',
+        location: '/algorithm',
         label: 'Algorithm Comparison'
     },
     {
         color: '#0a0a0a',
         title: '',
         description: 'Simple explanations before visualizing.',
+        location: '/theory',
         label: 'Learn the Theory'
     }
 ];
