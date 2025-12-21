@@ -34,6 +34,9 @@ export default function Home() {
             Algorithm Visualizer
             <FaArrowTrendUp className="inline-block ml-2 relative bottom-1 text-green-800" />
           </h1>
+          <div className="font-semibold p-2">
+            <p >Visualize, understand, and master <p className="text-green-900">graph algorithms</p> through <p className="text-green-900">interactive animations and intuitive design.</p></p></div>
+
 
         </div>
       </div>

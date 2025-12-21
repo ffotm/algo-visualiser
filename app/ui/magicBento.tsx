@@ -151,6 +151,7 @@ const ParticleCard: React.FC<{
         const isHoveredRef = useRef(false);
         const memoizedParticles = useRef<HTMLDivElement[]>([]);
         const particlesInitialized = useRef(false);
+        const particlesAnimatedRef = useRef(false);
         const magnetismAnimationRef = useRef<gsap.core.Tween | null>(null);
 
         const initializeParticles = useCallback(() => {
