@@ -30,7 +30,7 @@ export interface BentoProps {
 
 }
 
-const DEFAULT_PARTICLE_COUNT = 12;
+const DEFAULT_PARTICLE_COUNT = 0;
 const DEFAULT_SPOTLIGHT_RADIUS = 300;
 const DEFAULT_GLOW_COLOR = '0, 120, 1';
 const MOBILE_BREAKPOINT = 768;
@@ -93,8 +93,8 @@ const createParticleElement = (x: number, y: number, color: string = DEFAULT_GLO
     el.className = 'particle';
     el.style.cssText = `
     position: absolute;
-    width: 4px;
-    height: 4px;
+    width: 6px;
+    height: 6px;
     border-radius: 50%;
     background: rgba(${color}, 1);
     box-shadow: 0 0 6px rgba(${color}, 0.6);
@@ -193,9 +193,15 @@ const ParticleCard: React.FC<{
             memoizedParticles.current.forEach((particle, index) => {
                 const timeoutId = setTimeout(() => {
                     if (!cardRef.current) return;
+                    const MAX_ACTIVE_PARTICLES = 6;
 
                     const clone = particle.cloneNode(true) as HTMLDivElement;
                     cardRef.current.appendChild(clone);
+                    if (particlesRef.current.length >= MAX_ACTIVE_PARTICLES) {
+                        clone.remove();
+                        return;
+                    }
+
                     particlesRef.current.push(clone);
 
                     gsap.fromTo(clone, { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.3, ease: 'back.out(1.7)' });
@@ -543,6 +549,8 @@ const useMobileDetection = () => {
     return isMobile;
 };
 
+
+
 const MagicBento: React.FC<BentoProps> = ({
     textAutoHide = true,
     enableStars = true,
@@ -551,6 +559,8 @@ const MagicBento: React.FC<BentoProps> = ({
     disableAnimations = false,
     spotlightRadius = DEFAULT_SPOTLIGHT_RADIUS,
     particleCount = DEFAULT_PARTICLE_COUNT,
+
+
     enableTilt = false,
     glowColor = DEFAULT_GLOW_COLOR,
     clickEffect = true,

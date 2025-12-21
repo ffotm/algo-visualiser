@@ -2,28 +2,31 @@
 @import "tailwindcss";
 @plugin "daisyui";
 :root {
-    --background: #ffffff;
-    --foreground: #171717;
+    --bg: #ffffff;
+    --text: #000000;
+    --card: #f8fafc;
+    --border: #e5e7eb;
+    --accent: #16a34a;
+    /* green */
 }
 
-@theme inline {
-    --color-background: var(--background);
-    --color-foreground: var(--foreground);
-    --font-family-base: 'Google Sans Flex', 'Instrument Serif', 'Lusitana', sans-serif;
+html[data-theme='dark'] {
+    --bg: #000000;
+    --text: #e5e7eb;
+    --card: #000000;
+    --border: #203b1e;
+    --accent: #093d1c;
 }
 
-@media (prefers-color-scheme: light) {
-     :root {
-        --background: #0a0a0a;
-        --foreground: #ededed;
-        color: rgb(red, rgb(0, 12, 1), blue);
-    }
+.navbar {
+    background-color: var(--bg);
+    color: var(--text);
+    border-color: var(--border);
 }
 
 body {
-    background: var(--foreground);
-    color: var(--background);
-    font-family: 'Google Sans Flex', 'Instrument Serif', 'Lusitana', sans-serif;
+    background: var(--bg);
+    color: var(--text);
     width: 100%;
     height: 100vh;
 }

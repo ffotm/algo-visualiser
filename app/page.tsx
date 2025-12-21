@@ -9,9 +9,8 @@ import MagicBento from './ui/magicBento'
 
 export default function Home() {
   return (
-    <div className="bg-white h-screen flex text-black w-full font-family-base">
+    <div className=" h-screen flex w-full font-family-base bg-[var(--bg)] text-[var(--text)] border-b border-[var(--border)]">
       <div className="relative container  p-10  h-135 w-full mx-auto rounded-lg flex flex-col justify-center">
-
         <div className="absolute inset-0 z-0 overflow-hidden rounded-lg">
           <div className="relative left-100 cursor-pointer">
             <MagicBento
@@ -35,9 +34,7 @@ export default function Home() {
             <FaArrowTrendUp className="inline-block ml-2 relative bottom-1 text-green-800" />
           </h1>
           <div className="font-semibold p-2">
-            <p >Visualize, understand, and master <p className="text-green-900">graph algorithms</p> through <p className="text-green-900">interactive animations and intuitive design.</p></p></div>
-
-
+            <p >Visualize, understand, and master </p> <p className="text-green-900">graph algorithms</p> through <p className="text-green-900">interactive animations and intuitive design.</p></div>
         </div>
       </div>
     </div>

@@ -1,5 +1,5 @@
 'use client'
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { SiThealgorithms } from "react-icons/si";
 import { usePathname } from 'next/navigation';
 import { GiMaze } from "react-icons/gi";
@@ -11,8 +11,15 @@ import { FaMoon, FaSun } from "react-icons/fa";
 
 
 const NavBar = () => {
+    const [theme, setTheme] = useState('dark');
     const currentPath = usePathname();
-    const currentTheme = "dark";
+    useEffect(() => {
+        document.documentElement.setAttribute('data-theme', theme);
+    }, [theme]);
+    const toggleTheme = () => {
+        setTheme(prev => (prev === 'dark' ? 'light' : 'dark'));
+    };
+
     return (
         <div className="navbar bg-white text-black p-4 border-b border-gray-200 shadow-sm max-h-20px">
             <div className="navbar-start">
@@ -69,10 +76,8 @@ const NavBar = () => {
                     </li>
                 </ul>
             </div>
-            <div className="navbar-end">
-                {currentTheme === 'dark' ? (<FaMoon className="m-2" />) : (<FaSun className='m-2' />)}
-
-
+            <div className="navbar-end cursor-pointer" onClick={toggleTheme} >
+                {theme === 'dark' ? (<FaMoon className="m-2" />) : (<FaSun className='m-2' />)}
                 <a className="btn bg-green-600 border-0">Login</a>
 
             </div>
