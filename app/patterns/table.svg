@@ -1,0 +1,6 @@
+<!-- public/patterns/table.svg -->
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <rect x="20" y="40" width="160" height="120" fill="none" stroke="white"/>
+  <line x1="20" y1="80" x2="180" y2="80" stroke="white"/>
+  <line x1="20" y1="120" x2="180" y2="120" stroke="white"/>
+</svg>

@@ -1,6 +1,7 @@
 'use client'
 import React, { useRef, useEffect, useState, useCallback } from 'react';
 import { gsap } from 'gsap';
+import { useRouter } from 'next/navigation';
 
 export interface BentoCardProps {
     color?: string;
@@ -10,6 +11,8 @@ export interface BentoCardProps {
     textAutoHide?: boolean;
     location?: string;
     disableAnimations?: boolean;
+    bgPattern?: string;
+
 }
 
 export interface BentoProps {
@@ -38,42 +41,50 @@ const cardData: BentoCardProps[] = [
         title: '',
         description: 'Visualize how different sorting algorithms work step by step.',
         location: '/sorts',
-        label: 'Sorting Algorithms'
+        label: 'Sorting Algorithms',
+        bgPattern: '/patterns/bars.svg'
+
+
     },
     {
         color: '#0a0a0a',
         title: '',
         description: 'See how data is stored, accessed, and modified.',
         location: '/datastruct',
-        label: 'Data Structures'
+        label: 'Data Structures',
+        bgPattern: '/patterns/table.svg'
     },
     {
         color: '#0a0a0a',
         title: '',
         description: 'Explore how algorithms move through graphs and trees.',
         location: '/graphs',
-        label: 'Graph Traversal & Search'
+        label: 'Graph Traversal & Search',
+        bgPattern: '/patterns/graphs.svg'
     },
     {
         color: '#0a0a0a',
         title: '',
         description: 'Watch algorithms find the shortest path in a grid.',
         location: '/pathfind',
-        label: 'Pathfinding'
+        label: 'Pathfinding',
+        bgPattern: '/patterns/path.svg'
     },
     {
         color: '#0a0a0a',
         title: '',
         description: 'Compare algorithms side-by-side.',
         location: '/algorithm',
-        label: 'Algorithm Comparison'
+        label: 'Algorithm Comparison',
+        bgPattern: '/patterns/chart.svg'
     },
     {
         color: '#0a0a0a',
         title: '',
         description: 'Simple explanations before visualizing.',
         location: '/theory',
-        label: 'Learn the Theory'
+        label: 'Learn the Theory',
+        bgPattern: '/patterns/maze.svg'
     }
 ];
 
@@ -121,6 +132,7 @@ const ParticleCard: React.FC<{
     enableTilt?: boolean;
     clickEffect?: boolean;
     enableMagnetism?: boolean;
+    onClick?: () => void;
 }> = ({
     children,
     className = '',
@@ -130,7 +142,8 @@ const ParticleCard: React.FC<{
     glowColor = DEFAULT_GLOW_COLOR,
     enableTilt = true,
     clickEffect = false,
-    enableMagnetism = false
+    enableMagnetism = false,
+    onClick
 }) => {
         const cardRef = useRef<HTMLDivElement>(null);
         const particlesRef = useRef<HTMLDivElement[]>([]);
@@ -170,7 +183,7 @@ const ParticleCard: React.FC<{
         }, []);
 
         const animateParticles = useCallback(() => {
-            if (!cardRef.current || !isHoveredRef.current) return;
+            if (!cardRef.current) return;
 
             if (!particlesInitialized.current) {
                 initializeParticles();
@@ -178,7 +191,7 @@ const ParticleCard: React.FC<{
 
             memoizedParticles.current.forEach((particle, index) => {
                 const timeoutId = setTimeout(() => {
-                    if (!isHoveredRef.current || !cardRef.current) return;
+                    if (!cardRef.current) return;
 
                     const clone = particle.cloneNode(true) as HTMLDivElement;
                     cardRef.current.appendChild(clone);
@@ -205,7 +218,7 @@ const ParticleCard: React.FC<{
                     });
                 }, index * 100);
 
-                timeoutsRef.current.push(timeoutId);
+                timeoutsRef.current.push(timeoutId as unknown as number);
             });
         }, [initializeParticles]);
 
@@ -231,7 +244,6 @@ const ParticleCard: React.FC<{
 
             const handleMouseLeave = () => {
                 isHoveredRef.current = false;
-                clearAllParticles();
 
                 if (enableTilt) {
                     gsap.to(element, {
@@ -347,11 +359,17 @@ const ParticleCard: React.FC<{
             };
         }, [animateParticles, clearAllParticles, disableAnimations, enableTilt, enableMagnetism, clickEffect, glowColor]);
 
+        useEffect(() => {
+            if (disableAnimations) return;
+            animateParticles();
+        }, [disableAnimations, animateParticles]);
+
         return (
             <div
                 ref={cardRef}
                 className={`${className} relative overflow-hidden`}
                 style={{ ...style, position: 'relative', overflow: 'hidden' }}
+                onClick={onClick}
             >
                 {children}
             </div>
@@ -536,22 +554,48 @@ const MagicBento: React.FC<BentoProps> = ({
     glowColor = DEFAULT_GLOW_COLOR,
     clickEffect = true,
     enableMagnetism = true
+
 }) => {
     const gridRef = useRef<HTMLDivElement>(null);
     const isMobile = useMobileDetection();
     const shouldDisableAnimations = disableAnimations || isMobile;
+    const router = useRouter();
 
     return (
         <>
             <style>
                 {`
+.card {
+  position: relative;
+}
+
+.card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: var(--card-bg);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0.2;
+  filter: blur(0.2px);
+  pointer-events: none;
+  z-index: 0;
+  mix-blend-mode: screen;
+  
+}
+.card > * {
+  position: relative;
+  z-index: 2;
+}
+
           .bento-section {
             --glow-x: 50%;
             --glow-y: 50%;
             --glow-intensity: 0;
             --glow-radius: 200px;
             --glow-color: ${glowColor};
-            --border-color: #392e4e;
+            --border-color: ${glowColor};
             --background-dark: #060010;
             --white: hsl(0, 0%, 100%);
             --purple-primary: rgba(132, 0, 255, 1);
@@ -689,8 +733,11 @@ const MagicBento: React.FC<BentoProps> = ({
 
                         const cardStyle = {
                             backgroundColor: card.color || 'var(--background-dark)',
-                            borderColor: 'var(--border-color)',
+                            borderColor: '${glowColor}',
                             color: 'var(--white)',
+                            '--card-bg': card.bgPattern
+                                ? `url(${card.bgPattern})`
+                                : 'none',
                             '--glow-x': '50%',
                             '--glow-y': '50%',
                             '--glow-intensity': '0',
@@ -709,6 +756,7 @@ const MagicBento: React.FC<BentoProps> = ({
                                     enableTilt={enableTilt}
                                     clickEffect={clickEffect}
                                     enableMagnetism={enableMagnetism}
+                                    onClick={() => card.location && router.push(card.location)}
                                 >
                                     <div className="card__header flex justify-between gap-3 relative text-white">
                                         <span className="card__label text-base">{card.label}</span>
@@ -732,6 +780,7 @@ const MagicBento: React.FC<BentoProps> = ({
                                 key={index}
                                 className={baseClassName}
                                 style={cardStyle}
+                                onClick={() => card.location && router.push(card.location)}
                                 ref={el => {
                                     if (!el) return;
 

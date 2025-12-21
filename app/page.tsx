@@ -13,7 +13,7 @@ export default function Home() {
       <div className="relative container  p-10  h-135 w-full mx-auto rounded-lg flex flex-col justify-center">
 
         <div className="absolute inset-0 z-0 overflow-hidden rounded-lg">
-          <div className="relative left-100">
+          <div className="relative left-100 cursor-pointer">
             <MagicBento
               textAutoHide={true}
               enableStars={true}
@@ -24,7 +24,9 @@ export default function Home() {
               clickEffect={true}
               spotlightRadius={300}
               particleCount={12}
-              glowColor="0, 120, 1" /></div>
+              glowColor="0, 120, 1"
+
+            /></div>
         </div>
 
         <div className="relative z-10 h-full flex flex-col justify-center pointer-events-none">
