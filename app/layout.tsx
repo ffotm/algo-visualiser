@@ -19,7 +19,7 @@ export default function RootLayout({
       <body >
         <NavBar />
         {children}
-        <Preview />
+
 
       </body>
     </html>
