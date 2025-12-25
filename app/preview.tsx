@@ -2,6 +2,7 @@
 import React, { useEffect } from 'react'
 import { useState } from 'react'
 import MergeSort from './sorts/mergeSort'
+import bubbleSort from './sorts/bubbleSort'
 
 
 
@@ -41,8 +42,8 @@ const Preview = () => {
 
 
             </div><button className="btn btn-green" onClick={createArray}>regenerate Array</button>
-            <button className="btn btn-blue" onClick={() => MergeSort(array)}>
-//ndiro lambda expression f onClick bch matexecutich lcoed on refresh + n9dro nzido parameter
+            <button className="btn btn-blue" onClick={() => bubbleSort(array)}>
+
                 Merge Sort
             </button>
 
