@@ -33,13 +33,27 @@ Tailwind CSS
 DOM-based animation using setTimeout
 
 ## Project Structure
-src/
-├── components/
-│   ├── Preview.jsx
-│   └── sorts/
-│       ├── mergeSort.js
-│       └── bubbleSort.js
+```
+app/
+├── page.tsx
+├── layout.tsx
+├── globals.css
+├── navBar.tsx
+├── api/
+│   └── route.js
+├── ui/
+│   └── gradientText.tsx
+│   └── magicBento.tsx
+│   └── squares.tsx
+├── Preview.jsx
+├── sorts/
+│   ├── mergeSort.js
+│   └── bubbleSort.js
+│
+├── patterns/
+│   └── svgs
 
+```
 ## Implemented Algorithms
 Bubble Sort
 
