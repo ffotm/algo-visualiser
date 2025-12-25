@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import NavBar from "./navBar";
 import Home from "./page";
+import Preview from "./preview";
 
 
 
@@ -17,8 +18,9 @@ export default function RootLayout({
         font-family: "Electrolize", sans-serif; </style>
       <body >
         <NavBar />
-
         {children}
+        <Preview />
+
       </body>
     </html>
   );

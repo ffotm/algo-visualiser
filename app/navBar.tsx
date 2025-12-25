@@ -8,8 +8,6 @@ import { GiDatabase } from "react-icons/gi";
 import { FaMoon, FaSun } from "react-icons/fa";
 
 
-
-
 const NavBar = () => {
     const [theme, setTheme] = useState('dark');
     const currentPath = usePathname();

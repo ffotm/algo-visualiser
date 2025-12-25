@@ -173,8 +173,8 @@ const ParticleCard: React.FC<{
                 gsap.to(particle, {
                     scale: 0,
                     opacity: 0,
-                    duration: 0.3,
-                    ease: 'back.in(1.7)',
+                    duration: 0.5,
+                    ease: 'back.in(2)',
                     onComplete: () => {
                         particle.parentNode?.removeChild(particle);
                     }
@@ -204,7 +204,7 @@ const ParticleCard: React.FC<{
 
                     particlesRef.current.push(clone);
 
-                    gsap.fromTo(clone, { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.3, ease: 'back.out(1.7)' });
+                    gsap.fromTo(clone, { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.5, ease: 'back.out(1.7)' });
 
                     gsap.to(clone, {
                         x: (Math.random() - 0.5) * 100,
@@ -217,7 +217,7 @@ const ParticleCard: React.FC<{
                     });
 
                     gsap.to(clone, {
-                        opacity: 0.3,
+                        opacity: 0.1,
                         duration: 1.5,
                         ease: 'power2.inOut',
                         repeat: -1,
@@ -344,7 +344,7 @@ const ParticleCard: React.FC<{
                     {
                         scale: 1,
                         opacity: 0,
-                        duration: 0.8,
+                        duration: 1.8,
                         ease: 'power2.out',
                         onComplete: () => ripple.remove()
                     }
