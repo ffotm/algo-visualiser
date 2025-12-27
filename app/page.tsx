@@ -5,6 +5,7 @@ import GradientText from './ui/gradientText'
 import MagicBento from './ui/magicBento'
 import Preview from "./preview";
 import Menu from "./menu";
+import Dihstra from "./preview2";
 
 
 
@@ -14,6 +15,8 @@ export default function Home() {
   return (
     <div>
       <Menu /><Preview />
+      <Dihstra />
+
     </div>
 
   );

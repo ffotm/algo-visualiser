@@ -7,7 +7,7 @@ import MagicBento from './ui/magicBento'
 
 const Menu = () => {
     return (
-        <div><div className=" h-screen flex w-full font-family-base bg-[var(--bg)] text-[var(--text)] border-b border-[var(--border)] page">
+        <div><div className=" h-screen pt-20 flex w-full font-family-base bg-[var(--bg)] text-[var(--text)] border-b border-[var(--border)] page">
             <div className="relative container  p-10  h-135 w-full mx-auto rounded-lg flex flex-col justify-center">
                 <div className="absolute inset-0 z-0 overflow-hidden rounded-lg">
                     <div className="relative left-100 cursor-pointer ">

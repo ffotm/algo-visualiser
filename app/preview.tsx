@@ -24,7 +24,9 @@ const Preview = () => {
         for (let i = 0; i < 10; i++) {
             arr.push(Math.floor(Math.random() * 100) + 10)
         }
+
         return arr;
+
     }
 
     useEffect(() => {
@@ -200,12 +202,14 @@ const Preview = () => {
         setArray(newArr);
 
 
+
         setTimeout(() => {
             const bars = document.getElementsByClassName('array-bar');
             Array.from(bars).forEach(bar => {
                 bar.style.backgroundColor = PRIMARY_COLOR;
                 bar.style.transform = '';
                 bar.style.transition = '';
+
             });
 
             setTimeout(() => {
@@ -289,7 +293,7 @@ const Preview = () => {
                         <div className=" rounded-lg m-10 p-3">
                             <div className=" text-4xl font-extrabold text-center text-[var(--border)] text-shadow-fuchsia-50 relative float">
                                 <a href="/sorts" className='underline'>check out more Sorts </a>
-                                <div className="relative bottom-7 left-95"><FaArrowRight /></div>
+
 
                             </div>
                         </div>
