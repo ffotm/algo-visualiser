@@ -60,36 +60,37 @@ const Dihstra = () => {
             if (observerRef.current) {
                 observerRef.current.disconnect();
             }
-            //ida luser yscrolli w ykhol lsection m3netha n3awdou lanimation 
-
+            //ida luser yscrolli w ydkhol lsection m3netha n3awdou lanimation 
             if (animationRef.current) {
                 cancelAnimationFrame(animationRef.current);
             }
         };
     }, []);
 
+
     // Reset animation when leaving view
     const resetAnimation = () => {
         setVisitedCells([]);
+        //nfergho tableau t3 visited
         setGrid(prev => prev.map(row =>
             row.map(cell => ({ ...cell, isVisited: false, isPath: false }))
         ));
+        //nredo g3 cells t3na kima kano lwl
         if (animationRef.current) {
             cancelAnimationFrame(animationRef.current);
         }
     };
 
-    // Worm-like path animation
     const startWormAnimation = () => {
         const path = [];
         let currentRow = 0;
         let currentCol = 0;
 
-        // Generate a winding path from top-left to bottom-right
+
         while (currentRow < rows - 1 || currentCol < cols - 1) {
             path.push([currentRow, currentCol]);
+            //push current position 
 
-            // Randomly decide to move down or right (with bias toward the end)
             if (currentRow === rows - 1) {
                 currentCol++;
             } else if (currentCol === cols - 1) {
