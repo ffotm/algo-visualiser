@@ -89,11 +89,11 @@
     }
     
     .start {
-        background-color: #00ff37;
+        background-color: #fcfffd;
     }
     
     .wall {
-        background-color: #6d6d6d;
+        background-color: #122b0e;
     }
     
     .empty {
@@ -101,15 +101,15 @@
     }
     
     .path {
-        background-color: var(--text);
+        background-color: #6fff44;
     }
     
     .end {
-        background-color: rgb(160, 0, 0);
+        background-color: rgb(189, 19, 19);
     }
     
     .visited {
-        background-color: #2a4b27;
+        background-color: #b651b1;
     }
     
     .worm-head {

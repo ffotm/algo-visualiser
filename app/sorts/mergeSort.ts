@@ -4,7 +4,6 @@ const ANIMATION_SPEED_MS = 100;
 const SECONDARY_COLOR = 'red';
 const PRIMARY_COLOR = '#203b1e';
 
-
 function MergeSort(array) {
     let animations = [];
     const bars = document.getElementsByClassName('array-bar');
@@ -31,7 +30,6 @@ function MergeSort(array) {
                 bars[barOne].style.backgroundColor = PRIMARY_COLOR;
 
             }
-
 
         }, i * ANIMATION_SPEED_MS);
     });
@@ -81,8 +79,4 @@ function Merge(a, start, mid, end, animations) {
     }
 
 }
-
-
-
-
 export default MergeSort;

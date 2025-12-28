@@ -1,4 +1,6 @@
 
+
+
 export default function getBubbleSortAnimations(array) {
     const animations = [];
     const arr = array.slice();

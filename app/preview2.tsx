@@ -11,8 +11,8 @@ const Dihstra = () => {
     const observerRef = useRef(null);
     //react hook ref to store the intersection observer 
     const animationRef = useRef(null);
-    const rows = 15;
-    const cols = 15;
+    const rows = 10;
+    const cols = 10;
 
 
     useEffect(() => {
@@ -86,8 +86,8 @@ const Dihstra = () => {
         let currentRow = 0;
         let currentCol = 0;
 
-
         while (currentRow < rows - 1 || currentCol < cols - 1) {
+
             path.push([currentRow, currentCol]);
             //push current position 
 
@@ -96,54 +96,57 @@ const Dihstra = () => {
             } else if (currentCol === cols - 1) {
                 currentRow++;
             } else {
-                // 60% chance to move toward end, 40% to wander
+                // 60% chance to move towards the end 
                 if (Math.random() < 0.6) {
-                    // Move toward end
                     if (Math.random() < 0.5) currentRow++;
                     else currentCol++;
                 } else {
-                    // Wander randomly
-                    const directions = [[0, 1], [1, 0], [0, -1], [-1, 0]];
-                    const [dr, dc] = directions[Math.floor(Math.random() * directions.length)];
+                    // 40% chance to move randomly (capable tani towards the end)
+                    const directions = [[0, 1], [1, 0], [0, -1], [-1, 0]]; //(x,y) left/right/up/down
+                    const [dr, dc] = directions[Math.floor(Math.random() * directions.length)]; //tkeyer b random wa7da mn hadok direction row+col
                     const newRow = currentRow + dr;
                     const newCol = currentCol + dc;
 
                     if (newRow >= 0 && newRow < rows && newCol >= 0 && newCol < cols) {
                         currentRow = newRow;
                         currentCol = newCol;
+
+                        //ytbedel rows wl cols ta3i
                     }
                 }
             }
         }
-
-        // Add the end point
         path.push([rows - 1, cols - 1]);
 
-        // Animate the path
+
+        // Add the end cell fi la fin t3 tab mor ma boclina
+
+
+
         let index = 0;
         const animate = () => {
             if (index < path.length) {
                 const [row, col] = path[index];
-
+                //kol i ml path 3ndha row w col 
                 setGrid(prev => {
-                    const newGrid = [...prev];
-                    newGrid[row] = [...newGrid[row]];
+                    const newGrid = [...prev]; //ncopiyiw tab l9dim f newgrid
+                    newGrid[row] = [...newGrid[row]]; //ncopyiw specific row ta3i ml path f newgrid
                     newGrid[row][col] = {
                         ...newGrid[row][col],
                         isVisited: true,
                         isPath: true
-                    };
+                    }; //dok nupdateiw f djdid les info t3 hadik cell 
                     return newGrid;
+                    //w nreturni djdid 
                 });
-
                 setVisitedCells(prev => [...prev, `${row}-${col}`]);
-
+                //copyi g3 les eles l9dom b ...prev + the new row w col 
                 index++;
                 animationRef.current = requestAnimationFrame(() => {
-                    setTimeout(() => animate(), 50); // Speed of worm movement
+                    setTimeout(() => animate(), 60); // Speed of worm 
                 });
             } else {
-                // When path reaches end, restart after a delay
+                // when path reaches end, restart 
                 setTimeout(() => {
                     resetAnimation();
                     setTimeout(() => startWormAnimation(), 500);
@@ -152,10 +155,11 @@ const Dihstra = () => {
         };
 
         animate();
-    };
+    }
+
 
     return (
-        <div id="dijkstra-section" className="min-h-screen flex flex-col items-center justify-center w-full py-20 px-4 bg-[var(--bg)] border-t-[1px] border-[var(--border)]">
+        <div id="dijkstra-section" className="min-h-screen w-full p-2 flex bg-[var(--bg)] border-t-[1px] border-[var(--border)]">
             <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -163,23 +167,20 @@ const Dihstra = () => {
                 transition={{ duration: 0.6 }}
             >
 
-                <div className="text-center mb-12">
-                    <h1 className="text-5xl font-bold mb-4 text-[var(--bg2)]">
-                        Dijkstra's Algorithm
+                <div className="text-center mb-12 w-full relative top-70 left-150">
+                    <h1 className="text-5xl font-bold mb-4 text-[var(--text)] float">
+                        Path Finding Algorithms
                     </h1>
-
                 </div>
 
-                <div className="relative bg-var(--bg) border-2 border-[var(--border)] ">
+                <div className="relative bg-var(--bg) m-1">
                     <div
-                        className="maze-container grid gap-0.5 bg-(--bg2)"
+                        className="maze-container grid gap-0.5 m-10 bg-(--text)"
                         style={{
                             gridTemplateColumns: `repeat(${cols}, 1fr)`,
-                            width: `${cols * 30}px`,
-                            height: `${rows * 28}px`
-
-
-
+                            gridTemplateRows: `repeat(${rows}, 1fr)`,
+                            width: `${cols * 40}px`,
+                            height: `${rows * 40}px`
                         }}
                     >
                         {grid.map((row, r) =>
@@ -203,8 +204,8 @@ const Dihstra = () => {
                                         key={cellId}
                                         className={cellClass}
                                         style={{
-                                            width: `{cols * 15}`,
-                                            height: `{rows * 15}`,
+                                            width: `{cols * 20}`,
+                                            height: `{rows * 20}`,
                                             transition: 'all 0.3s ease',
                                             animation: isWormHead ? 'pulse 0.5s infinite' : 'none'
                                         }}
@@ -218,6 +219,6 @@ const Dihstra = () => {
                 </div>
             </motion.div> </div >
     )
-}
+};
 
 export default Dihstra;

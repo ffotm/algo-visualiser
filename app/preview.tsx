@@ -212,6 +212,8 @@ const Preview = () => {
 
             });
 
+
+
             setTimeout(() => {
                 startBubbleSort();
             }, 300);
@@ -291,8 +293,8 @@ const Preview = () => {
                             {isAnimating ? 'Sorting...' : 'Regenerate & Sort'}
                         </button>
                         <div className=" rounded-lg m-10 p-3">
-                            <div className=" text-4xl font-extrabold text-center text-[var(--border)] text-shadow-fuchsia-50 relative float">
-                                <a href="/sorts" className='underline'>check out more Sorts </a>
+                            <div className=" text-4xl font-extrabold text-center text-[var(--text)] text-shadow-fuchsia-50 relative float">
+                                <a href="/sorts" className=''>more Sorts </a>
 
 
                             </div>

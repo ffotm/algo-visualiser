@@ -18,7 +18,7 @@ export default function RootLayout({
         font-family: "Electrolize", sans-serif;
       </style>
       <body >
-        <NavBar />
+
         {children}
       </body>
     </html>

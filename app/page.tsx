@@ -6,6 +6,7 @@ import MagicBento from './ui/magicBento'
 import Preview from "./preview";
 import Menu from "./menu";
 import Dihstra from "./preview2";
+import NavBar from "./navBar";
 
 
 
@@ -14,6 +15,7 @@ import Dihstra from "./preview2";
 export default function Home() {
   return (
     <div>
+      <NavBar />
       <Menu /><Preview />
       <Dihstra />
 
