@@ -51,7 +51,7 @@ const NavBar = () => {
                                 <ul className="p-2 w-40 z-1">
                                     <li><a href='algorithms/bfs'>Breadth First Search</a></li>
                                     <li><a href='algorithms/dfs'>Depth First Search</a></li>
-                                    <li><a href='algorithms/dijkstra'>Dijkstra Search</a></li>
+                                    <li><a href='algorithms/dihjstra'>Dijkstra Search</a></li>
                                 </ul>
                             </li>
                         </details>
