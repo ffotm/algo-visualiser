@@ -21,11 +21,11 @@
 }
 
 .wall {
-    background-color: black;
+    background-color: rgb(255, 102, 102);
 }
 
 .path {
-    background-color: rgb(117, 14, 14);
+    background-color: rgb(117, 14, 14) !important;
 }
 
 .visited {
