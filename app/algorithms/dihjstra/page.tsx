@@ -47,7 +47,7 @@ const Dihstrapage = () => {
     const [endrow, setEndrow] = useState(15)
     const [endcol, setEndcol] = useState(19)
     const [isWall, setIsWall] = useState(false)
-
+    const path = getPath(grid[end.row][end.col]);
 
 
     const handleStartChange = () => {
@@ -69,9 +69,10 @@ const Dihstrapage = () => {
         console.log("startNode, endNode", startNode, endNode);
         const visitedNodes = dihstra(grid, startNode, endNode);
         console.log("visitedNodes", visitedNodes);
-        const path = getPath(endNode);
+        const path = getPath(grid[end.row][end.col]);
         console.log("path", path);
         animateDijkstra(visitedNodes, path);
+
 
     }
     const handleMouseDown = (row, col) => {
@@ -99,6 +100,26 @@ const Dihstrapage = () => {
             })
         );
         setGrid(newGrid);
+    };
+
+    const clearGrid = () => {
+        console.log("clearGrid");
+        const newGrid = grid.map((r) =>
+            r.map((node) => ({
+                ...node,
+                isWall: false,
+                isVisited: false,
+                isPath: false,
+                distance: Infinity,
+                previous: null
+
+            }
+
+            ))
+        );
+
+        setGrid(newGrid);
+
     };
 
     return (
@@ -130,7 +151,7 @@ const Dihstrapage = () => {
                 <div className="setStart p-2" >
                     <button
                         onClick={handleStartChange}
-                        className="bg-green-600 px-4 py-1 m-2"
+                        className="bg-green-600 px-4 py-1 m-2 rounded"
                     >
                         Set Start
                     </button>
@@ -141,16 +162,27 @@ const Dihstrapage = () => {
                 <div className="setEnd p-2" >
                     <button
                         onClick={handleEndChange}
-                        className="bg-green-600 px-4 py-1 m-2"
+                        className="bg-green-600 px-4 py-1 m-2 rounded"
                     >set an End</button>
-                    <input type="number" name="endrow" id="" placeholder='row = 15' value={endrow} onChange={(e) => setEndrow(e.target.value)} className='bg-green-800 m-3 w-20' />
-                    <input type="number" name="endcol" id="" placeholder='col = 19' value={endcol} onChange={(e) => setEndcol(e.target.value)} className='bg-green-800 m-3 w-20' />
+                    <input type="number" name="endrow" id="" placeholder='row = 15' value={endrow} onChange={(e) => setEndrow(e.target.value)} className='bg-green-800 m-3 w-20 rounded' />
+                    <input type="number" name="endcol" id="" placeholder='col = 19' value={endcol} onChange={(e) => setEndcol(e.target.value)} className='bg-green-800 m-3 w-20 rounded' />
+                </div>
+
+                <button onClick={visualizeDihstra} className="bg-green-600 px-4 py-1 m-2 rounded">Visualize </button>
+                <button onClick={clearGrid} className="bg-green-600 px-4 py-1 m-2 rounded">Clear Grid</button>
+
+                <div className="logs">
+                    <p>final path</p>
+
+                    {path.map((node, index) => (
+                        <p key={index} className='grid grid-cols-3'>
+                            ({node.row}, {node.col})
+                        </p>
+                    ))}
                 </div>
 
 
-                <button className="bg-green-600 px-4 py-1 m-2" onClick={visualizeDihstra} >start visualising</button>
-            </div>
-
+            </div >
         </div >
     )
 }

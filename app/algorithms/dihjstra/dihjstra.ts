@@ -76,7 +76,8 @@ export function getPath(endNode) {
     const path = [];
     let currentNode = endNode;
     while (currentNode !== null) {
-        console.log("pathnode", currentNode);
+        console.log("path", currentNode);
+
         path.unshift(currentNode);
         currentNode = currentNode.previous;
     }
