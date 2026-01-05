@@ -1,44 +1,13 @@
-
 'use client'
 import React from 'react'
-import createGrid from './dihjstra'
-import '../style.css'
+import createGrid from '../dihjstra/dihjstra'
 import { useState } from 'react'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import { getPath, dihstra } from './dihjstra'
+import { getPath } from '../dihjstra/dihjstra'
+import '../style.css'
+import { Df } from './df'
 
 
-
-function animateDijkstra(visitedNodes, path) {
-    for (let i = 0; i <= visitedNodes.length; i++) {
-        if (i === visitedNodes.length) {
-            setTimeout(() => {
-                animatePath(path);
-            }, 10 * i);
-            return;
-        }
-        setTimeout(() => {
-            const node = visitedNodes[i];
-            document.getElementById(`node-${node.row}-${node.col}`)?.classList.add('visited');
-
-        }, 10 * i);
-    }
-}
-function animatePath(path) {
-    for (let i = 0; i < path.length; i++) {
-        setTimeout(() => {
-            const node = path[i];
-            document.getElementById(`node-${node.row}-${node.col}`)?.classList.add('path');
-
-        }, 50 * i);
-    }
-}
-
-
-
-const Dihstrapage = () => {
+const dfpage = () => {
     const [grid, setGrid] = useState(() => createGrid(16, 20));
     const [start, setStart] = useState({ row: 0, col: 0 })
     const [end, setEnd] = useState({ row: 15, col: 19 })
@@ -49,32 +18,6 @@ const Dihstrapage = () => {
     const [isWall, setIsWall] = useState(false)
     const path = getPath(grid[end.row][end.col]);
 
-
-    const handleStartChange = () => {
-        const startRow = parseInt(startrow);
-        const startCol = parseInt(startcol);
-        setStart({ row: startRow, col: startCol })
-        console.log(start)
-    }
-
-    const handleEndChange = () => {
-        const endRow = parseInt(endrow);
-        const endCol = parseInt(endcol);
-        setEnd({ row: endRow, col: endCol })
-
-    }
-    const visualizeDihstra = () => {
-        const startNode = grid[start.row][start.col];
-        const endNode = grid[end.row][end.col];
-        console.log("startNode, endNode", startNode, endNode);
-        const visitedNodes = dihstra(grid, startNode, endNode);
-        console.log("visitedNodes", visitedNodes);
-        const path = getPath(grid[end.row][end.col]);
-        console.log("path", path);
-        animateDijkstra(visitedNodes, path);
-
-
-    }
     const handleMouseDown = (row, col) => {
         setIsWall(true);
         toggleWall(row, col);
@@ -101,7 +44,19 @@ const Dihstrapage = () => {
         );
         setGrid(newGrid);
     };
+    const handleStartChange = () => {
+        const startRow = parseInt(startrow);
+        const startCol = parseInt(startcol);
+        setStart({ row: startRow, col: startCol })
+        console.log(start)
+    }
 
+    const handleEndChange = () => {
+        const endRow = parseInt(endrow);
+        const endCol = parseInt(endcol);
+        setEnd({ row: endRow, col: endCol })
+
+    }
     const clearGrid = () => {
         console.log("clearGrid");
         const newGrid = grid.map((r) =>
@@ -112,15 +67,51 @@ const Dihstrapage = () => {
                 isPath: false,
                 distance: Infinity,
                 previous: null
-
             }
-
             ))
         );
 
         setGrid(newGrid);
 
     };
+
+    const visualizeDf = () => {
+        const startNode = grid[start.row][start.col];
+        const endNode = grid[end.row][end.col];
+        console.log("startNode, endNode", startNode, endNode);
+        const visitedNodes = Df(grid, startNode, endNode);
+        console.log("visitedNodes", visitedNodes);
+        const path = getPath(grid[end.row][end.col]);
+        console.log("path", path);
+        animateDf(visitedNodes, path);
+
+    }
+
+    function animateDf(visitedNodes, path) {
+        for (let i = 0; i <= visitedNodes.length; i++) {
+            if (i === visitedNodes.length) {
+                setTimeout(() => {
+                    animatePath(path);
+                }, 10 * i);
+                return;
+            }
+            setTimeout(() => {
+                const node = visitedNodes[i];
+                document.getElementById(`node-${node.row}-${node.col}`)?.classList.add('visited');
+
+            }, 10 * i);
+        }
+    }
+    function animatePath(path) {
+        for (let i = 0; i < path.length; i++) {
+            setTimeout(() => {
+                const node = path[i];
+                document.getElementById(`node-${node.row}-${node.col}`)?.classList.add('path');
+
+            }, 50 * i);
+        }
+    }
+
 
     return (
         <div className='container w-full pt-25'>
@@ -146,7 +137,6 @@ const Dihstrapage = () => {
                     ))
                 }
 
-
             </div>
             <div className="parameters">
                 <div className="setStart p-2" >
@@ -169,7 +159,7 @@ const Dihstrapage = () => {
                     <input type="number" name="endcol" id="" placeholder='col = 19' value={endcol} onChange={(e) => setEndcol(e.target.value)} className='bg-green-800 m-3 w-20 rounded' />
                 </div>
 
-                <button onClick={visualizeDihstra} className="bg-green-600 px-4 py-1 m-2 rounded">Visualize </button>
+                <button onClick={visualizeDf} className="bg-green-600 px-4 py-1 m-2 rounded">Visualize </button>
                 <button onClick={clearGrid} className="bg-green-600 px-4 py-1 m-2 rounded">Clear Grid</button>
 
                 <div className="logs">
@@ -183,9 +173,9 @@ const Dihstrapage = () => {
                 </div>
 
 
-            </div >
-        </div >
+            </div>
+        </div>
     )
 }
 
-export default Dihstrapage
+export default dfpage

@@ -51,7 +51,7 @@ function sortNodesByDistance(unvisitedNodes) {
     unvisitedNodes.sort((nodeA, nodeB) => nodeA.distance - nodeB.distance);
 }
 
-function updateNeighbors(node, grid) {
+export function updateNeighbors(node, grid) {
     const neighbors = getNeighbors(node, grid);
     for (const neighbor of neighbors) {
         const newDist = node.distance + 1;
@@ -62,7 +62,7 @@ function updateNeighbors(node, grid) {
     }
 }
 
-function getNeighbors(node, grid) {
+export function getNeighbors(node, grid) {
     const neighbors = [];
     const { row, col } = node;
     if (row > 0) neighbors.push(grid[row - 1][col]);
