@@ -5,6 +5,8 @@ import { Bf } from './bf/bf'
 import { Df } from './df/df'
 import Tabss from './tabs'
 import './style.css'
+import { GiBrickWall } from "react-icons/gi";
+
 
 
 
@@ -242,6 +244,7 @@ const Algopage = () => {
 
         setIsRunning(false);
     }
+
 
     return (
         <div className="min-h-screen bg-var(--bg) text-white p-8 ">

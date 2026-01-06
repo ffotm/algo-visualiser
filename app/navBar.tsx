@@ -32,12 +32,12 @@ const NavBar = () => {
                             <li>
 
                                 <ul className="p-2 w-40 z-1">
-                                    <li><a href="sorts/quickSort">Quick Sort</a></li>
-                                    <li><a href='sorts/mergeSort'>Merge Sort</a></li>
-                                    <li><a href='sorts/bubbleSort'>Bubble Sort</a></li>
-                                    <li><a href='sorts/insertionSort'>Insertion Sort</a></li>
-                                    <li><a href='sorts/selectionSort'>Selection Sort</a></li>
-                                    <li><a href='sorts/heapSort'>Heap Sort</a></li>
+                                    <li><a href="sorts">Quick Sort</a></li>
+                                    <li><a href='sorts'>Merge Sort</a></li>
+                                    <li><a href='sorts'>Bubble Sort</a></li>
+                                    <li><a href='sorts'>Insertion Sort</a></li>
+                                    <li><a href='sorts'>Selection Sort</a></li>
+                                    <li><a href='sorts'>Heap Sort</a></li>
                                 </ul>
                             </li>
                         </details>

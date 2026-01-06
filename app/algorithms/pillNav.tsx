@@ -229,8 +229,8 @@ const PillNav: React.FC<PillNavProps> = ({
         ['--hover-text']: hoveredPillTextColor,
         ['--pill-text']: resolvedPillTextColor,
         ['--nav-h']: '42px',
-        ['--pill-pad-x']: '18px',
-        ['--pill-gap']: '3px'
+        ['--pill-pad-x']: '19px',
+        ['--pill-gap']: '10px'
     } as React.CSSProperties;
 
     return (
@@ -262,8 +262,10 @@ const PillNav: React.FC<PillNavProps> = ({
                             const pillStyle: React.CSSProperties = {
                                 background: 'var(--accent)',
                                 color: 'var(--text)',
-                                paddingLeft: 'var(--pill-pad-x)',
-                                paddingRight: 'var(--pill-pad-x)'
+                                padding: 'var(--pill-pad-x)',
+
+                                margin: 'var(--pill-gap)',
+                                marginTop: '0px',
                             };
 
                             const PillContent = (

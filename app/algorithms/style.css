@@ -21,7 +21,8 @@
 }
 
 .wall {
-    background-color: rgb(0, 0, 0);
+    background-image: url('wall.png');
+    background-size: cover;
 }
 
 .path {
