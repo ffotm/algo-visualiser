@@ -1,6 +1,7 @@
 'use client'
 import React, { useState } from 'react'
 import PillNav from './pillNav'
+import './style.css'
 
 
 
@@ -93,6 +94,7 @@ const Tabss = ({ algo, setAlgo }: any) => {
                         <h2 className="text-2xl font-bold text-white mb-2">{currentAlgo.name}</h2>
                         <p className="text-gray-300 text-sm mb-3">{currentAlgo.description}</p>
                         <p className="text-green-400 text-xs font-mono">{currentAlgo.complexity}</p>
+
                     </div>
 
                     <button
@@ -119,6 +121,7 @@ const Tabss = ({ algo, setAlgo }: any) => {
                     </div>
                 )}
             </div>
+            <p className="text-2xl font-bold mx-10 mt-10 text-white walltext ">click and drag to set a wall</p>
         </div>
     );
 };
