@@ -12,7 +12,7 @@ import NavBar from "./navBar";
 
 export default function Home() {
   return (
-    <div> 
+    <div>
       <NavBar />
       <Menu />
       {/*><Preview />
