@@ -55,11 +55,13 @@ const codeQuick = [
     { num: 6, code: '}', indent: 0 },
     { num: 7, code: 'function partition(arr, low, high) {', indent: 0 },
     { num: 8, code: '  pivot = arr[high];', indent: 1 },
-    { num: 9, code: '  for (j = low; j < high; j++) {', indent: 1 },
-    { num: 10, code: '    if (arr[j] <= pivot)', indent: 2 },
-    { num: 11, code: '      swap(arr[i], arr[j])', indent: 3 },
-    { num: 12, code: '  swap(arr[i + 1], arr[high])', indent: 1 },
-    { num: 13, code: '}', indent: 0 },
+    { num: 9, code: '   let i = low - 1;', indent: 1 },
+    { num: 10, code: '   for (let j = low; j < high; j++) {', indent: 1 },
+    { num: 11, code: '     if (arr[j] <= pivot)', indent: 2 },
+    { num: 12, code: '      i++', indent: 3 },
+    { num: 13, code: '      swap(arr[i], arr[j])', indent: 3 },
+    { num: 14, code: '  swap(arr[i + 1], arr[high])', indent: 1 },
+    { num: 15, code: 'return i + 1;}', indent: 2 },
 ];
 
 

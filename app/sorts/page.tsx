@@ -34,12 +34,14 @@ const sortspage = () => {
         const arr = []
         for (let i = 0; i < l; i++) {
             arr.push(Math.floor(Math.random() * 100) + 10)
+
         }
         return arr;
     }
 
     React.useEffect(() => {
         setArray(createArray(l));
+
     }, [l]);
 
     const width = 600 / l - 4;

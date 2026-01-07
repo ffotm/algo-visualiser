@@ -62,12 +62,12 @@ const NavBar = () => {
                             <li>
 
                                 <ul className="p-2 w-40 z-1">
-                                    <li><a href='datastruct/arrays'>Arrays</a></li>
-                                    <li><a href='datastruct/linkedlists'>Linked Lists</a></li>
-                                    <li><a href='datastruct/stacks'>Stacks</a></li>
-                                    <li><a href='datastruct/queues'>Queues</a></li>
-                                    <li><a href='datastruct/trees'>Trees</a></li>
-                                    <li><a href='datastruct/heaps'>Heaps</a></li>
+                                    <li><a href='datastruct'>Arrays</a></li>
+                                    <li><a href='datastruct'>Linked Lists</a></li>
+                                    <li><a href='datastruct'>Stacks</a></li>
+                                    <li><a href='datastruct'>Queues</a></li>
+                                    <li><a href='datastruct'>Trees</a></li>
+                                    <li><a href='datastruct'>Heaps</a></li>
                                 </ul>
                             </li>
                         </details>
