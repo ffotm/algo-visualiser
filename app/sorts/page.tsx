@@ -237,7 +237,7 @@ const sortspage = () => {
 
     return (
         <div className="min-h-screen bg-var(--bg) text-white p-8 ">
-            <div className="max-w-7xl mx-auto mt-20 ">
+            <div className="max-w-7xl  mt-20 ">
                 <Tabss algo={algo} setAlgo={setAlgo} highlightedLine={highlightedLine} />
             </div>
             <div className="flex gap-8 items-start">

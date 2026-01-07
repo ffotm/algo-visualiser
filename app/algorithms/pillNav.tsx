@@ -11,7 +11,6 @@ export type PillNavItem = {
 
 export interface PillNavProps {
 
-
     items: PillNavItem[];
     activeHref?: string;
     className?: string;

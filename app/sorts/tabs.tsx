@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import PillNav from '../algorithms/pillNav'
 import '../algorithms/style.css'
 import Code from './code'
+import { complex } from 'framer-motion'
 
 
 
@@ -76,7 +77,10 @@ const Tabss = ({ algo, setAlgo, highlightedLine }: any) => {
     const navItems = [
         { label: 'Bubble Sort', href: '#bubble-sort' },
         { label: 'Merge Sort', href: '#merge-sort' },
-        { label: 'Quick Sort', href: '#quick-sort' }
+        { label: 'Quick Sort', href: '#quick-sort' },
+        { label: 'Insertion Sort', href: '#insertion-sort' },
+        { label: 'Selection Sort', href: '#selection-sort' },
+        { label: 'Heap Sort', href: '#heap-sort' },
     ];
 
     const handleItemClick = (href: string) => {
@@ -101,7 +105,22 @@ const Tabss = ({ algo, setAlgo, highlightedLine }: any) => {
             description: "Efficient sorting algorithm using divide and conquer. Selects a 'pivot' and partitions the array around the pivot.",
             complexity: "Time: O(n log n) on average | Space: O(log n)",
             pseudocode: codeQuick.map(line => line.code).join('\n')
-        }
+        },
+        'insertion-sort': {
+            name: "Insertion Sort",
+            description: "Builds the final sorted array one item at a time. Efficient for small data sets and mostly sorted arrays.",
+            complexity: "Time: O(n^2) | Space: O(1)"
+        }, 'selection-sort': {
+            name: "Selection Sort",
+            description: "Divides the input list into two parts: a sorted and an unsorted region. Repeatedly selects the smallest (or largest) element from the unsorted region and moves it to the end of the sorted region.",
+            complexity: "Time: O(n^2) | Space: O(1)"
+        },
+        'heap-sort': {
+            name: "Heap Sort",
+            description: "Comparison-based sorting algorithm that uses a binary heap data structure. Builds a max heap and repeatedly extracts the maximum element to sort the array.",
+            complexity: "Time: O(n log n) | Space: O(1)"
+        },
+
     };
 
     const currentAlgo = algoInfo[algo];
@@ -117,7 +136,8 @@ const Tabss = ({ algo, setAlgo, highlightedLine }: any) => {
 
     return (
         <div className="w-full mb-6">
-            <PillNav items={navItems} activeHref={`#${algo}`} onItemClick={handleItemClick} className='ml-100' />
+
+            <PillNav items={navItems} activeHref={`#${algo}`} onItemClick={handleItemClick} className='ml-35' />
 
             <div className="bg-green-950 rounded-xl p-6 shadow-lg border border-var(--border) ">
                 <div className="flex justify-between items-start mb-4">
