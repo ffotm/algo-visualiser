@@ -3,7 +3,9 @@ import React from 'react'
 import Tabss from './components/tabs'
 import { useState, useEffect } from 'react'
 import Tree from './components/treevis'
-import { buildBST, traverseInOrder, traversePostOrder, traversePreOrder, TreeNode } from './components/tree'
+import { buildBST, traverseInOrder, insertBST, traversePostOrder, traversePreOrder, TreeNode, balanceFactor, updateHeights, buildAVLTree, isAvlBalanced } from './components/tree'
+import Avl from './components/avl'
+import { ins } from 'framer-motion/client'
 
 
 
@@ -18,10 +20,17 @@ const datapage = () => {
     const [currentStep, setCurrentStep] = useState(0);
     const [algo, setAlgo] = useState('bst-tree');
     const [showParameters, setShowParameters] = useState(true);
+    const [chosenColor, setChosenColor] = useState('bg-yellow-500');
+    const [balance, setBalance] = useState(0);
 
+    const inorderColor = 'bg-yellow-500';
+    const preorderColor = 'bg-purple-600';
+    const postorderColor = 'bg-pink-600';
 
-
-
+    const calculateBalance = (node: TreeNode | null): number => {
+        if (!node) return 0;
+        return balanceFactor(node);
+    }
 
     const generateRandomtree = () => {
         const values: number[] = [];
@@ -35,6 +44,7 @@ const datapage = () => {
         const newRoot = buildBST(values, 0, values.length - 1);
         setRoot(newRoot);
         resetTraversal();
+
 
 
     };
@@ -68,15 +78,16 @@ const datapage = () => {
     const handleInOrder = () => {
         if (!root || isRunning) return;
         const order = traverseInOrder(root);
-
         animateTraversal(order);
         setTraversalResult(order);
+        setChosenColor(inorderColor);
+
     };
 
     const handlePreOrder = () => {
         if (!root || isRunning) return;
         const order = traversePreOrder(root);
-
+        setChosenColor(preorderColor);
         animateTraversal(order);
         setTraversalResult(order);
     };
@@ -86,16 +97,29 @@ const datapage = () => {
         const order = traversePostOrder(root);
         setTraversalResult(order);
         animateTraversal(order);
+        setChosenColor(postorderColor);
     };
-    const getNodeValues = (node, idList, values = []) => {
-        if (!node) return values;
-        if (idList.includes(node.id)) {
-            values.push(node.value);
-        }
-        getNodeValues(node.left, idList, values);
-        getNodeValues(node.right, idList, values);
-        return values;
+
+
+    const getNodeValues = (node, idList) => {
+        if (!node) return [];
+        const idToValue = {};
+        const buildMap = (n) => {
+            if (!n) return;
+            idToValue[n.id] = n.value;
+            buildMap(n.left);
+            buildMap(n.right);
+        };
+        buildMap(node);
+
+        return idList.map(id => idToValue[id]);
     };
+    const animateRotation = async () => {
+        if (!root || isRunning) return;
+        setIsRunning(true);
+
+        // Perform a right rotation on the root for demonstration
+    }
 
     return (
 
@@ -106,10 +130,16 @@ const datapage = () => {
             <div className="flex flex-col md:flex-row">
 
                 <div className="flex-1 items-center justify-center p-4">
-                    <div className="border flex-1 border-white flex flex-row p-6 rounded-2xl bg-[var(--bg)] shadow-lg m-2 items-end justify-center"
+                    <div className="border border-white py-10 rounded-2xl bg-[var(--bg)] shadow-lg items-end justify-center"
 
                     >
-                        <Tree root={root} highlightedNodes={highlightedNodes} speed={speed} />
+                        {algo === 'bst-tree' && (
+                            <Tree root={root} highlightedNodes={highlightedNodes} chosenColor={chosenColor} />
+                        )}
+                        {algo === 'avl-tree' && (
+                            <Avl root={root} highlightedNodes={highlightedNodes} chosenColor={chosenColor} />
+                        )}
+
 
 
                     </div>
@@ -123,7 +153,7 @@ const datapage = () => {
                                     <span
                                         key={idx}
                                         className={`px-3 py-1 rounded ${idx < currentStep
-                                            ? 'bg-yellow-500 text-gray-900'
+                                            ? `${chosenColor} text-gray-900`
                                             : 'bg-gray-600 text-gray-300'
                                             } font-bold transition-all duration-300`}
                                     >
@@ -144,11 +174,12 @@ const datapage = () => {
                         <input
                             type="range"
                             min="1"
-                            max="25"
+                            max="15"
                             value={treeSize}
                             onChange={(e) => setTreeSize(parseInt(e.target.value))}
                             className="w-full"
                             disabled={isRunning}
+
                         />
                     </div>
 
@@ -161,7 +192,17 @@ const datapage = () => {
                             Generate New Tree
                         </button>
                     </div>
+                    {algo === 'avl-tree' && (
+                        <div className="mb-6">
 
+                            <button
+                                onClick={animateRotation}
+                                className="w-full bg-gray-700 hover:bg-gray-600 px-4 py-3 rounded-lg font-bold transition-colors disabled:opacity-50"
+                                disabled={isRunning || isAvlBalanced(root)}
+                            >
+                                preform rotation
+                            </button>
+                        </div>)}
                     <div className="mb-6">
                         <label className="block text-sm font-medium text-gray-300 mb-2">
                             Animation Speed: <span className="text-green-400">{speed}ms</span>
@@ -169,7 +210,7 @@ const datapage = () => {
                         <input
                             type="range"
                             min="100"
-                            max="500"
+                            max="1000"
                             value={speed}
                             onChange={(e) => setSpeed(parseInt(e.target.value))}
                             className="w-full"
@@ -187,12 +228,23 @@ const datapage = () => {
                             placeholder='separate values with ,'
                             disabled={isRunning}
                             onChange={(e) => {
-                                const vals = e.target.value.split(',').map(v => parseInt(v.trim())).filter(v => !isNaN(v));
+                                const vals = e.target.value
+                                    .split(',')
+                                    .map(v => parseInt(v.trim()))
+                                    .filter(v => !isNaN(v))
+
+                                if (vals.length === 0) return
+
+                                let newRoot: TreeNode | null = null
 
 
-                            }}
+                                vals.forEach(value => {
+                                    newRoot = insertBST(newRoot, value)
+                                })
 
-                        />
+                                setRoot(newRoot)
+                                resetTraversal()
+                            }}></input>
                         <button
                             className='bg-green-600 px-2 py-1 rounded-r hover:bg-green-500'
                             disabled={isRunning}>

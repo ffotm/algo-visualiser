@@ -1,6 +1,6 @@
 'use client'
 import React from 'react'
-import { TreeNode, updateHeights, balanceFactor } from './tree'
+import { TreeNode, updateHeights, balanceFactor, buildAVLTree, isAvlBalanced } from './tree'
 
 type TreeProps = {
     root: TreeNode | null
@@ -14,8 +14,14 @@ const getTreeDepth = (node: TreeNode | null): number => {
     return 1 + Math.max(getTreeDepth(node.left), getTreeDepth(node.right));
 };
 
-const Tree: React.FC<TreeProps> = ({ root, highlightedNodes, chosenColor }) => {
+
+
+
+
+const Avl: React.FC<TreeProps> = ({ root, highlightedNodes, chosenColor }) => {
     if (!root) return null;
+
+
 
     const treeDepth = getTreeDepth(root);
 
@@ -40,16 +46,32 @@ const Tree: React.FC<TreeProps> = ({ root, highlightedNodes, chosenColor }) => {
         return (
             <div className="relative flex flex-col items-center">
                 <div
-                    className={`rounded-full w-12 h-12 flex  items-center justify-center font-bold border-2 shadow-lg transition-all duration-500
+                    className={`rounded-full w-12 h-12 flex items-center justify-center font-bold border-2 shadow-lg transition-all duration-500
             ${isHighlighted
                             ? `${chosenColor} border-white scale-110`
-                            : 'bg-green-600 border-green-400'
+                            : isAvlBalanced(root) ? 'bg-green-600 border-green-400' : 'bg-red-500 border-red-400'
                         } text-white`}
                 >
-                    {node.value}
+                    <p className='relative left-6' >{node.value}</p>
+
+                    {
+
+                        updateHeights(node) !== null && (
+                            <div className="relative left-13 p-0 m-0 text-xs font-mono text-gray-200">
+                                H:{updateHeights(node)}
+                            </div>
+                        )
+                    }
+                    <div className="relative right-18 p-0 m-0 text-xs font-mono text-gray-200">
+                        BF:{balanceFactor(node)}
+                    </div>
+
                 </div>
 
                 {(node.left || node.right) && (
+
+
+
                     <svg
                         className="absolute top-12"
                         width={svgWidth}
@@ -57,27 +79,31 @@ const Tree: React.FC<TreeProps> = ({ root, highlightedNodes, chosenColor }) => {
                         viewBox={`0 0 ${svgWidth} ${svgHeight}`}
                         style={{ overflow: 'visible' }}
                     >
+
                         {node.left && (
                             <line
                                 x1={centerX}
                                 y1="0"
                                 x2={leftX + 10}
                                 y2={svgHeight + 10}
-                                stroke="#4ade80"
+                                stroke={isAvlBalanced(root) ? "#4ade80" : "#f87171"}
                                 strokeWidth="2"
                             />
                         )}
+
                         {node.right && (
                             <line
                                 x1={centerX}
                                 y1="0"
                                 x2={rightX - 10}
                                 y2={svgHeight + 10}
-                                stroke="#4ade80"
+                                stroke={isAvlBalanced(root) ? "#4ade80" : "#f87171"}
                                 strokeWidth="2"
                             />
                         )}
                     </svg>
+
+
                 )}
 
                 {(node.left || node.right) && (
@@ -85,12 +111,12 @@ const Tree: React.FC<TreeProps> = ({ root, highlightedNodes, chosenColor }) => {
                         marginTop: `${svgHeight + 8}px`,
                         gap: `${horizontalSpacing}px`
                     }}>
-                        {/* LEFT SLOT */}
+
                         <div className="flex justify-center" style={{ width: `${horizontalSpacing}px` }}>
                             {node.left && <TreeNodeDisplay node={node.left} depth={depth + 1} />}
                         </div>
 
-                        {/* RIGHT SLOT */}
+
                         <div className="flex justify-center" style={{ width: `${horizontalSpacing}px` }}>
                             {node.right && <TreeNodeDisplay node={node.right} depth={depth + 1} />}
                         </div>
@@ -107,4 +133,4 @@ const Tree: React.FC<TreeProps> = ({ root, highlightedNodes, chosenColor }) => {
     )
 }
 
-export default Tree
+export default Avl
