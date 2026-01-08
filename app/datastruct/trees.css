@@ -1,0 +1,48 @@
+@keyframes moveNode {
+    0% {
+        transform: translate(0, 0);
+        opacity: 1;
+    }
+    25% {
+        opacity: 0.8;
+    }
+    75% {
+        opacity: 0.8;
+    }
+    100% {
+        transform: var(--target-transform);
+        opacity: 1;
+    }
+}
+
+.animate-move {
+    animation: moveNode 0.8s cubic-bezier(0.4, 0.0, 0.2, 1) forwards;
+    position: relative;
+    z-index: 10;
+}
+
+@keyframes moveRightDown {
+    0% {
+        transform: translate(0, 0);
+    }
+    100% {
+        transform: translate(100px, 60px);
+    }
+}
+
+@keyframes moveLeftUp {
+    0% {
+        transform: translate(0, 0);
+    }
+    100% {
+        transform: translate(-100px, -60px);
+    }
+}
+
+.rotate-right-down {
+    animation: moveRightDown 1s ease-in-out forwards;
+}
+
+.rotate-left-up {
+    animation: moveLeftUp 1s ease-in-out forwards;
+}

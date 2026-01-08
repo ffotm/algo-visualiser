@@ -3,9 +3,10 @@ import React from 'react'
 import Tabss from './components/tabs'
 import { useState, useEffect } from 'react'
 import Tree from './components/treevis'
-import { buildBST, traverseInOrder, insertBST, traversePostOrder, traversePreOrder, TreeNode, balanceFactor, updateHeights, buildAVLTree, isAvlBalanced } from './components/tree'
+import { buildBST, traverseInOrder, rotateLeft, rotateRight, insertBST, traversePostOrder, traversePreOrder, TreeNode, balanceFactor, updateHeights, buildAVLTree, isAvlBalanced } from './components/tree'
 import Avl from './components/avl'
-import { ins } from 'framer-motion/client'
+
+
 
 
 
@@ -22,6 +23,10 @@ const datapage = () => {
     const [showParameters, setShowParameters] = useState(true);
     const [chosenColor, setChosenColor] = useState('bg-yellow-500');
     const [balance, setBalance] = useState(0);
+    const [animatedNodes, setAnimatedNodes] = useState<{ [key: number]: { x: number; y: number } }>({});
+    const [isAnimating, setIsAnimating] = useState(false);
+
+
 
     const inorderColor = 'bg-yellow-500';
     const preorderColor = 'bg-purple-600';
@@ -31,6 +36,15 @@ const datapage = () => {
         if (!node) return 0;
         return balanceFactor(node);
     }
+
+    const check = () => {
+        if (isAvlBalanced(root)) {
+            return true
+        } else {
+            return false
+        }
+    }
+
 
     const generateRandomtree = () => {
         const values: number[] = [];
@@ -92,6 +106,37 @@ const datapage = () => {
         setTraversalResult(order);
     };
 
+    // Add these utility functions
+    const getNodePositions = (root: TreeNode | null) => {
+        const positions: { [key: number]: { x: number; y: number } } = {};
+
+        const traverse = (node: TreeNode | null, x: number, y: number, spacing: number) => {
+            if (!node) return;
+
+            positions[node.id] = { x, y };
+
+            traverse(node.left, x - spacing, y + 100, spacing / 2);
+            traverse(node.right, x + spacing, y + 100, spacing / 2);
+        };
+
+        if (root) {
+            traverse(root, 0, 0, 300);
+        }
+
+        return positions;
+    };
+
+    // Helper to find a node by ID
+    const findNodeById = (root: TreeNode | null, id: number): TreeNode | null => {
+        if (!root) return null;
+        if (root.id === id) return root;
+
+        const left = findNodeById(root.left, id);
+        if (left) return left;
+
+        return findNodeById(root.right, id);
+    };
+
     const handlePostOrder = () => {
         if (!root || isRunning) return;
         const order = traversePostOrder(root);
@@ -112,15 +157,148 @@ const datapage = () => {
         };
         buildMap(node);
 
+        console.log(idToValue);
+
         return idList.map(id => idToValue[id]);
     };
     const animateRotation = async () => {
         if (!root || isRunning) return;
+
         setIsRunning(true);
 
-        // Perform a right rotation on the root for demonstration
-    }
+        // Find unbalanced node
+        const findUnbalanced = (node: TreeNode | null): TreeNode | null => {
+            if (!node) return null;
+            const bf = balanceFactor(node);
+            if (Math.abs(bf) > 1) return node;
 
+            const leftResult = findUnbalanced(node.left);
+            if (leftResult) return leftResult;
+
+            return findUnbalanced(node.right);
+        };
+
+        const unbalancedNode = findUnbalanced(root);
+
+        if (!unbalancedNode) {
+            setIsRunning(false);
+            return;
+        }
+
+        // Step 1: Highlight
+        setHighlightedNodes([unbalancedNode.id]);
+        await new Promise(resolve => setTimeout(resolve, speed));
+
+        const bf = balanceFactor(unbalancedNode);
+        let animationTargets = {};
+
+        // Calculate animation distances based on depth
+        const depth = Math.floor(Math.log2(unbalancedNode.id + 1));
+        const horizontalDistance = 100 * Math.pow(0.7, depth); // Reduce distance for deeper nodes
+        const verticalDistance = 60;
+
+        if (bf > 1) {
+            // Left heavy
+            if (balanceFactor(unbalancedNode.left!) < 0) {
+                // LR case
+                const leftChild = unbalancedNode.left!;
+                const leftRightChild = leftChild.right!;
+
+                // First rotation (left rotation on left child)
+                animationTargets = {
+                    [leftChild.id]: { x: horizontalDistance, y: verticalDistance },
+                    [leftRightChild.id]: { x: -horizontalDistance, y: -verticalDistance }
+                };
+
+                setAnimatedNodes(animationTargets);
+                await new Promise(resolve => setTimeout(resolve, 1000));
+
+                // Update structure
+                unbalancedNode.left = rotateLeft(leftChild);
+                updateHeights(unbalancedNode);
+
+                // Reset for next animation
+                setAnimatedNodes({});
+                await new Promise(resolve => setTimeout(resolve, 200));
+            }
+
+            // Second rotation (right rotation on unbalanced node)
+            const leftChild = unbalancedNode.left!;
+            animationTargets = {
+                [unbalancedNode.id]: { x: horizontalDistance, y: verticalDistance },
+                [leftChild.id]: { x: -horizontalDistance, y: -verticalDistance }
+            };
+
+        } else if (bf < -1) {
+            // Right heavy
+            if (balanceFactor(unbalancedNode.right!) > 0) {
+                // RL case
+                const rightChild = unbalancedNode.right!;
+                const rightLeftChild = rightChild.left!;
+
+                // First rotation (right rotation on right child)
+                animationTargets = {
+                    [rightChild.id]: { x: -horizontalDistance, y: verticalDistance },
+                    [rightLeftChild.id]: { x: horizontalDistance, y: -verticalDistance }
+                };
+
+                setAnimatedNodes(animationTargets);
+                await new Promise(resolve => setTimeout(resolve, 1000));
+
+                // Update structure
+                unbalancedNode.right = rotateRight(rightChild);
+                updateHeights(unbalancedNode);
+
+                // Reset for next animation
+                setAnimatedNodes({});
+                await new Promise(resolve => setTimeout(resolve, 200));
+            }
+
+            // Second rotation (left rotation on unbalanced node)
+            const rightChild = unbalancedNode.right!;
+            animationTargets = {
+                [unbalancedNode.id]: { x: -horizontalDistance, y: verticalDistance },
+                [rightChild.id]: { x: horizontalDistance, y: -verticalDistance }
+            };
+        }
+
+        // Apply main animation
+        setAnimatedNodes(animationTargets);
+        await new Promise(resolve => setTimeout(resolve, 1000));
+
+        // Perform the actual rotation
+        let newRoot;
+        if (bf > 1) {
+            newRoot = rotateRight(unbalancedNode);
+        } else {
+            newRoot = rotateLeft(unbalancedNode);
+        }
+
+        // IMPORTANT: Use a deep copy to trigger re-render while preserving animation
+        const updatedRoot = JSON.parse(JSON.stringify(root));
+
+        // Replace the unbalanced node in the copied tree
+        const replaceNode = (node: TreeNode | null, targetId: number, newNode: TreeNode): TreeNode | null => {
+            if (!node) return null;
+            if (node.id === targetId) return newNode;
+
+            node.left = replaceNode(node.left, targetId, newNode);
+            node.right = replaceNode(node.right, targetId, newNode);
+            return node;
+        };
+
+        const finalRoot = replaceNode(updatedRoot, unbalancedNode.id, newRoot);
+        updateHeights(finalRoot);
+
+        // Update tree AFTER animation
+        setRoot(finalRoot);
+
+        // Clean up
+        await new Promise(resolve => setTimeout(resolve, 300));
+        setAnimatedNodes({});
+        setHighlightedNodes([]);
+        setIsRunning(false);
+    };
     return (
 
         <div >
@@ -137,7 +315,7 @@ const datapage = () => {
                             <Tree root={root} highlightedNodes={highlightedNodes} chosenColor={chosenColor} />
                         )}
                         {algo === 'avl-tree' && (
-                            <Avl root={root} highlightedNodes={highlightedNodes} chosenColor={chosenColor} />
+                            <Avl root={root} highlightedNodes={highlightedNodes} animatingNodes={animatedNodes} chosenColor={chosenColor} />
                         )}
 
 
@@ -196,11 +374,11 @@ const datapage = () => {
                         <div className="mb-6">
 
                             <button
-                                onClick={animateRotation}
+                                onClick={() => animateRotation(root)}
                                 className="w-full bg-gray-700 hover:bg-gray-600 px-4 py-3 rounded-lg font-bold transition-colors disabled:opacity-50"
-                                disabled={isRunning || isAvlBalanced(root)}
+                                disabled={isRunning}
                             >
-                                preform rotation
+                                Perform Rotation
                             </button>
                         </div>)}
                     <div className="mb-6">

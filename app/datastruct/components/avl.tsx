@@ -5,73 +5,67 @@ import { TreeNode, updateHeights, balanceFactor, buildAVLTree, isAvlBalanced } f
 type TreeProps = {
     root: TreeNode | null
     highlightedNodes: number[]
-
+    animatingNodes: { [key: number]: { x: number; y: number } }
+    chosenColor: string
 }
-
 
 const getTreeDepth = (node: TreeNode | null): number => {
     if (!node) return 0;
     return 1 + Math.max(getTreeDepth(node.left), getTreeDepth(node.right));
 };
 
-
-
-
-
-const Avl: React.FC<TreeProps> = ({ root, highlightedNodes, chosenColor }) => {
+const Avl: React.FC<TreeProps> = ({ root, highlightedNodes, animatingNodes, chosenColor }) => {
     if (!root) return null;
-
-
 
     const treeDepth = getTreeDepth(root);
 
     const TreeNodeDisplay = ({ node, depth = 0 }: { node: TreeNode; depth?: number }) => {
         const isHighlighted = highlightedNodes.includes(node.id);
 
-
         const remainingDepth = treeDepth - depth - 1;
         const baseSpacing = 30;
         const spacingMultiplier = Math.pow(2, remainingDepth);
         const horizontalSpacing = baseSpacing * spacingMultiplier;
-
-
         const svgWidth = horizontalSpacing * 2 + 60;
         const svgHeight = 40;
         const centerX = svgWidth / 2;
         const leftX = centerX - horizontalSpacing;
         const rightX = centerX + horizontalSpacing;
 
-
+        const isAnimating = animatingNodes && animatingNodes[node.id];
+        const animationStyle = {
+            transform: isAnimating
+                ? `translate(${animatingNodes[node.id].x}px, ${animatingNodes[node.id].y}px)`
+                : 'translate(0px, 0px)',
+            transition: isAnimating
+                ? 'transform 1s ease-in-out'
+                : 'none',
+            position: isAnimating ? 'relative' : 'static'
+        };
 
         return (
             <div className="relative flex flex-col items-center">
+
                 <div
                     className={`rounded-full w-12 h-12 flex items-center justify-center font-bold border-2 shadow-lg transition-all duration-500
             ${isHighlighted
                             ? `${chosenColor} border-white scale-110`
                             : isAvlBalanced(root) ? 'bg-green-600 border-green-400' : 'bg-red-500 border-red-400'
                         } text-white`}
-                >
-                    <p className='relative left-6' >{node.value}</p>
+                    style={animationStyle}>
+                    <p className='relative left-6'>{node.value}</p>
 
-                    {
-
-                        updateHeights(node) !== null && (
-                            <div className="relative left-13 p-0 m-0 text-xs font-mono text-gray-200">
-                                H:{updateHeights(node)}
-                            </div>
-                        )
-                    }
+                    {updateHeights(node) !== null && (
+                        <div className="relative left-13 p-0 m-0 text-xs font-mono text-gray-200">
+                            H:{updateHeights(node)}
+                        </div>
+                    )}
                     <div className="relative right-18 p-0 m-0 text-xs font-mono text-gray-200">
                         BF:{balanceFactor(node)}
                     </div>
-
                 </div>
 
                 {(node.left || node.right) && (
-
-
-
                     <svg
                         className="absolute top-12"
                         width={svgWidth}
@@ -79,7 +73,6 @@ const Avl: React.FC<TreeProps> = ({ root, highlightedNodes, chosenColor }) => {
                         viewBox={`0 0 ${svgWidth} ${svgHeight}`}
                         style={{ overflow: 'visible' }}
                     >
-
                         {node.left && (
                             <line
                                 x1={centerX}
@@ -102,8 +95,6 @@ const Avl: React.FC<TreeProps> = ({ root, highlightedNodes, chosenColor }) => {
                             />
                         )}
                     </svg>
-
-
                 )}
 
                 {(node.left || node.right) && (
@@ -111,11 +102,9 @@ const Avl: React.FC<TreeProps> = ({ root, highlightedNodes, chosenColor }) => {
                         marginTop: `${svgHeight + 8}px`,
                         gap: `${horizontalSpacing}px`
                     }}>
-
                         <div className="flex justify-center" style={{ width: `${horizontalSpacing}px` }}>
                             {node.left && <TreeNodeDisplay node={node.left} depth={depth + 1} />}
                         </div>
-
 
                         <div className="flex justify-center" style={{ width: `${horizontalSpacing}px` }}>
                             {node.right && <TreeNodeDisplay node={node.right} depth={depth + 1} />}
