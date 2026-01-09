@@ -1,11 +1,12 @@
 'use client'
-import React from 'react'
+import React, { use, useRef } from 'react'
 import Tabss from './components/tabs'
 import { useState, useEffect } from 'react'
 import Tree from './components/treevis'
-import { buildBST, traverseInOrder, rotateLeft, rotateRight, insertBST, traversePostOrder, traversePreOrder, TreeNode, balanceFactor, updateHeights, buildAVLTree, isAvlBalanced } from './components/tree'
+import { buildBST, fixViolations, rnbInsert, RedBlackTree, traverseInOrder, rotateLeft, rotateRight, insertBST, traversePostOrder, traversePreOrder, TreeNode, balanceFactor, updateHeights, buildAVLTree, isAvlBalanced } from './components/tree'
 import Avl from './components/avl'
 import { animateRotationWithQueue } from './components/animate'
+import Rnb from './components/rnb'
 
 
 
@@ -23,9 +24,30 @@ const datapage = () => {
     const [algo, setAlgo] = useState('bst-tree');
     const [showParameters, setShowParameters] = useState(true);
     const [chosenColor, setChosenColor] = useState('bg-yellow-500');
-    const [balance, setBalance] = useState(0);
+    const treeRef = useRef<RedBlackTree | null>(null)
+    const [inputValue, setInputValue] = useState('');
 
+    const initRBT = () => {
+        treeRef.current = new RedBlackTree()
+        setRoot(null)
+    }
+    const insertRBTValues = (vals: number[]) => {
+        if (!treeRef.current) {
+            treeRef.current = new RedBlackTree()
+        }
 
+        vals.forEach(v => {
+            treeRef.current!.rnbInsert(v)
+        })
+
+        // IMPORTANT: do NOT spread the root
+        setRoot(treeRef.current.root)
+    }
+    const clearRnb = () => {
+        treeRef.current = new RedBlackTree()
+        setRoot(null)
+
+    }
 
 
     const inorderColor = 'bg-yellow-500';
@@ -66,10 +88,13 @@ const datapage = () => {
         generateRandomtree()
     }, [])
 
+
+
     const resetTraversal = () => {
         setHighlightedNodes([]);
         setTraversalResult([]);
         setCurrentStep(0);
+
     };
 
     const animateTraversal = async (nodeOrder: number[]) => {
@@ -107,26 +132,6 @@ const datapage = () => {
     };
 
 
-    const getNodePositions = (root: TreeNode | null) => {
-        const positions: { [key: number]: { x: number; y: number } } = {};
-
-        const traverse = (node: TreeNode | null, x: number, y: number, spacing: number) => {
-            if (!node) return;
-
-            positions[node.id] = { x, y };
-
-            traverse(node.left, x - spacing, y + 100, spacing / 2);
-            traverse(node.right, x + spacing, y + 100, spacing / 2);
-        };
-
-        if (root) {
-            traverse(root, 0, 0, 300);
-        }
-
-        return positions;
-    };
-
-    // Helper to find a node by ID
     const findNodeById = (root: TreeNode | null, id: number): TreeNode | null => {
         if (!root) return null;
         if (root.id === id) return root;
@@ -161,7 +166,7 @@ const datapage = () => {
 
         return idList.map(id => idToValue[id]);
     };
-    // Replace your animateRotation function with this:
+
 
     const handleRotate = () => {
         if (!root || isRunning) return
@@ -174,6 +179,63 @@ const datapage = () => {
             setIsRunning
         })
     }
+
+    const getredNodes = (node: TreeNode | null) => {
+        const redNodes = [];
+
+        if (!node) return;
+        if (node.type === 'red') {
+            redNodes.push(node.id);
+        }
+        getredNodes(node.left);
+        getredNodes(node.right);
+        return redNodes;
+    }
+
+    const generateRandomrnb = () => {
+        treeRef.current = new RedBlackTree();
+        const values = Array.from({ length: 7 }, () => Math.floor(Math.random() * 100) + 1);
+        values.forEach(v => treeRef.current.rnbInsert(v));
+        setRoot({ ...treeRef.current.root! });
+    };
+    let NODE_ID = 0;
+
+    const handleManualInsert = () => {
+        if (!inputValue.trim()) return;
+
+        const vals = inputValue
+            .split(',')
+            .map(v => parseInt(v.trim()))
+            .filter(v => !isNaN(v));
+
+        if (vals.length === 0) return;
+
+        if (algo === 'red-black-tree') {
+
+            treeRef.current = new RedBlackTree();
+            vals.forEach(value => {
+                treeRef.current!.rnbInsert(value);
+            });
+            setRoot({ ...treeRef.current.root! });
+        } else {
+
+            let newRoot: TreeNode | null = null;
+            vals.forEach(value => {
+                newRoot = insertBST(newRoot, value);
+            });
+            setRoot(newRoot);
+        }
+
+        resetTraversal();
+        setInputValue(''); // Clear input
+    };
+
+    useEffect(() => {
+        if (algo === 'red-black-tree') {
+            generateRandomrnb();
+        }
+    }, [algo]);
+
     return (
 
         <div >
@@ -192,6 +254,9 @@ const datapage = () => {
 
                         {algo === 'avl-tree' && (
                             <Avl root={root} highlightedNodes={highlightedNodes} chosenColor={chosenColor} />
+                        )}
+                        {algo === 'red-black-tree' && (
+                            <Rnb root={root} highlightedNodes={getredNodes(root)} chosenColor={chosenColor} />
                         )}
 
 
@@ -238,13 +303,27 @@ const datapage = () => {
                     </div>
 
                     <div className="mb-6">
-                        <button
+                        {algo === 'red-black-tree' ? (
+                            <button
+                                onClick={generateRandomrnb}
+                                className="w-full bg-gray-700 hover:bg-gray-600 px-4 py-3 rounded-lg font-bold transition-colors disabled:opacity-50"
+                                disabled={isRunning}
+                            >
+                                Generate New Tree
+                            </button>
+                        ) : (<button
                             onClick={generateRandomtree}
                             className="w-full bg-gray-700 hover:bg-gray-600 px-4 py-3 rounded-lg font-bold transition-colors disabled:opacity-50"
                             disabled={isRunning}
                         >
                             Generate New Tree
                         </button>
+
+                        )
+
+                        }
+
+
                     </div>
                     {algo === 'avl-tree' && (
                         <div className="mb-6">
@@ -255,6 +334,16 @@ const datapage = () => {
                                 disabled={isRunning}
                             >
                                 Perform Rotation
+                            </button>
+                        </div>)}
+                    {algo === 'red-black-tree' && (
+                        <div className="mb-6">
+                            <button
+                                onClick={() => setRoot({ ...treeRef.current!.root! })}
+                                className="w-full bg-gray-700 hover:bg-gray-600 px-4 py-3 rounded-lg font-bold transition-colors disabled:opacity-50"
+                                disabled={isRunning}
+                            >
+                                Recolor
                             </button>
                         </div>)}
                     <div className="mb-6">
@@ -276,35 +365,28 @@ const datapage = () => {
                         <label className='block text-sm font-medium text-gray-300 mb-2'>
                             Set values manually:
                         </label>
-                        <input
+                        <div className="">     <input
                             type="text"
-                            className='ml-2 bg-green-800 p-1 w-48 rounded-l'
+                            className='bg-green-800 p-2 w-48 rounded-l flex-grow'
                             placeholder='separate values with ,'
                             disabled={isRunning}
-                            onChange={(e) => {
-                                const vals = e.target.value
-                                    .split(',')
-                                    .map(v => parseInt(v.trim()))
-                                    .filter(v => !isNaN(v))
+                            value={inputValue} // Controlled input
+                            onChange={(e) => setInputValue(e.target.value)} // Only update state
+                            onKeyDown={(e) => {
+                                if (e.key === 'Enter') {
+                                    handleManualInsert();
+                                }
 
-                                if (vals.length === 0) return
-
-                                let newRoot: TreeNode | null = null
-
-
-                                vals.forEach(value => {
-                                    newRoot = insertBST(newRoot, value)
-                                })
-
-                                setRoot(newRoot)
-                                resetTraversal()
-                            }}></input>
-                        <button
-                            className='bg-green-600 px-2 py-1 rounded-r hover:bg-green-500'
-                            disabled={isRunning}>
-                            Set
-
-                        </button>
+                            }}
+                        />
+                            <button
+                                className='bg-green-600 px-4 py-2 rounded-r hover:bg-green-500'
+                                disabled={isRunning}
+                                onClick={handleManualInsert} // Handle click
+                            >
+                                Set
+                            </button>
+                        </div>
                     </div>
                     {root && (
                         <>

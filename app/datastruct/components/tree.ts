@@ -1,16 +1,21 @@
+import { type } from "os";
+
 class TreeNode {
     id: number;
     value: number;
     left: TreeNode | null;
     right: TreeNode | null;
     height: number | null;
-    type: string;
-    constructor(id: number, value: number, height: number | null = null) {
+    type: string | null;
+    parent: TreeNode | null = null;
+    constructor(id: number, value: number, height: number | null = null, type: string | null = null, parent: TreeNode | null = null) {
         this.id = id;
         this.value = value;
         this.left = null;
         this.right = null;
         this.height = height;
+        this.type = 'red';
+        this.parent = parent;
     }
 }
 
@@ -119,8 +124,6 @@ function updateTreeStructure(root: TreeNode | null, unbalancedNode: TreeNode, ne
     if (root === unbalancedNode) {
         return newRoot;
     }
-
-    // Recursively search for the unbalanced node in the tree
     if (root.left && root.left === unbalancedNode) {
         root.left = newRoot;
     } else if (root.right && root.right === unbalancedNode) {
@@ -150,7 +153,236 @@ export const getHeight = (node: TreeNode | null): number => {
 }
 
 
+// Red-Black Tree functions
+const buildRnbtree = (
+    values: number[],
+    start: number,
+    end: number,
+    type: string,
+    idCounter = { current: 0 }
+): TreeNode | null => {
+    if (start > end) return null
+
+    const mid = Math.floor((start + end) / 2)
+    const node = new TreeNode(idCounter.current++, values[mid])
+    node.left = buildRnbtree(values, start, mid - 1, 'red', idCounter,)
+    node.right = buildRnbtree(values, mid + 1, end, 'red', idCounter)
+
+    return node
+}
+
+const Recoloring = (node: TreeNode | null) => {
+    if (!node) return;
+    if (node.type === 'red') {
+        node.type = 'black';
+    } else {
+        node.type = 'red';
+    }
+
+}
+const isRnbBalanced = (node: TreeNode | null): boolean => {
+    if (!node) return true;
+    const bf = node.type;
+    if (bf !== 'red' && bf !== 'black') return false;
+    return isRnbBalanced(node.left) && isRnbBalanced(node.right);
+
+}
 
 
-export { TreeNode, rotateLeft, rotateRight, buildBST, insertBST, isAvlBalanced, updateHeights, balanceFactor, buildAVLTree, traverseInOrder, traversePreOrder, traversePostOrder };
+
+
+
+function fixViolations(node: TreeNode): TreeNode {
+    let currentNode = node
+    while (currentNode.parent && currentNode.parent.type === 'red') {
+        let parent = currentNode.parent
+        let grandParent = parent.parent
+        if (!grandParent) break;
+        if (parent === grandParent.left) {
+            let uncle = grandParent.right
+
+            if (uncle && uncle.type === 'red') {
+                grandParent.type = 'red'
+                parent.type = 'black'
+                uncle.type = 'black'
+                currentNode = grandParent
+            } else {
+                if (currentNode === parent.right) {
+                    rotateLeft(parent)
+                    currentNode = parent
+                    parent = currentNode.parent!
+                }
+                rotateRight(grandParent)
+                const temp = parent.type
+                parent.type = grandParent.type
+                grandParent.type = temp
+                currentNode = parent
+            }
+        } else {
+            let uncle = grandParent.left
+            if (uncle && uncle.type === 'red') {
+                grandParent.type = 'red'
+                parent.type = 'black'
+                uncle.type = 'black'
+                currentNode = grandParent
+            } else {
+                if (currentNode === parent.left) {
+                    rotateRight(parent)
+                    currentNode = parent
+                    parent = currentNode.parent!
+                }
+                rotateLeft(grandParent)
+                const temp = parent.type
+                parent.type = grandParent.type
+                grandParent.type = temp
+                currentNode = parent
+            }
+        }
+    }
+    let root = currentNode
+    while (root.parent) root = root.parent
+    root.type = 'black'
+    return root
+}
+
+class RedBlackTree {
+    root: TreeNode | null = null;
+    idCounter = 0;
+
+    rnbInsert(value: number): void {
+        const newNode = new TreeNode(this.idCounter++, value);
+        newNode.type = 'red';
+
+        if (!this.root) {
+            this.root = newNode;
+            this.root.type = 'black';
+            return;
+        }
+
+        // BST insert
+        let current = this.root;
+        let parent: TreeNode | null = null;
+
+        while (current) {
+            parent = current;
+            if (value < current.value) {
+                current = current.left;
+            } else {
+                current = current.right;
+            }
+        }
+
+        newNode.parent = parent;
+        if (value < parent!.value) {
+            parent!.left = newNode;
+        } else {
+            parent!.right = newNode;
+        }
+
+        this.fixViolation(newNode);
+    }
+    private rotateLeft(node: TreeNode): void {
+        const rightChild = node.right!;
+        node.right = rightChild.left;
+
+        if (rightChild.left) {
+            rightChild.left.parent = node;
+        }
+
+        rightChild.parent = node.parent;
+
+        if (!node.parent) {
+            this.root = rightChild;
+        } else if (node === node.parent.left) {
+            node.parent.left = rightChild;
+        } else {
+            node.parent.right = rightChild;
+        }
+
+        rightChild.left = node;
+        node.parent = rightChild;
+    }
+
+    private rotateRight(node: TreeNode): void {
+        const leftChild = node.left!;
+        node.left = leftChild.right;
+
+        if (leftChild.right) {
+            leftChild.right.parent = node;
+        }
+
+        leftChild.parent = node.parent;
+
+        if (!node.parent) {
+            this.root = leftChild;
+        } else if (node === node.parent.right) {
+            node.parent.right = leftChild;
+        } else {
+            node.parent.left = leftChild;
+        }
+
+        leftChild.right = node;
+        node.parent = leftChild;
+    }
+
+    private fixViolation(node: TreeNode): void {
+        while (node.parent && node.parent.type === 'red') {
+            const parent = node.parent;
+            const grandparent = parent.parent!;
+
+            if (parent === grandparent.left) {
+                const uncle = grandparent.right;
+
+                if (uncle && uncle.type === 'red') {
+                    // Case 1: Uncle is red - recolor
+                    parent.type = 'black';
+                    uncle.type = 'black';
+                    grandparent.type = 'red';
+                    node = grandparent;
+                } else {
+                    if (node === parent.right) {
+                        // Case 2: Node is right child - left rotate
+                        node = parent;
+                        this.rotateLeft(node);
+                    }
+                    // Case 3: Node is left child - right rotate
+                    node.parent!.type = 'black';
+                    grandparent.type = 'red';
+                    this.rotateRight(grandparent);
+                }
+            } else {
+                const uncle = grandparent.left;
+
+                if (uncle && uncle.type === 'red') {
+                    // Case 1: Uncle is red - recolor
+                    parent.type = 'black';
+                    uncle.type = 'black';
+                    grandparent.type = 'red';
+                    node = grandparent;
+                } else {
+                    if (node === parent.left) {
+                        // Case 2: Node is left child - right rotate
+                        node = parent;
+                        this.rotateRight(node);
+                    }
+                    // Case 3: Node is right child - left rotate
+                    node.parent!.type = 'black';
+                    grandparent.type = 'red';
+                    this.rotateLeft(grandparent);
+                }
+            }
+        }
+
+        this.root!.type = 'black';
+    }
+}
+
+
+
+
+
+
+
+
+export { RedBlackTree, TreeNode, rotateLeft, rotateRight, fixViolations, rnbInsert, buildBST, insertBST, isAvlBalanced, updateHeights, balanceFactor, buildAVLTree, traverseInOrder, traversePreOrder, traversePostOrder };
 
