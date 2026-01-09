@@ -243,7 +243,19 @@ const datapage = () => {
                 treeRef.current!.rnbInsert(value);
             });
             setRoot({ ...treeRef.current.root! });
-        } else {
+        } else if (algo === 'heap' && heaptype === 'min-heap') {
+
+            vals.sort((a, b) => a - b);
+            const newRoot = buildHeap(vals);
+            setRoot(newRoot);
+        } else if (algo === 'heap' && heaptype === 'max-heap') {
+
+            vals.sort((a, b) => b - a);
+            const newRoot = buildHeap(vals);
+            setRoot(newRoot);
+        }
+
+        else {
 
             let newRoot: TreeNode | null = null;
             vals.forEach(value => {
@@ -253,7 +265,7 @@ const datapage = () => {
         }
 
         resetTraversal();
-        setInputValue(''); // Clear input
+
     };
 
     useEffect(() => {
@@ -414,8 +426,8 @@ const datapage = () => {
                             className='bg-green-800 p-2 w-48 rounded-l flex-grow'
                             placeholder='separate values with ,'
                             disabled={isRunning}
-                            value={inputValue} // Controlled input
-                            onChange={(e) => setInputValue(e.target.value)} // Only update state
+                            value={inputValue}
+                            onChange={(e) => setInputValue(e.target.value)}
                             onKeyDown={(e) => {
                                 if (e.key === 'Enter') {
                                     handleManualInsert();
@@ -426,7 +438,7 @@ const datapage = () => {
                             <button
                                 className='bg-green-600 px-4 py-2 rounded-r hover:bg-green-500'
                                 disabled={isRunning}
-                                onClick={handleManualInsert} // Handle click
+                                onClick={handleManualInsert}
                             >
                                 Set
                             </button>
