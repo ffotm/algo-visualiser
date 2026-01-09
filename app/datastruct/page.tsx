@@ -3,10 +3,13 @@ import React, { use, useRef } from 'react'
 import Tabss from './components/tabs'
 import { useState, useEffect } from 'react'
 import Tree from './components/treevis'
-import { buildBST, fixViolations, rnbInsert, RedBlackTree, traverseInOrder, rotateLeft, rotateRight, insertBST, traversePostOrder, traversePreOrder, TreeNode, balanceFactor, updateHeights, buildAVLTree, isAvlBalanced } from './components/tree'
+import { buildBST, fixViolations, rnbInsert, buildHeap, RedBlackTree, traverseInOrder, rotateLeft, rotateRight, insertBST, traversePostOrder, traversePreOrder, TreeNode, balanceFactor, updateHeights, buildAVLTree, isAvlBalanced } from './components/tree'
 import Avl from './components/avl'
 import { animateRotationWithQueue } from './components/animate'
 import Rnb from './components/rnb'
+import Heap from './components/heap'
+import { head } from 'framer-motion/client'
+
 
 
 
@@ -26,6 +29,7 @@ const datapage = () => {
     const [chosenColor, setChosenColor] = useState('bg-yellow-500');
     const treeRef = useRef<RedBlackTree | null>(null)
     const [inputValue, setInputValue] = useState('');
+    const [heaptype, setHeaptype] = useState('max-heap');
 
     const initRBT = () => {
         treeRef.current = new RedBlackTree()
@@ -40,7 +44,7 @@ const datapage = () => {
             treeRef.current!.rnbInsert(v)
         })
 
-        // IMPORTANT: do NOT spread the root
+        // bch ndjibo function m class
         setRoot(treeRef.current.root)
     }
     const clearRnb = () => {
@@ -75,11 +79,33 @@ const datapage = () => {
             values.push(Math.floor(Math.random() * 100) + 1);
         }
 
-        values.sort((a, b) => a - b);
 
-        const newRoot = buildBST(values, 0, values.length - 1);
-        setRoot(newRoot);
-        resetTraversal();
+
+        if (algo == 'heap' && heaptype == 'min-heap') {
+            values.sort((a, b) => a - b);
+            const newRoot = buildHeap(values);
+            setRoot(newRoot);
+            resetTraversal();
+            console.log("heap");
+            console.log(algo);
+        }
+        else if (algo == 'heap' && heaptype == 'max-heap') {
+            values.sort((a, b) => b - a);
+            const newRoot = buildHeap(values);
+            setRoot(newRoot);
+            resetTraversal();
+            console.log("heap");
+            console.log(algo);
+
+        } else {
+            values.sort((a, b) => a - b);
+            const newRoot = buildBST(values, 0, values.length - 1);
+            setRoot(newRoot);
+            resetTraversal();
+            console.log("bst");
+            console.log(algo);
+
+        }
 
 
 
@@ -194,7 +220,7 @@ const datapage = () => {
 
     const generateRandomrnb = () => {
         treeRef.current = new RedBlackTree();
-        const values = Array.from({ length: 7 }, () => Math.floor(Math.random() * 100) + 1);
+        const values = Array.from({ length: treeSize }, () => Math.floor(Math.random() * 100) + 1);
         values.forEach(v => treeRef.current.rnbInsert(v));
         setRoot({ ...treeRef.current.root! });
     };
@@ -236,6 +262,7 @@ const datapage = () => {
         }
     }, [algo]);
 
+
     return (
 
         <div >
@@ -257,6 +284,9 @@ const datapage = () => {
                         )}
                         {algo === 'red-black-tree' && (
                             <Rnb root={root} highlightedNodes={getredNodes(root)} chosenColor={chosenColor} />
+                        )}
+                        {algo === 'heap' && (
+                            <Heap root={root} highlightedNodes={highlightedNodes} chosenColor={chosenColor} />
                         )}
 
 
@@ -311,14 +341,28 @@ const datapage = () => {
                             >
                                 Generate New Tree
                             </button>
-                        ) : (<button
-                            onClick={generateRandomtree}
-                            className="w-full bg-gray-700 hover:bg-gray-600 px-4 py-3 rounded-lg font-bold transition-colors disabled:opacity-50"
-                            disabled={isRunning}
-                        >
-                            Generate New Tree
-                        </button>
 
+                        ) : (
+                            <div className="">
+                                <button
+                                    onClick={generateRandomtree}
+                                    className="w-full bg-gray-700 hover:bg-gray-600 px-4 py-3 rounded-lg font-bold transition-colors disabled:opacity-50"
+                                    disabled={isRunning}
+                                >
+                                    Generate New Tree
+                                </button>
+                                <select
+                                    value={heaptype}
+                                    onChange={(e) => setHeaptype(e.target.value)}
+                                    disabled={isRunning}
+                                    hidden={algo !== 'heap'}
+
+                                    className="mt-4 w-full bg-gray-800 text-white px-3 py-2 rounded-lg border border-gray-600 focus:outline-none focus:ring-2 focus:ring-green-500"
+                                >
+                                    <option value="min-heap">Min-Heap</option>
+                                    <option value="max-heap">Max-Heap</option>
+                                </select>
+                            </div>
                         )
 
                         }

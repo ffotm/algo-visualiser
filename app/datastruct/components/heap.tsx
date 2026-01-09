@@ -13,13 +13,14 @@ const getTreeDepth = (node: TreeNode | null): number => {
     return 1 + Math.max(getTreeDepth(node.left), getTreeDepth(node.right))
 }
 
-const Avl: React.FC<TreeProps> = ({ root, highlightedNodes, chosenColor }) => {
+const Heap: React.FC<TreeProps> = ({ root, highlightedNodes, chosenColor }) => {
     if (!root) return null
 
     const treeDepth = getTreeDepth(root)
 
     const TreeNodeDisplay = ({ node, depth = 0 }: { node: TreeNode; depth?: number }) => {
         const isHighlighted = highlightedNodes.includes(node.id)
+
         const remainingDepth = treeDepth - depth - 1
         const baseSpacing = 30
         const spacingMultiplier = Math.pow(2, remainingDepth)
@@ -49,13 +50,7 @@ const Avl: React.FC<TreeProps> = ({ root, highlightedNodes, chosenColor }) => {
                     >
                         <p className="absolute">{node.value}</p>
 
-                        <div className="absolute left-14 text-xs font-mono text-gray-200">
-                            H: {updateHeights(node)}
-                        </div>
 
-                        <div className="absolute right-14 text-xs font-mono text-gray-200">
-                            BF:{balanceFactor(node)}
-                        </div>
                     </div>
                 </div>
 
@@ -121,4 +116,4 @@ const Avl: React.FC<TreeProps> = ({ root, highlightedNodes, chosenColor }) => {
     )
 }
 
-export default Avl
+export default Heap

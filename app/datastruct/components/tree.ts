@@ -63,6 +63,19 @@ const buildBST = (
     return node
 }
 
+const buildHeap = (values: number[], i = 0, idCounter = { current: 0 }): TreeNode | null => {
+
+  if (i >= values.length) return null
+ const node = new TreeNode(idCounter.current++, values[i])
+
+        node.left = buildHeap(values, 2 * i + 1, idCounter)
+        node.right = buildHeap(values, 2 * i + 2, idCounter)    
+    
+  
+    return node
+
+}
+
 const buildAVLTree = (
     values: number[],
     start: number,
@@ -384,5 +397,5 @@ class RedBlackTree {
 
 
 
-export { RedBlackTree, TreeNode, rotateLeft, rotateRight, fixViolations, rnbInsert, buildBST, insertBST, isAvlBalanced, updateHeights, balanceFactor, buildAVLTree, traverseInOrder, traversePreOrder, traversePostOrder };
+export { RedBlackTree, buildHeap, TreeNode, rotateLeft, rotateRight, fixViolations, rnbInsert, buildBST, insertBST, isAvlBalanced, updateHeights, balanceFactor, buildAVLTree, traverseInOrder, traversePreOrder, traversePostOrder };
 
