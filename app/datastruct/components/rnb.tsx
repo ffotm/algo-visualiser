@@ -30,13 +30,12 @@ const Rnb: React.FC<TreeProps> = ({ root, highlightedNodes, chosenColor }) => {
         return (
             <div className="relative flex flex-col items-center">
                 <div
-                    className={`rounded-full w-12 h-12 flex items-center justify-center font-bold border-2 shadow-lg transition-all duration-300 ${
-                        isHighlighted
-                            ? `${chosenColor} scale-110 border-white`
-                            : node.type === 'black'
+                    className={`rounded-full w-12 h-12 flex items-center justify-center font-bold border-2 shadow-lg transition-all duration-300 ${isHighlighted
+                        ? `${chosenColor} scale-110 border-white`
+                        : node.type === 'black'
                             ? 'bg-gray-900 border-gray-700 text-white'
                             : 'bg-red-600 border-red-400 text-white'
-                    }`}
+                        }`}
                 >
                     {node.value}
                 </div>
@@ -55,7 +54,7 @@ const Rnb: React.FC<TreeProps> = ({ root, highlightedNodes, chosenColor }) => {
                                 y1="0"
                                 x2={leftX + 10}
                                 y2={svgHeight + 10}
-                                stroke="#4ade80"
+                                stroke="#920000"
                                 strokeWidth="2"
                             />
                         )}
@@ -65,7 +64,7 @@ const Rnb: React.FC<TreeProps> = ({ root, highlightedNodes, chosenColor }) => {
                                 y1="0"
                                 x2={rightX - 10}
                                 y2={svgHeight + 10}
-                                stroke="#4ade80"
+                                stroke="#920000"
                                 strokeWidth="2"
                             />
                         )}

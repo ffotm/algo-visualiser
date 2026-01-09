@@ -19,6 +19,7 @@
     animation: moveNode 1s forwards;
     position: relative;
     z-index: 10;
+    color: #920000;
 }
 
 @keyframes moveRightDown {
