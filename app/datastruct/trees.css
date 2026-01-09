@@ -16,7 +16,7 @@
 }
 
 .animate-move {
-    animation: moveNode 0.8s cubic-bezier(0.4, 0.0, 0.2, 1) forwards;
+    animation: moveNode 1s forwards;
     position: relative;
     z-index: 10;
 }
@@ -24,6 +24,9 @@
 @keyframes moveRightDown {
     0% {
         transform: translate(0, 0);
+    }
+    50% {
+        transform: translate(50px, 30px);
     }
     100% {
         transform: translate(100px, 60px);
@@ -33,6 +36,9 @@
 @keyframes moveLeftUp {
     0% {
         transform: translate(0, 0);
+    }
+    50% {
+        transform: translate(-50px, -30px);
     }
     100% {
         transform: translate(-100px, -60px);

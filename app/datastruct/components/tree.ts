@@ -100,55 +100,18 @@ function isAvlBalanced(node: TreeNode | null): boolean {
 
 }
 
-// In tree.ts, modify rotateRight and rotateLeft to preserve IDs:
-function rotateRight(y: TreeNode): TreeNode {
-    const x = y.left!;
-    const T2 = x.right;
-
-    // Swap IDs to maintain identity
-    const tempId = y.id;
-    y.id = x.id;
-    x.id = tempId;
-
-    // Swap values if you want the values to move with the nodes
-    const tempValue = y.value;
-    y.value = x.value;
-    x.value = tempValue;
-
-    // Now rotate the structure
-    x.right = y;
-    y.left = T2;
-
-    // Update heights
-    y.height = Math.max(y.left ? y.left.height ?? 0 : 0, y.right ? y.right.height ?? 0 : 0) + 1;
-    x.height = Math.max(x.left ? x.left.height ?? 0 : 0, x.right ? x.right.height ?? 0 : 0) + 1;
-
-    return x;
+function rotateLeft(node: TreeNode): TreeNode {
+    const newRoot = node.right!
+    node.right = newRoot.left
+    newRoot.left = node
+    return newRoot
 }
 
-function rotateLeft(x: TreeNode): TreeNode {
-    const y = x.right!;
-    const T2 = y.left;
-
-    // Swap IDs to maintain identity
-    const tempId = x.id;
-    x.id = y.id;
-    y.id = tempId;
-
-    // Swap values
-    const tempValue = x.value;
-    x.value = y.value;
-    y.value = tempValue;
-
-    // Now rotate
-    y.left = x;
-    x.right = T2;
-
-    // Update heights
-    x.height = Math.max(x.left ? x.left.height ?? 0 : 0, x.right ? x.right.height ?? 0 : 0) + 1;
-    y.height = Math.max(y.left ? y.left.height ?? 0 : 0, y.right ? y.right.height ?? 0 : 0) + 1;
-
-    return y;
+function rotateRight(node: TreeNode): TreeNode {
+    const newRoot = node.left!
+    node.left = newRoot.right
+    newRoot.right = node
+    return newRoot
 }
 function updateTreeStructure(root: TreeNode | null, unbalancedNode: TreeNode, newRoot: TreeNode): TreeNode | null {
     if (!root) return null;
@@ -169,14 +132,23 @@ function updateTreeStructure(root: TreeNode | null, unbalancedNode: TreeNode, ne
 
     return root;
 }
+let NODE_ID = 0
+
 function insertBST(node: TreeNode | null, value: number): TreeNode {
-    if (!node) return new TreeNode(Date.now(), value)
+    if (!node) return new TreeNode(++NODE_ID, value)
 
     if (value < node.value) node.left = insertBST(node.left, value)
     else node.right = insertBST(node.right, value)
 
     return node
 }
+
+// tree.ts
+export const getHeight = (node: TreeNode | null): number => {
+    if (!node) return 0
+    return 1 + Math.max(getHeight(node.left), getHeight(node.right))
+}
+
 
 
 
