@@ -1,5 +1,5 @@
 'use client'
-import React, { useRef } from 'react'
+import React, { useEffect, useRef } from 'react'
 import Tabss from './tabs'
 import { useState } from 'react'
 import '../algorithms/style.css'
@@ -9,6 +9,8 @@ import getMergeSortAnimations from './mergeSort'
 import animateSwap from './bubble'
 import getQuickSortAnimations from './quickSort'
 import Code from './code'
+import { useAlgoContext } from '../algoContext'
+
 
 const PRIMARY_COLOR = '#203b1e';     // unsorted
 const COMPARE_COLOR = '#fbbf24';     // comparing
@@ -18,7 +20,7 @@ const SORTED_COLOR = '#22c55e';     // final position
 const SWAP_COLOR = '#ef4444';     // swapping
 
 
-const sortspage = () => {
+const Sortspage = () => {
     const [algo, setAlgo] = useState('bubble-sort');
     const [array, setArray] = useState([])
     const [highlightedLine, setHighlightedLine] = useState<number | null>(null);
@@ -27,7 +29,18 @@ const sortspage = () => {
     const animationRef = useRef(null)
     const [l, setL] = useState(20);
     const whichcode = algo === 'bubble-sort' ? 'bubble' : algo === 'merge-sort' ? 'merge' : 'quick';
+    const [input, setInput] = useState("");
 
+
+    const { setAlgoContext } = useAlgoContext();
+
+    useEffect(() => {
+        setAlgoContext({
+            section: "sorts",
+            algo: algo,
+            table: input,
+        });
+    }, [algo, input]);
 
 
     const createArray = (l: number) => {
@@ -36,6 +49,7 @@ const sortspage = () => {
             arr.push(Math.floor(Math.random() * 100) + 10)
 
         }
+        setInput(arr.toString());
         return arr;
     }
 
@@ -237,6 +251,7 @@ const sortspage = () => {
         setIsRunning(false);
     };
 
+
     return (
         <div className="min-h-screen bg-var(--bg) text-white p-8 ">
             <div className="max-w-7xl  mt-20 ">
@@ -312,6 +327,7 @@ const sortspage = () => {
                             disabled={isRunning}
                             onChange={(e) => {
                                 const vals = e.target.value.split(',').map(Number).filter(num => !isNaN(num));
+                                setInput(e.target.value);
                                 setArray(vals);
                             }}
 
@@ -370,4 +386,4 @@ const sortspage = () => {
     )
 }
 
-export default sortspage
+export default Sortspage

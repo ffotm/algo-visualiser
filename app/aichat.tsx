@@ -5,6 +5,9 @@ import TextType from './ui/splitText';
 import "./globals.css";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import { usePathname } from "next/navigation";
+import { useAlgoContext } from './algoContext';
+
 
 class historyItem {
     id: number;
@@ -17,6 +20,8 @@ class historyItem {
     }
 }
 
+
+
 const Aichat = () => {
     const [showChat, setShowChat] = React.useState(false);
     const [history, setHistory] = useState<historyItem[]>([]);
@@ -24,10 +29,18 @@ const Aichat = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [output, setOutput] = useState("");
 
+
+
+
+    const { section, algo, table } = useAlgoContext();
+
+
     const addHistoryItem = (question: string, answer: string) => {
         const newItem = new historyItem(history.length + 1, question, answer);
         setHistory((prev) => [...prev.slice(0, 9), newItem]);
     }
+    const pathname = usePathname();
+
 
     const handleInput = async () => {
         if (!input.trim()) return;
@@ -42,8 +55,13 @@ const Aichat = () => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ messages: [{ role: "user", content: currentInput }] }),
+                body: JSON.stringify({
+                    messages: [{ role: "user", content: currentInput }],
+                    context: { section, algo, table },
+                })
             });
+
+
 
             const data = await response.json();
             console.log(data.content);
@@ -56,6 +74,9 @@ const Aichat = () => {
             setIsLoading(false);
         }
     }
+
+
+
 
     return (
         <div className="">
@@ -189,5 +210,6 @@ const Aichat = () => {
         </div>
     )
 }
+
 
 export default Aichat

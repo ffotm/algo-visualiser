@@ -13,14 +13,35 @@ const client = new OpenAI({
         "X-Title": "Algorithm Visualizer AI",
     },
 });
+let systemPrompt = `
+You are an expert computer science tutor for beginner computer science students.
+Explain algorithms clearly.
+keep the answers short.
+Start with "Sup twin!"
+Avoid unnecessary theory unless asked.
+Prefer step-by-step explanations.
+`;
+
 
 export async function POST(request: Request) {
     try {
-        const { messages } = await request.json();
+        const { messages, context } = await request.json();
+
+        if (context?.section === "sorts") {
+            systemPrompt += `
+You are on the Sorting Visualizer page.
+Use the ${context.algo} algorithm Explain it very briefly and Jump straight into the steps.
+Use THIS array ${JSON.stringify(context.table)} as an example to explain.
+Explain each step of the ${JSON.stringify(context.algo)} sort algorithm on this array.
+Explain with JavaScript code blocks only if asked.
+Keep the answers short.
+`;
+        }
 
         if (!Array.isArray(messages)) {
             return new Response("Invalid messages", { status: 400 });
         }
+
 
         const completion = await client.chat.completions.create({
             model: "openai/gpt-4o-mini",
@@ -28,20 +49,7 @@ export async function POST(request: Request) {
                 {
                     role: "system",
                     content:
-                        `You are an expert computer science tutor for beginner computer science students.
-                         Explain algorithms clearly. 
-                         keep the answers short.
-                         Start with the phrase "Sup twin!".
-                         Avoid unnecessary theory unless asked.
-                         Prefer step-by-step explanations.`,
-                }, {
-                    role: "system",
-                    content:
-                        `explain using blocks of code.
-                         start straight away with an example of whatever the user is asking for.
-                         use young trendy language.
-                         keep the answers short and concise.
-                         when providing code examples, use JavaScript wherever possible.`,
+                        `${systemPrompt}`,
                 },
                 ...messages,
             ],

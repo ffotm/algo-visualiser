@@ -4,6 +4,7 @@ import NavBar from "./navBar";
 import Home from "./page";
 import Preview from "./preview";
 import Aichat from "./aichat";
+import { AlgoProvider } from "./algoContext";
 
 
 
@@ -19,9 +20,13 @@ export default function RootLayout({
         font-family: "Electrolize", sans-serif;
       </style>
       <body >
-        <NavBar />
-        {children}
-        <Aichat />
+        <AlgoProvider>
+          <NavBar />
+
+
+          {children}
+          <Aichat />
+        </AlgoProvider>
       </body>
     </html>
   );
