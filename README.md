@@ -47,7 +47,7 @@ Each element (array or graph node) is represented visually, with **color-coded h
 ---
 
 ## Project Structure
-
+```
 app/
 ├── page.tsx # Main page
 ├── layout.tsx # Layout and global components
@@ -77,7 +77,7 @@ app/
 │ └── dfs.js
 ├── patterns/
 │ └── svgs # Decorative SVG patterns
-
+```
 
 ---
 
