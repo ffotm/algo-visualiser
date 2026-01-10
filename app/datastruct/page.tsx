@@ -33,7 +33,7 @@ const datapage = () => {
     const treeRef = useRef<RedBlackTree | null>(null)
     const [inputValue, setInputValue] = useState('');
     const [heaptype, setHeaptype] = useState('max-heap');
-    const [showIndex, setShowIndex] = useState(false);
+    const [showIndex, setShowIndex] = useState(true);
     const [indices, setIndices] = useState([]);
     const [heapArray, setHeapArray] = useState([]);
 
