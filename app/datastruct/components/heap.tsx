@@ -1,11 +1,15 @@
 'use client'
 import React from 'react'
-import { TreeNode, updateHeights, balanceFactor, isAvlBalanced, getHeight } from './tree'
+import { TreeNode, updateHeights, balanceFactor, isHeapValid, getHeight } from './tree'
 
 type TreeProps = {
     root: TreeNode | null
     highlightedNodes: number[]
     chosenColor: string
+    showIndex: boolean
+    heaptype: string
+    indices: number[]
+
 }
 
 const getTreeDepth = (node: TreeNode | null): number => {
@@ -13,7 +17,7 @@ const getTreeDepth = (node: TreeNode | null): number => {
     return 1 + Math.max(getTreeDepth(node.left), getTreeDepth(node.right))
 }
 
-const Heap: React.FC<TreeProps> = ({ root, highlightedNodes, chosenColor }) => {
+const Heap: React.FC<TreeProps> = ({ root, highlightedNodes, chosenColor, showIndex, heaptype, indices }) => {
     if (!root) return null
 
     const treeDepth = getTreeDepth(root)
@@ -31,7 +35,20 @@ const Heap: React.FC<TreeProps> = ({ root, highlightedNodes, chosenColor }) => {
         const leftX = centerX - horizontalSpacing
         const rightX = centerX + horizontalSpacing
 
+        /*  const getNodeIndex = (node) => {
+              for (let i = 0; i < indices.length; i++) {
+                  if (indices[i] === node.value) {
+                      return i;
+                  }
+  
+              }
+          }*/ //based on the users input
+
+        const getNodeIndex = (node: TreeNode) => node.id;
+
+
         return (
+
             <div className="relative flex flex-col items-center">
 
 
@@ -43,12 +60,16 @@ const Heap: React.FC<TreeProps> = ({ root, highlightedNodes, chosenColor }) => {
                         className={`tree-node rounded-full w-12 h-12 flex items-center justify-center font-bold border-2 shadow-lg transition-colors duration-300
                             ${isHighlighted
                                 ? `${chosenColor} border-white scale-110`
-                                : isAvlBalanced(root)
+                                : isHeapValid(root, heaptype)
                                     ? 'bg-green-600 border-green-400'
                                     : 'bg-red-500 border-red-400'
                             } text-white`}
                     >
                         <p className="absolute">{node.value}</p>
+                        {showIndex &&
+                            <div className="index relative left-9">{getNodeIndex(node)}</div>
+
+                        }
 
 
                     </div>
@@ -69,7 +90,7 @@ const Heap: React.FC<TreeProps> = ({ root, highlightedNodes, chosenColor }) => {
                                 y1="0"
                                 x2={leftX + 10}
                                 y2={svgHeight + 10}
-                                stroke={isAvlBalanced(root) ? "#4ade80" : "#f87171"}
+                                stroke={isHeapValid(root, heaptype) ? "#4ade80" : "#f87171"}
                                 strokeWidth="2"
                             />
                         )}
@@ -81,7 +102,7 @@ const Heap: React.FC<TreeProps> = ({ root, highlightedNodes, chosenColor }) => {
                                 y1="0"
                                 x2={rightX - 10}
                                 y2={svgHeight + 10}
-                                stroke={isAvlBalanced(root) ? "#4ade80" : "#f87171"}
+                                stroke={isHeapValid(root, heaptype) ? "#4ade80" : "#f87171"}
                                 strokeWidth="2"
                             />
                         )}
@@ -110,7 +131,9 @@ const Heap: React.FC<TreeProps> = ({ root, highlightedNodes, chosenColor }) => {
     }
 
     return (
+
         <div className="overflow-auto max-w-full">
+
             <TreeNodeDisplay node={root} depth={0} />
         </div>
     )

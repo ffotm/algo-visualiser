@@ -13,6 +13,7 @@ const getTreeDepth = (node: TreeNode | null): number => {
     return 1 + Math.max(getTreeDepth(node.left), getTreeDepth(node.right))
 }
 
+
 const Avl: React.FC<TreeProps> = ({ root, highlightedNodes, chosenColor }) => {
     if (!root) return null
 
@@ -56,6 +57,7 @@ const Avl: React.FC<TreeProps> = ({ root, highlightedNodes, chosenColor }) => {
                         <div className="absolute right-14 text-xs font-mono text-gray-200">
                             BF:{balanceFactor(node)}
                         </div>
+
                     </div>
                 </div>
 

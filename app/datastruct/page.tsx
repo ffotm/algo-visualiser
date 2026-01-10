@@ -3,12 +3,15 @@ import React, { use, useRef } from 'react'
 import Tabss from './components/tabs'
 import { useState, useEffect } from 'react'
 import Tree from './components/treevis'
-import { buildBST, fixViolations, rnbInsert, buildHeap, RedBlackTree, traverseInOrder, rotateLeft, rotateRight, insertBST, traversePostOrder, traversePreOrder, TreeNode, balanceFactor, updateHeights, buildAVLTree, isAvlBalanced } from './components/tree'
+import { buildBST, fixViolations, rnbInsert, buildHeap, RedBlackTree, traverseInOrder, rotateLeft, rotateRight, insertBST, traversePostOrder, traversePreOrder, TreeNode, balanceFactor, updateHeights, buildAVLTree, isAvlBalanced, isHeapValid, buildHeap2 } from './components/tree'
 import Avl from './components/avl'
 import { animateRotationWithQueue } from './components/animate'
 import Rnb from './components/rnb'
 import Heap from './components/heap'
 import { head } from 'framer-motion/client'
+import build from 'next/dist/build'
+import { Checkbox } from 'radix-ui'
+import HeapArray from './components/heaparray'
 
 
 
@@ -30,6 +33,9 @@ const datapage = () => {
     const treeRef = useRef<RedBlackTree | null>(null)
     const [inputValue, setInputValue] = useState('');
     const [heaptype, setHeaptype] = useState('max-heap');
+    const [showIndex, setShowIndex] = useState(false);
+    const [indices, setIndices] = useState([]);
+    const [heapArray, setHeapArray] = useState([]);
 
     const initRBT = () => {
         treeRef.current = new RedBlackTree()
@@ -235,25 +241,38 @@ const datapage = () => {
             .filter(v => !isNaN(v));
 
         if (vals.length === 0) return;
+        const i = [];
+        const h = [];
+        let t = [];
 
         if (algo === 'red-black-tree') {
 
             treeRef.current = new RedBlackTree();
             vals.forEach(value => {
                 treeRef.current!.rnbInsert(value);
+
             });
             setRoot({ ...treeRef.current.root! });
         } else if (algo === 'heap' && heaptype === 'min-heap') {
-
+            i.push(...vals);
             vals.sort((a, b) => a - b);
+            h.push(...vals);
             const newRoot = buildHeap(vals);
+            t = buildHeap2(vals);
             setRoot(newRoot);
-        } else if (algo === 'heap' && heaptype === 'max-heap') {
 
+
+        } else if (algo === 'heap' && heaptype === 'max-heap') {
+            i.push(...vals);
             vals.sort((a, b) => b - a);
+            h.push(...vals);
             const newRoot = buildHeap(vals);
+            t = buildHeap2(vals);
             setRoot(newRoot);
+
+
         }
+
 
         else {
 
@@ -262,15 +281,20 @@ const datapage = () => {
                 newRoot = insertBST(newRoot, value);
             });
             setRoot(newRoot);
+            i.push(...vals);
         }
-
+        setIndices(i);
         resetTraversal();
+        setHeapArray(t);
+
 
     };
 
     useEffect(() => {
         if (algo === 'red-black-tree') {
             generateRandomrnb();
+
+
         }
     }, [algo]);
 
@@ -284,6 +308,11 @@ const datapage = () => {
             <div className="flex flex-col md:flex-row">
 
                 <div className="flex-1 items-center justify-center p-4">
+                    {!isHeapValid(root, heaptype) && algo === 'heap' &&
+                        <h1 className='font-bold text-red-700'>Heap Structure is not Valid</h1>}
+                    {!isAvlBalanced(root) && (algo === 'avl-tree') &&
+                        <h1 className='font-bold text-red-700'>AVL Tree is Unbalanced</h1>
+                    }
                     <div className="border border-white py-10 rounded-2xl bg-[var(--bg)] shadow-lg items-end justify-center"
 
                     >
@@ -298,8 +327,9 @@ const datapage = () => {
                             <Rnb root={root} highlightedNodes={getredNodes(root)} chosenColor={chosenColor} />
                         )}
                         {algo === 'heap' && (
-                            <Heap root={root} highlightedNodes={highlightedNodes} chosenColor={chosenColor} />
-                        )}
+                            <div className="">
+                                <Heap root={root} highlightedNodes={highlightedNodes} chosenColor={chosenColor} showIndex={showIndex} heaptype={heaptype} indices={indices} />
+                                <HeapArray heaptype={heaptype} heapArray={heapArray} highlight={[]} /></div>)}
 
 
 
@@ -373,7 +403,15 @@ const datapage = () => {
                                 >
                                     <option value="min-heap">Min-Heap</option>
                                     <option value="max-heap">Max-Heap</option>
+
                                 </select>
+                                <input
+                                    type="checkbox"
+                                    className="mt-6"    
+                                    checked={showIndex}
+hidden={algo !== 'heap'}
+                                    onChange={(e) => setShowIndex(e.target.checked)}
+                                />                                <label hidden={algo !== 'heap'}className="ml-2 text-gray-300 font-bold ">Show Indices</label>
                             </div>
                         )
 
@@ -401,7 +439,21 @@ const datapage = () => {
                             >
                                 Recolor
                             </button>
-                        </div>)}
+                        </div>)}{
+                        algo === 'heap' && !isHeapValid(root, heaptype) && (
+                            <div className="mb-6">
+                                <button
+                                    onClick={generateRandomtree}
+                                    className="w-full bg-gray-700 hover:bg-gray-600 px-4 py-3 rounded-lg font-bold transition-colors disabled:opacity-50"
+                                    disabled={isRunning}
+                                >
+                                    Heapify
+                                </button>
+
+                            </div>
+                        )
+                    }
+
                     <div className="mb-6">
                         <label className="block text-sm font-medium text-gray-300 mb-2">
                             Animation Speed: <span className="text-green-400">{speed}ms</span>
@@ -472,6 +524,7 @@ const datapage = () => {
                                     </button>
                                 </div>
                             </div>
+
 
                             <div className="p-4 bg-gray-700 rounded-lg">
                                 <h4 className="text-sm font-bold text-green-400 mb-2">Tree Info</h4>

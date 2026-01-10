@@ -63,18 +63,46 @@ const buildBST = (
     return node
 }
 
-const buildHeap = (values: number[], i = 0, idCounter = { current: 0 }): TreeNode | null => {
-
-  if (i >= values.length) return null
- const node = new TreeNode(idCounter.current++, values[i])
-
-        node.left = buildHeap(values, 2 * i + 1, idCounter)
-        node.right = buildHeap(values, 2 * i + 2, idCounter)    
-    
-  
-    return node
+const buildHeap = (values: number[], i = 0, idCounter = { current: 0 }, table: number[] = []): TreeNode | null => {
+    if (i >= values.length) return null
+    const node = new TreeNode(idCounter.current++, values[i])
+    table.push(values[i]);
+    node.left = buildHeap(values, 2 * i + 1, idCounter)
+    node.right = buildHeap(values, 2 * i + 2, idCounter)
+    return node;
 
 }
+const buildHeap2 = (values: number[], i = 0, idCounter = { current: 0 }, table: number[] = []) => {
+    if (i >= values.length) return null
+    const node = new TreeNode(idCounter.current++, values[i])
+    table.push(values[i]);
+    buildHeap2(values, 2 * i + 1, idCounter, table)
+    buildHeap2(values, 2 * i + 2, idCounter, table)
+    return table;
+
+}
+
+const isHeapValid = (node: TreeNode | null, heaptype: string): boolean => {
+    if (!node) return true;
+
+    if (heaptype === 'max-heap') {
+        if (node.left && node.left.value > node.value) return false;
+        if (node.right && node.right.value > node.value) return false;
+    }
+
+    if (heaptype === 'min-heap') {
+        if (node.left && node.left.value < node.value) return false;
+        if (node.right && node.right.value < node.value) return false;
+    }
+
+    return (
+        isHeapValid(node.left, heaptype) &&
+        isHeapValid(node.right, heaptype)
+    );
+};
+
+
+
 
 const buildAVLTree = (
     values: number[],
@@ -397,5 +425,5 @@ class RedBlackTree {
 
 
 
-export { RedBlackTree, buildHeap, TreeNode, rotateLeft, rotateRight, fixViolations, rnbInsert, buildBST, insertBST, isAvlBalanced, updateHeights, balanceFactor, buildAVLTree, traverseInOrder, traversePreOrder, traversePostOrder };
+export { RedBlackTree, isHeapValid, buildHeap, buildHeap2, TreeNode, rotateLeft, rotateRight, fixViolations, rnbInsert, buildBST, insertBST, isAvlBalanced, updateHeights, balanceFactor, buildAVLTree, traverseInOrder, traversePreOrder, traversePostOrder };
 
