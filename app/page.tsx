@@ -7,6 +7,7 @@ import Preview from "./preview";
 import Menu from "./menu";
 import Dihstra from "./preview2";
 import NavBar from "./navBar";
+import Aichat from "./aichat";
 
 
 
@@ -17,6 +18,8 @@ export default function Home() {
       <Menu />
       {/*><Preview />
       <Dihstra />*/}
+
+
 
 
     </div>

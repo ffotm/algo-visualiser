@@ -407,11 +407,11 @@ const datapage = () => {
                                 </select>
                                 <input
                                     type="checkbox"
-                                    className="mt-6"    
+                                    className="mt-6"
                                     checked={showIndex}
-hidden={algo !== 'heap'}
+                                    hidden={algo !== 'heap'}
                                     onChange={(e) => setShowIndex(e.target.checked)}
-                                />                                <label hidden={algo !== 'heap'}className="ml-2 text-gray-300 font-bold ">Show Indices</label>
+                                />                                <label hidden={algo !== 'heap'} className="ml-2 text-gray-300 font-bold ">Show Indices</label>
                             </div>
                         )
 
@@ -487,6 +487,7 @@ hidden={algo !== 'heap'}
 
                             }}
                         />
+
                             <button
                                 className='bg-green-600 px-4 py-2 rounded-r hover:bg-green-500'
                                 disabled={isRunning}

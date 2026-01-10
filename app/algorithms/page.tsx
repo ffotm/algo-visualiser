@@ -276,11 +276,10 @@ const Algopage = () => {
                         </div>
                     </div>
 
-                    {/* Parameters Panel */}
+
                     <div className={`w-80 bg-green-950 rounded-xl p-6 shadow-xl border border-var(--border) transition-all duration-300 ${showParameters ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
                         <h3 className="text-xl font-bold mb-6 text-green-800">Controls</h3>
 
-                        {/* Start Position */}
                         <div className="mb-6">
                             <label className="block text-sm font-medium text-gray-300 mb-3">Start Position</label>
                             <div className="flex gap-2 mb-2">
@@ -311,7 +310,7 @@ const Algopage = () => {
                             </button>
                         </div>
 
-                        {/* End Position */}
+
                         <div className="mb-6">
                             <label className="block text-sm font-medium text-gray-300 mb-3">End Position</label>
                             <div className="flex gap-2 mb-2">
@@ -342,7 +341,7 @@ const Algopage = () => {
                             </button>
                         </div>
 
-                        {/* Speed Control */}
+
                         <div className="mb-6">
                             <label className="block text-sm font-medium text-gray-300 mb-2">
                                 Animation Speed: <span className="text-green-400">{speed}ms</span>
@@ -357,7 +356,7 @@ const Algopage = () => {
                             />
                         </div>
 
-                        {/* Grid Lines Toggle */}
+
                         <div className="mb-6">
                             <label className="flex items-center gap-2 cursor-pointer">
                                 <input
@@ -370,7 +369,7 @@ const Algopage = () => {
                             </label>
                         </div>
 
-                        {/* Action Buttons */}
+
                         <div className="space-y-2 mb-6">
                             <button
                                 onClick={visualize}
@@ -393,7 +392,7 @@ const Algopage = () => {
                             </div>
                         </div>
 
-                        {/* Statistics */}
+
                         <div className="pt-6 border-t border-gray-700">
                             <h4 className="text-sm font-bold text-gray-300 mb-3">Statistics</h4>
                             <div className="space-y-2 text-sm text-gray-400">
@@ -414,7 +413,7 @@ const Algopage = () => {
                     </div>
                 </div>
 
-                {/* Toggle Button */}
+
                 <button
                     onClick={() => setShowParameters(!showParameters)}
                     className="fixed bottom-8 right-8 bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-full shadow-lg flex items-center gap-2 transition-all hover:scale-105"

@@ -115,3 +115,16 @@
     .worm-head {
         background-color: #093d1c;
     }
+    
+    .chat {
+        animation: slide-in 0.3s ease-in-out forwards;
+    }
+    
+    @keyframes slide-in {
+        0% {
+            transform: translateX(100%);
+        }
+        100% {
+            transform: translateX(0%);
+        }
+    }

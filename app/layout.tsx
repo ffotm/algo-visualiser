@@ -3,6 +3,7 @@ import "./globals.css";
 import NavBar from "./navBar";
 import Home from "./page";
 import Preview from "./preview";
+import Aichat from "./aichat";
 
 
 
@@ -20,6 +21,7 @@ export default function RootLayout({
       <body >
         <NavBar />
         {children}
+        <Aichat />
       </body>
     </html>
   );
