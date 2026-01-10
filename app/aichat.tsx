@@ -106,10 +106,25 @@ const Aichat = () => {
                 <div className="flex-1 overflow-y-auto p-6 space-y-4">
                     {output ? (
                         <div className=" border border-gray-800 rounded-lg p-4">
-                            <div className="prose prose-invert prose-green max-w-none">
-                                <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                            <div className="prose prose-invert prose-green overflow-x-auto">
+                                <ReactMarkdown
+                                    remarkPlugins={[remarkGfm]}
+                                    components={{
+                                        code({ node, inline, className, children, ...props }) {
+                                            return (
+                                                <code
+                                                    className={`text-pink-900 p-2 rounded block my-2  ${inline ? "inline" : ""}`}
+                                                    {...props}
+                                                >
+                                                    {children}
+                                                </code>
+                                            );
+                                        },
+                                    }}
+                                >
                                     {output}
                                 </ReactMarkdown>
+
                             </div>
                         </div>
                     ) : (
