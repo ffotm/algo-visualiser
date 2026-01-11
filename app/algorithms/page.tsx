@@ -6,6 +6,8 @@ import { Df } from './df/df'
 import Tabss from './tabs'
 import './style.css'
 import { GiBrickWall } from "react-icons/gi";
+import { useAlgoContext } from '../algoContext';
+import { useEffect } from 'react';
 
 
 
@@ -59,6 +61,7 @@ const Algopage = () => {
     const [speed, setSpeed] = useState(10);
     const [showGrid, setShowGrid] = useState(true);
     const [showParameters, setShowParameters] = useState(true);
+    const { setAlgoContext } = useAlgoContext();
 
     const path = getPath(grid[end.row][end.col]);
 
@@ -66,6 +69,15 @@ const Algopage = () => {
         setIsWall(true);
         toggleWall(row, col);
     }
+
+    useEffect(() => {
+        setAlgoContext({
+            section: "algorithms",
+            algo: algo,
+            table: grid,
+        });
+    }, [algo, grid]);
+
 
     const handleMouseUp = () => {
         setIsWall(false);

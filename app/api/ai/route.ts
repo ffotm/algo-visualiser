@@ -37,6 +37,16 @@ Explain with JavaScript code blocks only if asked.
 Keep the answers short.
 `;
         }
+        if (context?.section === "algorithms") {
+            systemPrompt += `
+You are on the pathfinding algorithm Visualizer page.
+Use the ${context.algo} algorithm Explain it very briefly and Jump straight into the steps.
+Explain each step of the ${JSON.stringify(context.algo)} pathfinding algorithm on this array.
+Use THIS grid ${JSON.stringify(context.table)} as an example to explain, each element has properties like row, col, isWall, isPath, isVisited, isStart, isEnd, distance.
+Explain with JavaScript code blocks.
+Keep the answers short.
+`;
+        }
 
         if (!Array.isArray(messages)) {
             return new Response("Invalid messages", { status: 400 });

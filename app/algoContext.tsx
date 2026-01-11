@@ -8,7 +8,7 @@ type AlgoContextType = {
     setAlgoContext: (data: {
         section: string;
         algo?: string;
-        table?: number[];
+        table?: number[] | any;
     }) => void;
 };
 
