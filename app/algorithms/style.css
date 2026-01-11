@@ -23,22 +23,23 @@
 .wall {
     background-image: url('wall.png');
     background-size: cover;
+    background-color: rgb(9, 59, 16);
 }
 
 .path {
-    background-color: rgb(14, 233, 44) !important;
+    background-color: #b6000f !important;
 }
 
 .visited {
-    background-color: rgb(66, 160, 89);
+    background-color: rgb(0, 162, 255);
 }
 
 .start {
-    background-color: #1eee07;
+    background-color: #010220;
 }
 
 .end {
-    background-color: rgb(117, 14, 14);
+    background-color: rgb(168, 0, 31);
 }
 
 .parameters {

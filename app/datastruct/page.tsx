@@ -12,6 +12,7 @@ import { head } from 'framer-motion/client'
 import build from 'next/dist/build'
 import { Checkbox } from 'radix-ui'
 import HeapArray from './components/heaparray'
+import { useAlgoContext } from '../algoContext'
 
 
 
@@ -59,6 +60,16 @@ const datapage = () => {
 
     }
 
+
+    const { setAlgoContext } = useAlgoContext();
+
+    useEffect(() => {
+        setAlgoContext({
+            section: "datastructs",
+            algo: algo,
+            table: indices,
+        });
+    }, [algo, indices]);
 
     const inorderColor = 'bg-yellow-500';
     const preorderColor = 'bg-purple-600';
@@ -246,7 +257,7 @@ const datapage = () => {
         let t = [];
 
         if (algo === 'red-black-tree') {
-
+            i.push(...vals);
             treeRef.current = new RedBlackTree();
             vals.forEach(value => {
                 treeRef.current!.rnbInsert(value);
@@ -278,10 +289,12 @@ const datapage = () => {
 
             let newRoot: TreeNode | null = null;
             vals.forEach(value => {
+
                 newRoot = insertBST(newRoot, value);
-            });
+
+            }); i.push(...vals);
             setRoot(newRoot);
-            i.push(...vals);
+
         }
         setIndices(i);
         resetTraversal();
@@ -355,7 +368,7 @@ const datapage = () => {
                         </div>
                     )}
                 </div>
-                <div className={`w-80 bg-green-950 rounded-xl p-6 shadow-xl border border-var(--border) transition-all duration-300 ${showParameters ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
+                <div className={`w-80 bg-gradient-to-br from-green-950/20 to-black rounded-xl p-6 shadow-xl border border-green-900/30 transition-all duration-300 ${showParameters ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
                     <h3 className="text-xl font-bold mb-6 text-green-800">Controls</h3>
 
                     <div className="mb-6">
@@ -378,7 +391,7 @@ const datapage = () => {
                         {algo === 'red-black-tree' ? (
                             <button
                                 onClick={generateRandomrnb}
-                                className="w-full bg-gray-700 hover:bg-gray-600 px-4 py-3 rounded-lg font-bold transition-colors disabled:opacity-50"
+                                className="w-full bg-gradient-to-r from-green-700 to-emerald-800 hover:from-green-600 hover:to-emerald-700 px-4 py-2 rounded-lg text-sm font-medium transition-all"
                                 disabled={isRunning}
                             >
                                 Generate New Tree
@@ -388,7 +401,7 @@ const datapage = () => {
                             <div className="">
                                 <button
                                     onClick={generateRandomtree}
-                                    className="w-full bg-gray-700 hover:bg-gray-600 px-4 py-3 rounded-lg font-bold transition-colors disabled:opacity-50"
+                                    className="w-full bg-gradient-to-r from-green-700 to-emerald-800 hover:from-green-600 hover:to-emerald-700 px-4 py-2 rounded-lg text-sm font-medium transition-all"
                                     disabled={isRunning}
                                 >
                                     Generate New Tree
@@ -433,8 +446,8 @@ const datapage = () => {
                     {algo === 'red-black-tree' && (
                         <div className="mb-6">
                             <button
-                                onClick={() => setRoot({ ...treeRef.current!.root! })}
-                                className="w-full bg-gray-700 hover:bg-gray-600 px-4 py-3 rounded-lg font-bold transition-colors disabled:opacity-50"
+                                onClick={generateRandomrnb}
+                                className="w-full bg-gradient-to-r from-green-700 to-emerald-800 hover:from-green-600 hover:to-emerald-700 px-4 py-2 rounded-lg text-sm font-medium transition-all"
                                 disabled={isRunning}
                             >
                                 Recolor
@@ -444,7 +457,7 @@ const datapage = () => {
                             <div className="mb-6">
                                 <button
                                     onClick={generateRandomtree}
-                                    className="w-full bg-gray-700 hover:bg-gray-600 px-4 py-3 rounded-lg font-bold transition-colors disabled:opacity-50"
+                                    className="w-full bg-gradient-to-r from-green-700 to-emerald-800 hover:from-green-600 hover:to-emerald-700 px-4 py-2 rounded-lg text-sm font-medium transition-all"
                                     disabled={isRunning}
                                 >
                                     Heapify
@@ -475,7 +488,7 @@ const datapage = () => {
                         </label>
                         <div className="">     <input
                             type="text"
-                            className='bg-green-800 p-2 w-48 rounded-l flex-grow'
+                            className='bg-gradient-to-r from-green-700 to-emerald-800 p-2 w-48 rounded-l flex-grow'
                             placeholder='separate values with ,'
                             disabled={isRunning}
                             value={inputValue}
@@ -489,7 +502,7 @@ const datapage = () => {
                         />
 
                             <button
-                                className='bg-green-600 px-4 py-2 rounded-r hover:bg-green-500'
+                                className="bg-gradient-to-r from-green-700 to-emerald-800 hover:from-green-600 hover:to-emerald-700 px-4 h-10 rounded-r text-sm font-medium transition-all"
                                 disabled={isRunning}
                                 onClick={handleManualInsert}
                             >
@@ -504,21 +517,23 @@ const datapage = () => {
                                 <div className="space-y-2">
                                     <button
                                         onClick={handleInOrder}
-                                        className="w-full bg-amber-400 hover:bg-amber-500 px-2 py-2 rounded-lg font-bold transition-colors disabled:opacity-50"
+
+                                        className="w-full bg-gradient-to-r from-amber-500 to-amber-700 hover:from-amber-600 hover:to-amber-700 px-4 py-2 rounded-lg text-sm font-medium transition-all"
                                         disabled={isRunning}
                                     >
                                         In-Order (Left → Root → Right)
                                     </button>
                                     <button
                                         onClick={handlePreOrder}
-                                        className="w-full bg-purple-600 hover:bg-purple-700 px-2 py-2 rounded-lg font-bold transition-colors disabled:opacity-50"
+
+                                        className="w-full bg-gradient-to-r from-purple-600 to-purple-900 hover:from-purple-600 hover:to-purple-700 px-4 py-2 rounded-lg text-sm font-medium transition-all"
                                         disabled={isRunning}
                                     >
                                         Pre-Order (Root → Left → Right)
                                     </button>
                                     <button
                                         onClick={handlePostOrder}
-                                        className="w-full bg-pink-600 hover:bg-pink-700 px-2 py-2 rounded-lg font-bold transition-colors disabled:opacity-50"
+                                        className="w-full bg-gradient-to-r from-pink-600 to-pink-800 hover:from-pink-600 hover:to-pink-700 px-4 py-2 rounded-lg text-sm font-medium transition-all"
                                         disabled={isRunning}
                                     >
                                         Post-Order (Left → Right → Root)
@@ -527,12 +542,14 @@ const datapage = () => {
                             </div>
 
 
-                            <div className="p-4 bg-gray-700 rounded-lg">
-                                <h4 className="text-sm font-bold text-green-400 mb-2">Tree Info</h4>
-                                <p className="text-xs text-gray-300">Root: {root.value}</p>
-                                <p className="text-xs text-gray-300 mt-1">
-                                    Balanced BST structure
-                                </p>
+                            <div className="pt-6 border-t border-green-900/30">
+                                <h4 className="text-sm font-bold text-green-500 mb-3">Tree Info</h4>
+                                <div className="bg-black/40 rounded-lg p-3 border border-green-900/20">
+                                    <p className="text-xs text-gray-300">Root: {root.value}</p></div>
+                                <div className="bg-black/40 rounded-lg p-3 border border-green-900/20">
+                                    <p className="text-xs text-gray-300 mt-1">
+                                        Balanced BST structure
+                                    </p></div>
                             </div>
                         </>
                     )}

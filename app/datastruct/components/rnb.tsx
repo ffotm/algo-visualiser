@@ -33,8 +33,8 @@ const Rnb: React.FC<TreeProps> = ({ root, highlightedNodes, chosenColor }) => {
                     className={`rounded-full w-12 h-12 flex items-center justify-center font-bold border-2 shadow-lg transition-all duration-300 ${isHighlighted
                         ? `${chosenColor} scale-110 border-white`
                         : node.type === 'black'
-                            ? 'bg-gray-900 border-gray-700 text-white'
-                            : 'bg-red-600 border-red-400 text-white'
+                            ? ' bg-gradient-to-r from-gray-900 to-gray-700 border-gray-700 text-white'
+                            : ' bg-gradient-to-r from-red-600 to-red-800 border-red-400 text-white'
                         }`}
                 >
                     {node.value}

@@ -43,7 +43,7 @@ const Tree: React.FC<TreeProps> = ({ root, highlightedNodes, chosenColor }) => {
                     className={`rounded-full w-12 h-12 flex  items-center justify-center font-bold border-2 shadow-lg transition-all duration-500
             ${isHighlighted
                             ? `${chosenColor} border-white scale-110`
-                            : 'bg-green-600 border-green-400'
+                            : 'bg-gradient-to-r from-green-700 to-emerald-800 border-green-500'
                         } text-white`}
                 >
                     {node.value}

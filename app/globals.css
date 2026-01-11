@@ -24,9 +24,10 @@
     }
     
     .navbar {
-        background-color: var(--bg);
+        background-color: black;
         color: var(--text);
         border-color: var(--border);
+        z-index: 100;
     }
     
     body {

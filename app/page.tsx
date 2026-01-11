@@ -16,8 +16,9 @@ export default function Home() {
     <div>
       <NavBar />
       <Menu />
-      {/*><Preview />
-      <Dihstra />*/}
+      <Dihstra />
+      <Preview />
+
 
 
 

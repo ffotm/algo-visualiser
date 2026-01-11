@@ -44,7 +44,7 @@ const Avl: React.FC<TreeProps> = ({ root, highlightedNodes, chosenColor }) => {
                             ${isHighlighted
                                 ? `${chosenColor} border-white scale-110`
                                 : isAvlBalanced(root)
-                                    ? 'bg-green-600 border-green-400'
+                                    ? 'bg-gradient-to-r from-green-700 to-emerald-800 border-green-500'
                                     : 'bg-red-500 border-red-400'
                             } text-white`}
                     >

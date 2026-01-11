@@ -261,7 +261,7 @@ const Sortspage = () => {
                 <div className="border flex-1 border-white flex flex-row p-6 rounded-2xl bg-[var(--bg)] shadow-lg m-2 items-end justify-center">
                     {array.map((value, idx) => (
                         <div
-                            className="array-bar m-1 rounded-l bg-green-900 flex items-end justify-center transition-all duration-300"
+                            className="array-bar m-1 rounded-l bg-gradient-to-r from-green-700 to-emerald-800 shadow-2xl  flex items-end justify-center transition-all duration-300"
                             key={idx}
                             style={{
                                 height: `${value}px`,
@@ -273,7 +273,7 @@ const Sortspage = () => {
                         </div>
                     ))}
                 </div>
-                <div className={`w-80 bg-green-950 rounded-xl p-6 shadow-xl border border-var(--border) transition-all duration-300 ${showParameters ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
+                <div className={`w-80 bg-gradient-to-br from-green-950/20 to-black rounded-xl p-6 shadow-xl border border-green-900/30 transition-all duration-300 ${showParameters ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
                     <h3 className="text-xl font-bold mb-6 text-green-800">Controls</h3>
 
                     <div className="mb-6">
@@ -294,7 +294,7 @@ const Sortspage = () => {
                     <div className="mb-6">
                         <button
                             onClick={() => setArray(createArray(l))}
-                            className="w-full bg-gray-700 hover:bg-gray-600 px-4 py-3 rounded-lg font-bold transition-colors disabled:opacity-50"
+                            className="w-full bg-gradient-to-r from-green-700 to-emerald-800 hover:from-green-600 hover:to-emerald-700 px-4 py-2 rounded-lg text-sm font-medium transition-all"
                             disabled={isRunning}
                         >
                             Generate New Array
@@ -322,7 +322,7 @@ const Sortspage = () => {
                         </label>
                         <input
                             type="text"
-                            className='ml-2 bg-green-800 p-1 w-48 rounded-l'
+                            className='bg-gradient-to-r from-green-700 to-emerald-800 p-2 w-48 rounded-l flex-grow'
                             placeholder='separate values with ,'
                             disabled={isRunning}
                             onChange={(e) => {
@@ -333,7 +333,7 @@ const Sortspage = () => {
 
                         />
                         <button
-                            className='bg-green-600 px-2 py-1 rounded-r hover:bg-green-500'
+                            className="bg-gradient-to-r from-green-700 to-emerald-800 hover:from-green-600 hover:to-emerald-700 px-4 h-10 rounded-r text-sm font-medium transition-all"
                             disabled={isRunning}>
                             Set
 
@@ -343,7 +343,7 @@ const Sortspage = () => {
                     <div className="space-y-2 mb-6">
                         <button
                             onClick={visualize}
-                            className="w-full bg-green-600 hover:bg-green-700 px-4 py-3 rounded-lg font-bold transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                            className="w-full bg-gradient-to-r from-green-700 to-emerald-800 hover:from-green-600 hover:to-emerald-700 px-4 py-2 rounded-lg text-sm font-medium transition-all"
                             disabled={isRunning}
                         >
                             {isRunning ? 'Visualizing...' : `Visualize ${algo.replace('-', ' ').toUpperCase()}`}

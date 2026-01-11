@@ -148,20 +148,7 @@ const Tabss = ({ algo, setAlgo, highlightedLine }: any) => {
 
                     </div>
 
-                    <button
-                        onClick={() => setShowCode(!showCode)}
-                        className="ml-4 bg-green-700 hover:bg-green-600 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-colors whitespace-nowrap"
-                    >
-                        {showCode ? 'Hide Code' : 'Show Code'}
-                        <svg
-                            className={`w-4 h-4 transition-transform ${showCode ? 'rotate-180' : ''}`}
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                        >
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                        </svg>
-                    </button>
+
                 </div>
 
 
