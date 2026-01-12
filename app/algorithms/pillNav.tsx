@@ -259,7 +259,7 @@ const PillNav: React.FC<PillNavProps> = ({
                             const isActive = activeHref === item.href;
 
                             const pillStyle: React.CSSProperties = {
-                                background: 'var(--pill, #000)',
+                                background: 'var(--bg)',
                                 color: 'var(--text)',
                                 padding: 'var(--pill-pad-x)',
 

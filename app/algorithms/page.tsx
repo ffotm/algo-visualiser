@@ -259,7 +259,7 @@ const Algopage = () => {
                 backgroundSize: '50px 50px'
             }}></div>
 
-            <div className="max-w-7xl mx-auto mt-20 relative z-10">
+            <div className="max-w-7xl mx-auto mt-20 relative ">
                 <Tabss algo={algo} setAlgo={setAlgo} />
 
                 <div className="flex gap-8 items-start mt-8">

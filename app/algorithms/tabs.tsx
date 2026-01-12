@@ -88,7 +88,7 @@ const Tabss = ({ algo, setAlgo }: any) => {
         <div className="w-full text-mono mb-6">
             <PillNav items={navItems} activeHref={`#${algo}`} onItemClick={handleItemClick} className='ml-120' />
 
-            <div className="bg-gradient-to-r from-green-950 to-emerald-900 rounded-xl p-6 shadow-lg border border-var(--border) ">
+            <div className="bg-gradient-to-r from-green-900 to-emerald-800 rounded-xl p-6 shadow-lg border border-var(--border) ">
                 <div className="flex justify-between items-start mb-4">
                     <div className="flex-1">
                         <h2 className="text-2xl font-bold text-white mb-2">{currentAlgo.name}</h2>
