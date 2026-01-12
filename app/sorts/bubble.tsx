@@ -1,5 +1,5 @@
 
-const PRIMARY_COLOR = '#2a4b27';
+const PRIMARY_COLOR = 'linear-gradient(to right, #047857, #065f46)'; // unsorted
 const animateSwap = async (
     i: number,
     j: number,
@@ -14,8 +14,8 @@ const animateSwap = async (
     const margin = 4;
     const totalWidth = barWidth + margin;
 
-    bar1.style.backgroundColor = '#ef4444';
-    bar2.style.backgroundColor = '#ef4444';
+    bar1.style.backgroundImage = 'linear-gradient(to right, #ef4444, #dc2626)';
+    bar2.style.backgroundImage = 'linear-gradient(to right, #ef4444, #dc2626)';
 
     bar1.style.transition = `transform ${speed}ms ease`;
     bar2.style.transition = `transform ${speed}ms ease`;
@@ -44,8 +44,8 @@ const animateSwap = async (
         setTimeout(() => {
 
 
-            bar1.style.backgroundColor = PRIMARY_COLOR;
-            bar2.style.backgroundColor = PRIMARY_COLOR;
+            bar1.style.backgroundImage = PRIMARY_COLOR;
+            bar2.style.backgroundImage = PRIMARY_COLOR;
             resolve();
         }, speed * 0.4);
 

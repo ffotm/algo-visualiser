@@ -12,12 +12,13 @@ import Code from './code'
 import { useAlgoContext } from '../algoContext'
 
 
-const PRIMARY_COLOR = '#203b1e';     // unsorted
-const COMPARE_COLOR = '#fbbf24';     // comparing
-const PIVOT_COLOR = '#a855f7';     // pivot (quick sort)
-const ACTIVE_COLOR = '#3b82f6';     // current subarray
-const SORTED_COLOR = '#22c55e';     // final position
-const SWAP_COLOR = '#ef4444';     // swapping
+const PRIMARY_COLOR = 'linear-gradient(to right, #16a34a, #047857)'; // unsorted
+const COMPARE_COLOR = 'linear-gradient(to right, #fbbf24, #f59e0b)';
+const PIVOT_COLOR = 'linear-gradient(to right, #a855f7, #7c3aed)';
+const ACTIVE_COLOR = 'linear-gradient(to right, #3b82f6, #2563eb)';
+const SORTED_COLOR = 'linear-gradient(to right, #22c55e, #16a34a)';
+const SWAP_COLOR = 'linear-gradient(to right, #ef4444, #dc2626)';
+
 
 
 const Sortspage = () => {
@@ -72,7 +73,7 @@ const Sortspage = () => {
         const bars = document.getElementsByClassName('array-bar');
 
         for (let i = 0; i < bars.length; i++) {
-            bars[i].style.backgroundColor = PRIMARY_COLOR;
+            bars[i].style.backgroundImage = PRIMARY_COLOR;
         }
 
         switch (algo) {
@@ -108,22 +109,22 @@ const Sortspage = () => {
                 if (type === 'pivot-start') {
                     setHighlightedLine(quickLineMap['pivotStart']);
                     const { pivot } = animation;
-                    bars[pivot].style.backgroundColor = PIVOT_COLOR;
+                    bars[pivot].style.backgroundImage = PIVOT_COLOR;
                 }
 
                 else if (type === 'pivot-end') {
                     setHighlightedLine(quickLineMap['pivotEnd']);
                     const { pivot } = animation;
-                    bars[pivot].style.backgroundColor = SORTED_COLOR;
+                    bars[pivot].style.backgroundImage = SORTED_COLOR;
                 }
 
                 else if (type === 'compare') {
                     setHighlightedLine(quickLineMap['compare']);
                     const { i } = animation;
-                    bars[i].style.backgroundColor = COMPARE_COLOR;
+                    bars[i].style.backgroundImage = COMPARE_COLOR;
 
                     setTimeout(() => {
-                        bars[i].style.backgroundColor = PRIMARY_COLOR;
+                        bars[i].style.backgroundImage = PRIMARY_COLOR;
                     }, speed);
                 }
 
@@ -164,11 +165,11 @@ const Sortspage = () => {
                     const highlighted = bubbleLineMap['compare'];
                     setHighlightedLine(highlighted);
 
-                    bars[i].style.backgroundColor = COMPARE_COLOR;
-                    bars[j].style.backgroundColor = COMPARE_COLOR;
+                    bars[i].style.backgroundImage = COMPARE_COLOR;
+                    bars[j].style.backgroundImage = COMPARE_COLOR;
                     setTimeout(() => {
-                        bars[i].style.backgroundColor = PRIMARY_COLOR;
-                        bars[j].style.backgroundColor = PRIMARY_COLOR;
+                        bars[i].style.backgroundImage = PRIMARY_COLOR;
+                        bars[j].style.backgroundImage = PRIMARY_COLOR;
                         resolve();
                     }, speed);
 
@@ -208,21 +209,21 @@ const Sortspage = () => {
                 setHighlightedLine(mergeLineMap['range']);
                 const { start, end } = animation;
                 for (let i = start; i <= end; i++) {
-                    bars[i].style.backgroundColor = ACTIVE_COLOR;
+                    bars[i].style.backgroundImage = ACTIVE_COLOR;
                 }
             }
 
             else if (type === 'compare') {
                 setHighlightedLine(mergeLineMap['compare']);
                 const [i, j] = animation.indices;
-                bars[i].style.backgroundColor = COMPARE_COLOR;
-                bars[j].style.backgroundColor = COMPARE_COLOR;
+                bars[i].style.backgroundImage = COMPARE_COLOR;
+                bars[j].style.backgroundImage = COMPARE_COLOR;
 
                 await new Promise(resolve =>
                     setTimeout(() => {
 
-                        bars[i].style.backgroundColor = ACTIVE_COLOR;
-                        bars[j].style.backgroundColor = ACTIVE_COLOR;
+                        bars[i].style.backgroundImage = ACTIVE_COLOR;
+                        bars[j].style.backgroundImage = ACTIVE_COLOR;
                         resolve();
                     }, speed)
                 );
@@ -231,7 +232,7 @@ const Sortspage = () => {
             else if (type === 'overwrite') {
                 const { index, value } = animation;
                 setHighlightedLine(mergeLineMap['overwrite']);
-                bars[index].style.backgroundColor = SWAP_COLOR;
+                bars[index].style.backgroundImage = SWAP_COLOR;
 
                 await new Promise(resolve =>
                     setTimeout(() => {
@@ -240,7 +241,7 @@ const Sortspage = () => {
                             newArr[index] = value;
                             return newArr;
                         });
-                        bars[index].style.backgroundColor = ACTIVE_COLOR;
+                        bars[index].style.backgroundImage = ACTIVE_COLOR;
                         setHighlightedLine(null);
                         resolve();
                     }, speed)
@@ -261,7 +262,7 @@ const Sortspage = () => {
                 <div className="border flex-1 border-white flex flex-row p-6 rounded-2xl bg-[var(--bg)] shadow-lg m-2 items-end justify-center">
                     {array.map((value, idx) => (
                         <div
-                            className="array-bar m-1 rounded-l bg-gradient-to-r from-green-700 to-emerald-800 shadow-2xl  flex items-end justify-center transition-all duration-300"
+                            className="array-bar m-1 rounded-l bg-gradient-to-r from-green-600 to-emerald-700 shadow-2xl  flex items-end justify-center transition-all duration-300"
                             key={idx}
                             style={{
                                 height: `${value}px`,
@@ -355,27 +356,27 @@ const Sortspage = () => {
             <div className="relative w-80 bg-green-950 rounded-xl p-6 shadow-xl border border-var(--border) m-2 mt-10 bottom-70">
                 <h2 className='font-bold mb-4'>color guide</h2>
                 <div className="flex items-center mb-2">
-                    <div className={`w-4 h-4 bg-${PRIMARY_COLOR} rounded mr-2`} style={{ backgroundColor: `${PRIMARY_COLOR}` }}></div>
+                    <div className={`w-4 h-4 bg-${PRIMARY_COLOR} rounded mr-2`} style={{ backgroundImage: `${PRIMARY_COLOR}` }}></div>
                     <span className="text-sm">Primary Color</span>
                 </div>
                 <div className="flex items-center mb-2">
-                    <div className={`w-4 h-4 bg-${SWAP_COLOR} rounded mr-2`} style={{ backgroundColor: `${SWAP_COLOR}` }}></div>
+                    <div className={`w-4 h-4 bg-${SWAP_COLOR} rounded mr-2`} style={{ backgroundImage: `${SWAP_COLOR}` }}></div>
                     <span className="text-sm">Swap Color</span>
                 </div>
                 <div className="flex items-center mb-2">
-                    <div className={`w-4 h-4 bg-${COMPARE_COLOR} rounded mr-2`} style={{ backgroundColor: `${COMPARE_COLOR}` }}></div>
+                    <div className={`w-4 h-4 bg-${COMPARE_COLOR} rounded mr-2`} style={{ backgroundImage: `${COMPARE_COLOR}` }}></div>
                     <span className="text-sm">Compare Color</span>
                 </div>
                 <div className="flex items-center mb-2">
-                    <div className={`w-4 h-4 bg-${ACTIVE_COLOR} rounded mr-2`} style={{ backgroundColor: `${ACTIVE_COLOR}` }}></div>
+                    <div className={`w-4 h-4 bg-${ACTIVE_COLOR} rounded mr-2`} style={{ backgroundImage: `${ACTIVE_COLOR}` }}></div>
                     <span className="text-sm">Active Color</span>
                 </div>
                 <div className="flex items-center mb-2">
-                    <div className={`w-4 h-4 rounded mr-2`} style={{ backgroundColor: `${PIVOT_COLOR}` }}></div>
+                    <div className={`w-4 h-4 rounded mr-2`} style={{ backgroundImage: `${PIVOT_COLOR}` }}></div>
                     <span className="text-sm">Pivot Color</span>
                 </div>
                 <div className="flex items-center mb-2">
-                    <div className={`w-4 h-4 rounded mr-2`} style={{ backgroundColor: `${SORTED_COLOR}` }}></div>
+                    <div className={`w-4 h-4 rounded mr-2`} style={{ backgroundImage: `${SORTED_COLOR}` }}></div>
                     <span className="text-sm">Sorted Color</span>
                 </div>
             </div>
