@@ -478,7 +478,7 @@ const Algopage = () => {
                             </div>
                         </div>
 
-                        {/* Statistics */}
+
                         <div className="pt-6 border-t border-green-900/30">
                             <h4 className="text-sm font-bold text-green-500 mb-3">Statistics</h4>
                             <div className="space-y-2">
@@ -501,16 +501,7 @@ const Algopage = () => {
                     </div>
                 </div>
 
-                {/* Toggle Controls Button */}
-                <button
-                    onClick={() => setShowParameters(!showParameters)}
-                    className="fixed bottom-8 right-8 bg-gradient-to-r from-green-700 to-emerald-800 hover:from-green-600 hover:to-emerald-700 text-white px-6 py-3 rounded-full shadow-2xl shadow-green-900/50 flex items-center gap-2 transition-all hover:scale-105 z-50"
-                >
-                    <span className="font-medium">{showParameters ? 'Hide' : 'Show'} Controls</span>
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={showParameters ? "M10 19l-7-7m0 0l7-7m-7 7h18" : "M14 5l7 7m0 0l-7 7m7-7H3"} />
-                    </svg>
-                </button>
+
             </div>
 
             <style jsx>{`

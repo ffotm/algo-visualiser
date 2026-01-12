@@ -30,7 +30,7 @@ const datapage = () => {
     const [currentStep, setCurrentStep] = useState(0);
     const [algo, setAlgo] = useState('bst-tree');
     const [showParameters, setShowParameters] = useState(true);
-    const [chosenColor, setChosenColor] = useState('bg-yellow-500');
+    const [chosenColor, setChosenColor] = useState('bg-gradient-to-r from-yellow-400 to-yellow-800');
     const treeRef = useRef<RedBlackTree | null>(null)
     const [inputValue, setInputValue] = useState('');
     const [heaptype, setHeaptype] = useState('max-heap');
@@ -71,9 +71,9 @@ const datapage = () => {
         });
     }, [algo, indices]);
 
-    const inorderColor = 'bg-yellow-500';
-    const preorderColor = 'bg-purple-600';
-    const postorderColor = 'bg-pink-600';
+    const inorderColor = 'bg-gradient-to-r from-yellow-400 to-yellow-800';
+    const preorderColor = 'bg-gradient-to-r from-purple-600 to-purple-800';
+    const postorderColor = 'bg-gradient-to-r from-pink-600 to-pink-800';
 
     const calculateBalance = (node: TreeNode | null): number => {
         if (!node) return 0;
@@ -437,7 +437,8 @@ const datapage = () => {
 
                             <button
                                 onClick={handleRotate}
-                                className="w-full bg-gray-700 hover:bg-gray-600 px-4 py-3 rounded-lg font-bold transition-colors disabled:opacity-50"
+
+                                className="w-full bg-gradient-to-r from-green-700 to-emerald-800 hover:from-green-600 hover:to-emerald-700 px-4 py-2 rounded-lg text-sm font-medium transition-all"
                                 disabled={isRunning}
                             >
                                 Perform Rotation
