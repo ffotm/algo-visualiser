@@ -79,7 +79,7 @@ const Aichat = () => {
 
 
     return (
-        <div className="">
+        <div className="z-100">
 
             {showChat && (
                 <div
@@ -100,7 +100,7 @@ const Aichat = () => {
                             pauseDuration={500}
                             showCursor={true}
                             cursorCharacter="|"
-                            className="text-xl font-bold text-green-700"
+                            className="text-xl font-bold bg-gradient-to-r from-green-900 to-emerald-700 bg-clip-text text-transparent"
                         />
                         <button
                             onClick={() => setShowChat(false)}

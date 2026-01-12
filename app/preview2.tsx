@@ -114,13 +114,13 @@ const Dihstra = () => {
                 setVisitedCells(prev => [...prev, `${row}-${col}`]);
                 index++;
                 animationRef.current = requestAnimationFrame(() => {
-                    setTimeout(() => animate(), 60);
+                    setTimeout(() => animate(), 20);
                 });
             } else {
                 setTimeout(() => {
                     resetAnimation();
-                    setTimeout(() => startWormAnimation(), 500);
-                }, 1000);
+                    setTimeout(() => startWormAnimation(), 100);
+                }, 300);
             }
         };
 
@@ -129,10 +129,10 @@ const Dihstra = () => {
 
     return (
         <div id="dijkstra-section" className="min-h-screen w-full flex items-center justify-center bg-black relative overflow-hidden py-20">
-            {/* Animated background */}
+
             <div className="absolute inset-0 bg-gradient-to-br from-emerald-950/10 via-black to-green-950/10"></div>
 
-            {/* Grid pattern overlay */}
+
             <div className="absolute inset-0 opacity-5" style={{
                 backgroundImage: `linear-gradient(rgba(21, 128, 61, 0.2) 1px, transparent 1px),
                                   linear-gradient(90deg, rgba(21, 128, 61, 0.2) 1px, transparent 1px)`,
@@ -144,14 +144,14 @@ const Dihstra = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.2 }}
                 transition={{ duration: 0.6 }}
-                className="relative z-10 w-full max-w-6xl mx-auto px-4"
+                className="relative w-full max-w-6xl mx-auto px-4"
             >
                 <div className="text-center mb-12">
                     <motion.h1
                         initial={{ opacity: 0, y: -20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.2 }}
-                        className="text-5xl md:text-6xl font-bold bg-gradient-to-r from-green-600 via-emerald-700 to-green-600 bg-clip-text text-transparent mb-4"
+                        className="text-4xl font-bold bg-gradient-to-r from-green-700 via-emerald-700 to-green-600 bg-clip-text text-transparent mb-4"
                     >
                         Pathfinding Algorithms
                     </motion.h1>
@@ -159,18 +159,18 @@ const Dihstra = () => {
                         initial={{ opacity: 0 }}
                         whileInView={{ opacity: 1 }}
                         transition={{ delay: 0.3 }}
-                        className="text-green-400/60 text-lg"
+                        className="text-green-400/60 text-md"
                     >
                         Watch the algorithm navigate through obstacles in real-time
                     </motion.p>
                 </div>
 
-                <div className="flex flex-col lg:flex-row gap-8 items-center justify-center">
-                    {/* Grid visualization */}
+                <div className="flex flex-col lg:flex-row gap-30 items-center justify-center">
+
                     <motion.div
                         initial={{ opacity: 0, scale: 0.9 }}
                         whileInView={{ opacity: 1, scale: 1 }}
-                        transition={{ delay: 0.4 }}
+                        transition={{ delay: 0.2 }}
                         className="relative"
                     >
                         <div className="absolute inset-0 bg-gradient-to-r from-green-500/10 to-emerald-500/10 blur-3xl rounded-full"></div>
@@ -191,8 +191,8 @@ const Dihstra = () => {
                                         const isWormHead = visitedCells.length > 0 && cellId === visitedCells[visitedCells.length - 1];
 
                                         let cellStyle = {
-                                            width: '36px',
-                                            height: '36px',
+                                            width: '28px',
+                                            height: '28px',
                                             transition: 'all 0.3s ease',
                                             borderRadius: '4px',
                                         };
@@ -233,7 +233,7 @@ const Dihstra = () => {
                         </div>
                     </motion.div>
 
-                    {/* Info panel */}
+
                     <motion.div
                         initial={{ opacity: 0, x: 20 }}
                         whileInView={{ opacity: 1, x: 0 }}
@@ -244,19 +244,19 @@ const Dihstra = () => {
                             <h3 className="text-xl font-bold text-green-500 mb-4">Legend</h3>
                             <div className="space-y-3">
                                 <div className="flex items-center gap-3">
-                                    <div className="w-8 h-8 rounded bg-gradient-to-br from-green-700 to-green-800 shadow-lg shadow-green-700/30"></div>
-                                    <span className="text-green-100">Start Node</span>
+                                    <div className="w-6 h-6 rounded bg-gradient-to-br from-green-700 to-green-800 shadow-lg shadow-green-700/30"></div>
+                                    <span className="text-green-100 ">Start Node</span>
                                 </div>
                                 <div className="flex items-center gap-3">
-                                    <div className="w-8 h-8 rounded bg-gradient-to-br from-red-600 to-red-700 shadow-lg shadow-red-600/30"></div>
+                                    <div className="w-6 h-6  rounded bg-gradient-to-br from-red-600 to-red-700 shadow-lg shadow-red-600/30"></div>
                                     <span className="text-green-100">Target Node</span>
                                 </div>
                                 <div className="flex items-center gap-3">
-                                    <div className="w-8 h-8 rounded bg-gradient-to-br from-green-500 to-green-600 shadow-lg shadow-green-500/30"></div>
+                                    <div className="w-6 h-6 rounded bg-gradient-to-br from-green-500 to-green-600 shadow-lg shadow-green-500/30"></div>
                                     <span className="text-green-100">Current Path</span>
                                 </div>
                                 <div className="flex items-center gap-3">
-                                    <div className="w-8 h-8 rounded bg-gradient-to-br from-green-900 to-green-950 border border-green-700/20"></div>
+                                    <div className="w-6 h-6  rounded bg-gradient-to-br from-green-900 to-green-950 border border-green-700/20"></div>
                                     <span className="text-green-100">Obstacle</span>
                                 </div>
                             </div>

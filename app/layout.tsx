@@ -23,9 +23,9 @@ export default function RootLayout({
         <AlgoProvider>
           <NavBar />
 
-
-          {children}
           <Aichat />
+          {children}
+
         </AlgoProvider>
       </body>
     </html>

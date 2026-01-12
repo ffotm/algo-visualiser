@@ -242,10 +242,10 @@ const Preview = () => {
             ref={sectionRef}
             className="min-h-screen flex items-center justify-center w-full py-20 px-4 bg-black relative overflow-hidden"
         >
-            {/* Animated background gradient */}
+
             <div className="absolute inset-0 bg-gradient-to-br from-green-950/20 via-black to-emerald-950/20"></div>
 
-            {/* Grid pattern overlay */}
+
             <div className="absolute inset-0 opacity-10" style={{
                 backgroundImage: `linear-gradient(rgba(34, 197, 94, 0.2) 1px, transparent 1px),
                                   linear-gradient(90deg, rgba(34, 197, 94, 0.2) 1px, transparent 1px)`,
@@ -257,10 +257,10 @@ const Preview = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.2 }}
                 transition={{ duration: 0.6 }}
-                className="relative z-10 w-full"
+                className="relative w-full"
             >
-                <div className="max-w-7xl w-full mx-auto grid lg:grid-cols-2 gap-8 items-start">
-                    {/* Visualization Section */}
+                <div className="max-w-7xl w-full mx-auto grid lg:grid-cols-2 gap-10 items-start">
+
                     <div className="flex flex-col items-center space-y-6">
                         <motion.div
                             initial={{ opacity: 0, scale: 0.95 }}
@@ -268,12 +268,12 @@ const Preview = () => {
                             transition={{ delay: 0.2 }}
                             className="w-full"
                         >
-                            <h2 className="text-4xl font-bold bg-gradient-to-r from-green-400 to-emerald-500 bg-clip-text text-transparent mb-8 text-center">
+                            <h2 className="text-3xl font-bold bg-gradient-to-r from-green-400 to-emerald-500 bg-clip-text text-transparent mb-8 text-center">
                                 Bubble Sort Visualization
                             </h2>
 
-                            <div className="relative border border-green-900/50 rounded-2xl bg-gradient-to-br from-green-950/40 to-black p-8 shadow-2xl shadow-green-900/20 backdrop-blur-sm">
-                                {/* Glow effect */}
+                            <div className="relative w-135 border border-green-900/50 rounded-2xl bg-gradient-to-br from-green-950/40 to-black p-8 shadow-2xl shadow-green-900/20 backdrop-blur-sm">
+
                                 <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-green-500/10 to-emerald-500/10 blur-xl"></div>
 
                                 <div className="relative flex flex-row items-end justify-center gap-2">
@@ -286,8 +286,8 @@ const Preview = () => {
                                             key={idx}
                                             style={{
                                                 height: `${value * 2}px`,
-                                                minHeight: '40px',
-                                                minWidth: '45px',
+                                                minHeight: '18px',
+                                                minWidth: '40px',
                                                 transform: 'translate(0, 0)',
                                                 background: 'linear-gradient(180deg, #16a34a 0%, #15803d 100%)',
                                                 border: '1px solid rgba(34, 197, 94, 0.3)',
@@ -306,7 +306,7 @@ const Preview = () => {
                             <motion.button
                                 whileHover={{ scale: 1.02, boxShadow: '0 0 30px rgba(34, 197, 94, 0.4)' }}
                                 whileTap={{ scale: 0.98 }}
-                                className="mt-6 w-full px-8 py-4 bg-gradient-to-r from-green-600 to-emerald-600 text-white font-bold rounded-xl transition-all duration-200 hover:from-green-500 hover:to-emerald-500 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-green-900/50"
+                                className="mt-6 px-8 py-4 bg-gradient-to-r from-green-600 to-emerald-600 text-white font-bold rounded-xl transition-all duration-200 hover:from-green-500 hover:to-emerald-500 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-green-900/50"
                                 onClick={handleRegenerate}
                                 disabled={isAnimating}
                             >
@@ -321,21 +321,34 @@ const Preview = () => {
                                 ) : '↻ Regenerate & Sort'}
                             </motion.button>
                         </motion.div>
+                        <div className="grid w-130 mr-20 grid-cols-3 gap-3 mt-4">
+                            <div className="bg-gradient-to-br from-green-950/40 to-black border border-green-900/50 rounded-lg p-4 text-center">
+                                <div className="text-green-400 text-xs uppercase tracking-wider mb-1">Complexity</div>
+                                <div className="text-white font-bold">O(n²)</div>
+                            </div>
+                            <div className="bg-gradient-to-br from-green-950/40 to-black border border-green-900/50 rounded-lg p-4 text-center">
+                                <div className="text-green-400 text-xs uppercase tracking-wider mb-1">Space</div>
+                                <div className="text-white font-bold">O(1)</div>
+                            </div>
+                            <div className="bg-gradient-to-br from-green-950/40 to-black border border-green-900/50 rounded-lg p-4 text-center">
+                                <div className="text-green-400 text-xs uppercase tracking-wider mb-1">Stable</div>
+                                <div className="text-white font-bold">Yes</div>
+                            </div>
+                        </div>
                     </div>
 
-                    {/* Code Section */}
+
                     <motion.div
                         initial={{ opacity: 0, x: 20 }}
                         whileInView={{ opacity: 1, x: 0 }}
                         transition={{ delay: 0.3 }}
                         className="flex flex-col space-y-4"
                     >
-                        <h3 className="text-3xl font-bold bg-gradient-to-r from-green-400 to-emerald-500 bg-clip-text text-transparent">
+                        <h3 className="text-2xl font-bold bg-gradient-to-r from-green-400 to-emerald-500 bg-clip-text text-transparent">
                             Algorithm Code
                         </h3>
 
-                        <div className="relative border border-green-900/50 rounded-xl overflow-hidden bg-gradient-to-br from-green-950/40 to-black shadow-2xl shadow-green-900/20">
-                            {/* Code header */}
+                        <div className="relative border w-130 h-190 border-green-900/50 rounded-xl overflow-hidden bg-gradient-to-br from-green-950/40 to-black shadow-2xl shadow-green-900/20">
                             <div className="flex items-center gap-2 px-4 py-3 border-b border-green-900/50 bg-green-950/30">
                                 <div className="flex gap-1.5">
                                     <div className="w-3 h-3 rounded-full bg-red-500/80"></div>
@@ -351,8 +364,8 @@ const Preview = () => {
                                         <div
                                             key={line.num}
                                             className={`transition-all duration-200 -mx-2 px-2 py-0.5 ${highlightedLine === line.num
-                                                    ? 'bg-green-500/20 border-l-2 border-green-500'
-                                                    : ''
+                                                ? 'bg-green-500/20 border-l-2 border-green-500'
+                                                : ''
                                                 }`}
                                         >
                                             <span className="text-green-700 select-none mr-4 inline-block w-6 text-right text-xs">
@@ -365,21 +378,8 @@ const Preview = () => {
                             </div>
                         </div>
 
-                        {/* Stats box */}
-                        <div className="grid grid-cols-3 gap-3 mt-4">
-                            <div className="bg-gradient-to-br from-green-950/40 to-black border border-green-900/50 rounded-lg p-4 text-center">
-                                <div className="text-green-400 text-xs uppercase tracking-wider mb-1">Complexity</div>
-                                <div className="text-white font-bold">O(n²)</div>
-                            </div>
-                            <div className="bg-gradient-to-br from-green-950/40 to-black border border-green-900/50 rounded-lg p-4 text-center">
-                                <div className="text-green-400 text-xs uppercase tracking-wider mb-1">Space</div>
-                                <div className="text-white font-bold">O(1)</div>
-                            </div>
-                            <div className="bg-gradient-to-br from-green-950/40 to-black border border-green-900/50 rounded-lg p-4 text-center">
-                                <div className="text-green-400 text-xs uppercase tracking-wider mb-1">Stable</div>
-                                <div className="text-white font-bold">Yes</div>
-                            </div>
-                        </div>
+
+
                     </motion.div>
                 </div>
             </motion.div>

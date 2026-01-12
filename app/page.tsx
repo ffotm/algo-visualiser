@@ -14,7 +14,7 @@ import Aichat from "./aichat";
 export default function Home() {
   return (
     <div>
-      <NavBar />
+
       <Menu />
       <Dihstra />
       <Preview />

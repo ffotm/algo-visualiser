@@ -250,8 +250,8 @@ const Algopage = () => {
     }
 
     return (
-        <div className="min-h-screen bg-black text-white p-8 relative overflow-hidden">
-            {/* Background effects */}
+        <div className="min-h-screen bg-black text-mono text-white p-8 relative overflow-hidden">
+
             <div className="absolute inset-0 bg-gradient-to-br from-green-950/10 via-black to-emerald-950/10"></div>
             <div className="absolute inset-0 opacity-5" style={{
                 backgroundImage: `linear-gradient(rgba(21, 128, 61, 0.2) 1px, transparent 1px),
@@ -290,7 +290,7 @@ const Algopage = () => {
                                             };
 
                                             if (isStart) {
-                                                cellStyle.background = 'linear-gradient(135deg, #15803d, #14532d)';
+                                                cellStyle.background = 'linear-gradient(135deg, #74043d, #2a0030)';
                                                 cellStyle.boxShadow = '0 0 15px rgba(21, 128, 61, 0.4)';
                                             } else if (isEnd) {
                                                 cellStyle.background = 'linear-gradient(135deg, #dc2626, #b91c1c)';
@@ -326,7 +326,7 @@ const Algopage = () => {
                             <h4 className="text-sm font-bold text-green-500 mb-3">Legend</h4>
                             <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                                 <div className="flex items-center gap-2">
-                                    <div className="w-6 h-6 rounded bg-gradient-to-br from-green-700 to-green-800 shadow-lg shadow-green-700/30"></div>
+                                    <div className="w-6 h-6 rounded bg-gradient-to-br from-pink-700 to-purple-700 shadow-lg shadow-pink-900/30"></div>
                                     <span className="text-xs text-gray-300">Start</span>
                                 </div>
                                 <div className="flex items-center gap-2">
@@ -489,7 +489,7 @@ const Algopage = () => {
                                 <div className="grid grid-cols-2 gap-2">
                                     <div className="bg-black/40 rounded-lg p-3 border border-green-900/20">
                                         <div className="text-xs text-gray-400 mb-1">Start</div>
-                                        <div className="text-sm font-mono text-green-400">({start.row}, {start.col})</div>
+                                        <div className="text-sm font-mono text-pink-400">({start.row}, {start.col})</div>
                                     </div>
                                     <div className="bg-black/40 rounded-lg p-3 border border-green-900/20">
                                         <div className="text-xs text-gray-400 mb-1">End</div>

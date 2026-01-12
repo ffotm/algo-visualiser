@@ -20,7 +20,7 @@ const Menu = () => {
             <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-green-800/10 rounded-full blur-3xl animate-pulse"></div>
             <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-emerald-800/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
 
-            <div className="relative container max-w-7xl mx-auto px-6 lg:px-10 h-full flex items-center z-10">
+            <div className="relative container max-w-7xl mx-auto px-6 lg:px-10 h-full flex items-center ">
                 <div className="w-full grid lg:grid-cols-2 gap-12 items-center">
 
                     <motion.div
@@ -45,7 +45,7 @@ const Menu = () => {
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ delay: 0.3 }}
-                                className="text-5xl md:text-5xl font-bold pt-4 leading-tight"
+                                className="text-5xl md:text-5xl font-bold py-6 leading-tight"
                             >
                                 <span className="bg-gradient-to-r from-white via-green-100 to-white bg-clip-text text-transparent">
                                     Algorithm
@@ -73,7 +73,7 @@ const Menu = () => {
                             transition={{ delay: 0.5 }}
                             className="flex flex-col sm:flex-row gap-4"
                         >
-                            <button className="group px-8 py-4 bg-gradient-to-r from-green-700 to-emerald-800 rounded-xl font-semibold transition-all duration-300 hover:from-green-600 hover:to-emerald-700 hover:shadow-lg hover:shadow-green-900/50 hover:scale-105">
+                            <button className="group px-6 py-2 bg-gradient-to-r from-green-700 to-emerald-800 rounded-xl font-semibold transition-all duration-300 hover:from-green-600 hover:to-emerald-700 hover:shadow-lg hover:shadow-green-900/50 hover:scale-105">
                                 <span className="flex items-center gap-2">
                                     Get Started
                                     <svg className="w-5 h-5 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -82,12 +82,11 @@ const Menu = () => {
                                 </span>
                             </button>
 
-                            <button className="px-8 py-4 border border-green-800/50 rounded-xl font-semibold transition-all duration-300 hover:bg-green-950/30 hover:border-green-700/50">
+                            <button className="px-6 py-2 border border-green-800/50 rounded-xl font-semibold transition-all duration-300 hover:bg-green-950/30 hover:border-green-700/50">
                                 View Algorithms
                             </button>
                         </motion.div>
 
-                        {/* Stats */}
                         <motion.div
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
@@ -95,27 +94,27 @@ const Menu = () => {
                             className="grid grid-cols-4 gap-4 pt-8 border-t border-green-900/30"
                         >
                             <div>
-                                <div className="text-3xl font-bold text-green-500">15+</div>
+                                <div className="text-2xl font-bold text-green-500">15+</div>
                                 <div className="text-sm text-gray-500">Algorithms</div>
                             </div>
                             <div>
-                                <div className="text-3xl font-bold text-green-500">6</div>
+                                <div className="text-2xl font-bold text-green-500">6</div>
                                 <div className="text-sm text-gray-500">Sort Types</div>
                             </div><div>
-                                <div className="text-3xl font-bold text-green-500">+5</div>
+                                <div className="text-2xl font-bold text-green-500">+5</div>
                                 <div className="text-sm text-gray-500">Datastructures</div>
                             </div>
-  <div>
-                                <div className="text-3xl font-bold text-green-500">∞</div>
+                            <div>
+                                <div className="text-2xl font-bold text-green-500">∞</div>
                                 <div className="text-sm text-gray-500">Possibilities</div>
                             </div>
-                            
-                          
+
+
 
                         </motion.div>
                     </motion.div>
 
-                 
+
                     <motion.div
                         initial={{ opacity: 0, x: 30 }}
                         animate={{ opacity: 1, x: 0 }}
@@ -123,9 +122,9 @@ const Menu = () => {
                         className="relative hidden lg:flex items-center justify-center"
                     >
                         <div className="relative w-full max-w-lg">
-                            {/* Main card */}
-                            <div className="relative bg-gradient-to-br from-green-950/30 to-black border border-green-900/30 rounded-2xl p-8 backdrop-blur-sm shadow-2xl shadow-green-900/20">
-                                {/* Animated bars visualization */}
+
+                            <div className="relative mt-10 ml-5 w-130 bg-gradient-to-br from-green-950/30 to-black border border-green-900/30 rounded-2xl p-8 backdrop-blur-sm shadow-2xl shadow-green-900/20">
+
                                 <div className="space-y-4 mb-6">
                                     {[80, 45, 95, 60, 30, 75, 50, 85].map((height, index) => (
                                         <motion.div
@@ -137,14 +136,14 @@ const Menu = () => {
                                                 duration: 0.6,
                                                 ease: "easeOut"
                                             }}
-                                            className="h-3 rounded-full bg-gradient-to-r from-green-700 to-green-600 shadow-lg shadow-green-900/30 relative overflow-hidden"
+                                            className="h-2 rounded-full bg-gradient-to-r from-green-700 to-green-600 shadow-lg shadow-green-900/30 relative overflow-hidden"
                                         >
                                             <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent animate-shimmer"></div>
                                         </motion.div>
                                     ))}
                                 </div>
 
-                                {/* Code snippet */}
+
                                 <div className="bg-black/50 rounded-lg p-4 font-mono text-xs text-green-400 border border-green-900/20">
                                     <div className="flex items-start gap-2">
                                         <span className="text-green-700">1</span>
@@ -164,24 +163,24 @@ const Menu = () => {
                                     </div>
                                 </div>
 
-                             
+
                                 <motion.div
                                     initial={{ opacity: 0, scale: 0.8, y: 20 }}
                                     animate={{ opacity: 1, scale: 1, y: 0 }}
                                     transition={{ delay: 1.5 }}
-                                    className="absolute -top-4 -right-4 bg-gradient-to-br from-green-700 to-emerald-800 text-white px-6 py-3 rounded-xl shadow-2xl shadow-green-900/50 border border-green-600/30"
+                                    className="absolute w-30 -top-4 -right-4 bg-gradient-to-br from-green-700 to-emerald-800 text-white px-4 py-3 rounded-xl shadow-2xl shadow-green-900/50 border border-green-600/30"
                                 >
-                                    <div className="text-xs font-semibold opacity-80">Time Complexity</div>
-                                    <div className="text-xl font-bold">O(n log n)</div>
+                                    <div className="text-xs opacity-80">Time Complexity</div>
+                                    <div className="text-l font-semibold">O(n log n)</div>
                                 </motion.div>
 
-                             
 
-                            
+
+
                             </div>
 
-                           
-                            <div className="absolute inset-0 bg-gradient-to-r from-green-600/5 to-emerald-600/5 blur-3xl -z-10"></div>
+
+                            <div className="absolute inset-0 bg-gradient-to-r from-green-600/5 to-emerald-600/5 blur-3xl"></div>
                         </div>
                     </motion.div>
                 </div>

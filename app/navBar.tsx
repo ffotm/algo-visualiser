@@ -19,7 +19,7 @@ const NavBar = () => {
     };
 
     return (
-        <div className="navbar bg-white text-black p-4 border-b border-gray-200 shadow-blue-50 max-h-20px fixed z-10">
+        <div className="navbar bg-white text-black p-4 border-b border-gray-200 shadow-blue-50 max-h-20px fixed">
             <div className="navbar-start">
                 <SiThealgorithms className="w-10 h-10 mr-5" />
                 <h1 className="text-xl font-bold">Algorithm Visualizer</h1>

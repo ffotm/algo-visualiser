@@ -10,8 +10,8 @@
         --bg2: #2a4b27;
         --code: #000000;
         --codetext: #ffffff;
-        /* green */
     }
+    /* green */
     
     html[data-theme='dark'] {
         --bg: #000000;
@@ -21,10 +21,11 @@
         --accent: #093d1c;
         --bg2: #2a4b27;
         --code: #000000;
+        --pill: gradient(to right, #064e3b, #10b981);
     }
     
     .navbar {
-        background-color: black;
+        background-color: var(--bg);
         color: var(--text);
         border-color: var(--border);
         z-index: 100;
