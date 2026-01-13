@@ -1,10 +1,10 @@
 import { getNeighbors, updateNeighbors } from "../dihjstra/dihjstra";
 
-export function Bf(grid, start, end) {
+export function Bf(grid: any, start: any, end: any) {
     const visitedNodes = [];
     const queue = [];
 
-    // reset nodes (important when re-running)
+
     for (const row of grid) {
         for (const node of row) {
             node.isVisited = false;

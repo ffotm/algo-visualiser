@@ -1,12 +1,12 @@
-export default function getMergeSortAnimations(array) {
-    const animations = [];
+export default function getMergeSortAnimations(array: number[]) {
+    const animations: any[] = [];
     if (array.length <= 1) return animations;
     const arr = array.slice();
     mergeSortHelper(arr, 0, arr.length - 1, animations);
     return animations;
 }
 
-function mergeSortHelper(arr, start, end, animations) {
+function mergeSortHelper(arr: number[], start: number, end: number, animations: any[]) {
     if (start >= end) return;
 
     const mid = Math.floor((start + end) / 2);
@@ -15,9 +15,9 @@ function mergeSortHelper(arr, start, end, animations) {
     merge(arr, start, mid, end, animations);
 }
 
-function merge(arr, start, mid, end, animations) {
-    const left = [];
-    const right = [];
+function merge(arr: number[], start: number, mid: number, end: number, animations: any[]) {
+    const left: number[] = [];
+    const right: number[] = [];
 
     // Copy data to temp arrays
     for (let i = start; i <= mid; i++) {

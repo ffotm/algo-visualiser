@@ -133,10 +133,10 @@ const Aichat = () => {
                                 <ReactMarkdown
                                     remarkPlugins={[remarkGfm]}
                                     components={{
-                                        code({ node, inline, className, children, ...props }) {
+                                        code({ node, className, children, ...props }) {
                                             return (
                                                 <code
-                                                    className={`text-pink-900 p-2 rounded block my-2  ${inline ? "inline" : ""}`}
+                                                    className={`text-pink-900 p-2 rounded block my-2`}
                                                     {...props}
                                                 >
                                                     {children}

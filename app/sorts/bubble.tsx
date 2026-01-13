@@ -46,7 +46,7 @@ const animateSwap = async (
 
             bar1.style.backgroundImage = PRIMARY_COLOR;
             bar2.style.backgroundImage = PRIMARY_COLOR;
-            resolve();
+
         }, speed * 0.4);
 
     }, speed * 3);

@@ -1,12 +1,12 @@
-export default function getQuickSortAnimations(array) {
-    const animations = [];
+export default function getQuickSortAnimations(array: number[]) {
+    const animations: any[] = [];
     const arr = array.slice();
 
     quickSortHelper(arr, 0, arr.length - 1, animations);
     return animations;
 }
 
-function quickSortHelper(arr, low, high, animations) {
+function quickSortHelper(arr: number[], low: number, high: number, animations: any[]) {
     if (low < high) {
 
         const pivotIdx = partition(arr, low, high, animations);
@@ -17,7 +17,7 @@ function quickSortHelper(arr, low, high, animations) {
     }
 }
 
-function partition(arr, low, high, animations) {
+function partition(arr: number[], low: number, high: number, animations: any[]) {
     const pivotIndex = high;
     const pivotValue = arr[high];
 

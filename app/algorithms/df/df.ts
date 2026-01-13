@@ -2,7 +2,7 @@
 import { getNeighbors } from "../dihjstra/dihjstra";
 
 
-export function Df(grid, start, end) {
+export function Df(grid: any, start: any, end: any) {
     const visitedNodes = [];
     const stack = [];
 

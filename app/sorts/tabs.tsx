@@ -125,13 +125,13 @@ const Tabss = ({ algo, setAlgo, highlightedLine }: any) => {
 
     const currentAlgo = algoInfo[algo];
 
-    let whichcode = [];
+    let whichcode: 'bubble' | 'merge' | 'quick' | null = null;
     if (algo === 'bubble-sort') {
-        whichcode = codeBubble;
+        whichcode = 'bubble';
     } else if (algo === 'merge-sort') {
-        whichcode = codeMerge;
+        whichcode = 'merge';
     } else if (algo === 'quick-sort') {
-        whichcode = codeQuick;
+        whichcode = 'quick';
     }
 
     return (
@@ -155,7 +155,7 @@ const Tabss = ({ algo, setAlgo, highlightedLine }: any) => {
             </div>
             {showCode && (
 
-                <Code whichcode={whichcode} highlightedLine={highlightedLine} />
+                <Code whichcode={algo === 'bubble-sort' ? 'bubble' : algo === 'merge-sort' ? 'merge' : algo === 'quick-sort' ? 'quick' : null} highlightedLine={highlightedLine} />
             )}
         </div>
     );

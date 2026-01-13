@@ -23,7 +23,7 @@ const SWAP_COLOR = 'linear-gradient(to right, #ef4444, #dc2626)';
 
 const Sortspage = () => {
     const [algo, setAlgo] = useState('bubble-sort');
-    const [array, setArray] = useState([])
+    const [array, setArray] = useState<number[]>([]);
     const [highlightedLine, setHighlightedLine] = useState<number | null>(null);
     const [isAnimating, setIsAnimating] = useState(false)
     const sectionRef = useRef(null)
@@ -73,7 +73,8 @@ const Sortspage = () => {
         const bars = document.getElementsByClassName('array-bar');
 
         for (let i = 0; i < bars.length; i++) {
-            bars[i].style.backgroundImage = PRIMARY_COLOR;
+            const barE = bars[i] as HTMLElement;
+            barE.style.backgroundImage = PRIMARY_COLOR;
         }
 
         switch (algo) {
@@ -101,7 +102,7 @@ const Sortspage = () => {
     };
 
 
-    const animateQuickSort = (animations, bars) => {
+    const animateQuickSort = (animations: any[], bars: HTMLCollectionOf<HTMLElement> | any) => {
         animations.forEach((animation, idx) => {
             setTimeout(() => {
                 const { type } = animation;
@@ -155,12 +156,12 @@ const Sortspage = () => {
     };
 
 
-    const animateBubbleSort = async (animations, bars) => {
+    const animateBubbleSort = async (animations: any[], bars: HTMLCollectionOf<HTMLElement> | any) => {
         for (let idx = 0; idx < animations.length; idx++) {
             const animation = animations[idx];
             const { type, i, j } = animation;
 
-            await new Promise(resolve => {
+            await new Promise<void>(resolve => {
                 if (type === 'compare') {
                     const highlighted = bubbleLineMap['compare'];
                     setHighlightedLine(highlighted);
@@ -200,7 +201,7 @@ const Sortspage = () => {
 
 
 
-    const animateMergeSort = async (animations, bars) => {
+    const animateMergeSort = async (animations: any[], bars: HTMLCollectionOf<HTMLElement> | any) => {
         for (let idx = 0; idx < animations.length; idx++) {
             const animation = animations[idx];
             const { type } = animation;
@@ -219,7 +220,7 @@ const Sortspage = () => {
                 bars[i].style.backgroundImage = COMPARE_COLOR;
                 bars[j].style.backgroundImage = COMPARE_COLOR;
 
-                await new Promise(resolve =>
+                await new Promise<void>(resolve =>
                     setTimeout(() => {
 
                         bars[i].style.backgroundImage = ACTIVE_COLOR;
@@ -234,7 +235,7 @@ const Sortspage = () => {
                 setHighlightedLine(mergeLineMap['overwrite']);
                 bars[index].style.backgroundImage = SWAP_COLOR;
 
-                await new Promise(resolve =>
+                await new Promise<void>(resolve =>
                     setTimeout(() => {
                         setArray(prev => {
                             const newArr = [...prev];

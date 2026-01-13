@@ -5,6 +5,7 @@ import { TreeNode, updateHeights, balanceFactor } from './tree'
 type TreeProps = {
     root: TreeNode | null
     highlightedNodes: number[]
+    chosenColor: string
 
 }
 

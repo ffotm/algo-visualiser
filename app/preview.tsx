@@ -8,7 +8,7 @@ const SECONDARY_COLOR = '#16a34a';
 const COMPARISON_COLOR = '#dc2626';
 
 // Mock bubble sort animations function
-const getBubbleSortAnimations = (array) => {
+const getBubbleSortAnimations = (array: number[]) => {
     const animations = [];
     const arr = array.slice();
 
@@ -27,12 +27,12 @@ const getBubbleSortAnimations = (array) => {
 };
 
 const Preview = () => {
-    const [array, setArray] = useState([])
+    const [array, setArray] = useState<number[]>([])
     const [isInView, setIsInView] = useState(false)
-    const [highlightedLine, setHighlightedLine] = useState(null)
+    const [highlightedLine, setHighlightedLine] = useState<(number | null)>(null)
     const [isAnimating, setIsAnimating] = useState(false)
-    const sectionRef = useRef(null)
-    const animationRef = useRef(null)
+    const sectionRef = useRef<(HTMLElement | null)>(null)
+    const animationRef = useRef<(number | null)[]>([])
 
     const createArray = () => {
         const arr = []
@@ -69,39 +69,41 @@ const Preview = () => {
         }
     }, [array, isInView])
 
-    const animateSwap = (i, j) => {
-        return new Promise((resolve) => {
+    const animateSwap = (i: number, j: number) => {
+        return new Promise<void>((resolve) => {
             const bars = document.getElementsByClassName('array-bar');
             const bar1 = bars[i];
             const bar2 = bars[j];
 
-            const barWidth = bar1.offsetWidth;
+            const bar1El = bar1 as HTMLElement;
+            const bar2El = bar2 as HTMLElement;
+            const barWidth = bar1El.offsetWidth;
             const margin = 8;
             const totalWidth = barWidth + margin;
 
-            bar1.style.backgroundColor = SECONDARY_COLOR;
-            bar2.style.backgroundColor = SECONDARY_COLOR;
+            bar1El.style.backgroundColor = SECONDARY_COLOR;
+            bar2El.style.backgroundColor = SECONDARY_COLOR;
 
-            bar1.style.transition = 'transform 0.3s ease';
-            bar2.style.transition = 'transform 0.3s ease';
-            bar1.style.transform = 'translateY(-40px)';
-            bar2.style.transform = 'translateY(40px)';
+            bar1El.style.transition = 'transform 0.3s ease';
+            bar2El.style.transition = 'transform 0.3s ease';
+            bar1El.style.transform = 'translateY(-40px)';
+            bar2El.style.transform = 'translateY(40px)';
 
             setTimeout(() => {
-                bar1.style.transform = `translate(${totalWidth}px, -40px)`;
-                bar2.style.transform = `translate(${-totalWidth}px, 40px)`;
+                bar1El.style.transform = `translate(${totalWidth}px, -40px)`;
+                bar2El.style.transform = `translate(${-totalWidth}px, 40px)`;
             }, 300);
 
             setTimeout(() => {
-                bar1.style.transform = `translateX(${totalWidth}px)`;
-                bar2.style.transform = `translateX(${-totalWidth}px)`;
+                bar1El.style.transform = `translateX(${totalWidth}px)`;
+                bar2El.style.transform = `translateX(${-totalWidth}px)`;
             }, 600);
 
             setTimeout(() => {
-                bar1.style.transition = '';
-                bar2.style.transition = '';
-                bar1.style.transform = '';
-                bar2.style.transform = '';
+                bar1El.style.transition = '';
+                bar2El.style.transition = '';
+                bar1El.style.transform = '';
+                bar2El.style.transform = '';
 
                 setArray(prev => {
                     const newArr = [...prev];
@@ -110,8 +112,8 @@ const Preview = () => {
                 });
 
                 setTimeout(() => {
-                    bar1.style.backgroundColor = PRIMARY_COLOR;
-                    bar2.style.backgroundColor = PRIMARY_COLOR;
+                    bar1El.style.backgroundColor = PRIMARY_COLOR;
+                    bar2El.style.backgroundColor = PRIMARY_COLOR;
                     resolve();
                 }, 50);
             }, 900);
@@ -125,12 +127,15 @@ const Preview = () => {
         const animations = getBubbleSortAnimations(array);
         const bars = document.getElementsByClassName('array-bar');
 
+
+
         Array.from(bars).forEach(bar => {
-            bar.style.backgroundColor = PRIMARY_COLOR;
+            const barEl = bar as HTMLElement;
+            barEl.style.backgroundColor = PRIMARY_COLOR;
         });
 
         if (animationRef.current) {
-            animationRef.current.forEach(id => clearTimeout(id));
+            animationRef.current.forEach((id: any) => clearTimeout(id));
         }
         animationRef.current = [];
 
@@ -139,13 +144,14 @@ const Preview = () => {
         for (let idx = 0; idx < animations.length; idx++) {
             const step = animations[idx];
 
-            await new Promise(resolve => {
+            await new Promise<void>(resolve => {
                 const timeoutId = setTimeout(() => {
                     if (step.type === 'compare') {
                         setHighlightedLine(7);
-
-                        bars[step.i].style.backgroundColor = COMPARISON_COLOR;
-                        bars[step.j].style.backgroundColor = COMPARISON_COLOR;
+                        const barEl = bars[step.i] as HTMLElement;
+                        barEl.style.backgroundColor = COMPARISON_COLOR;
+                        const barEl2 = bars[step.j] as HTMLElement;
+                        barEl2.style.backgroundColor = COMPARISON_COLOR;
 
                         setTimeout(() => {
                             if (idx < animations.length - 1 &&
@@ -155,8 +161,8 @@ const Preview = () => {
                         }, ANIMATION_SPEED_MS);
 
                         setTimeout(() => {
-                            bars[step.i].style.backgroundColor = PRIMARY_COLOR;
-                            bars[step.j].style.backgroundColor = PRIMARY_COLOR;
+                            barEl.style.backgroundColor = PRIMARY_COLOR;
+                            barEl2.style.backgroundColor = PRIMARY_COLOR;
                             resolve();
                         }, ANIMATION_SPEED_MS);
                     }
@@ -169,7 +175,7 @@ const Preview = () => {
                     }
                 }, idx * ANIMATION_SPEED_MS / idx);
 
-                animationRef.current.push(timeoutId);
+                animationRef.current.push(timeoutId as unknown as number);
             });
         }
 
@@ -184,7 +190,7 @@ const Preview = () => {
         setHighlightedLine(null);
 
         if (animationRef.current) {
-            animationRef.current.forEach(id => clearTimeout(id));
+            animationRef.current.forEach((id: any) => clearTimeout(id));
             animationRef.current = [];
         }
 
@@ -194,9 +200,10 @@ const Preview = () => {
         setTimeout(() => {
             const bars = document.getElementsByClassName('array-bar');
             Array.from(bars).forEach(bar => {
-                bar.style.backgroundColor = PRIMARY_COLOR;
-                bar.style.transform = '';
-                bar.style.transition = '';
+                const barEl = bar as HTMLElement;
+                barEl.style.backgroundColor = PRIMARY_COLOR;
+                barEl.style.transform = '';
+                barEl.style.transition = '';
             });
 
             setTimeout(() => {

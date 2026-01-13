@@ -2,25 +2,33 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 
-const Dihstra = () => {
-    const [grid, setGrid] = useState([]);
-    const [visitedCells, setVisitedCells] = useState([]);
+type Cell = {
+    isWall: boolean;
+    isPath: boolean;
+    isVisited: boolean;
+};
+
+const rows = 12;
+const cols = 12;
+const ANIMATION_SPEED = 20;
+
+const Dihstra: React.FC = () => {
+    const [grid, setGrid] = useState<Cell[][]>([]);
+    const [visitedCells, setVisitedCells] = useState<string[]>([]);
     const [isVisible, setIsVisible] = useState(false);
-    const observerRef = useRef(null);
-    const animationRef = useRef(null);
-    const rows = 12;
-    const cols = 12;
+    const observerRef = useRef<IntersectionObserver | null>(null);
+    const animationRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
     useEffect(() => {
-        const newGrid = [];
+        const newGrid: Cell[][] = [];
         for (let r = 0; r < rows; r++) {
-            const row = [];
+            const row: Cell[] = [];
             for (let c = 0; c < cols; c++) {
                 const isWall = Math.random() < 0.15;
                 row.push({
                     isWall,
                     isPath: false,
-                    isVisited: false
+                    isVisited: false,
                 });
             }
             newGrid.push(row);
@@ -42,8 +50,9 @@ const Dihstra = () => {
             { threshold: 0.3 }
         );
 
-        if (observerRef.current) {
-            observerRef.current.observe(document.getElementById('dijkstra-section'));
+        const section = document.getElementById('dijkstra-section');
+        if (observerRef.current && section) {
+            observerRef.current.observe(section);
         }
 
         return () => {
@@ -51,23 +60,23 @@ const Dihstra = () => {
                 observerRef.current.disconnect();
             }
             if (animationRef.current) {
-                cancelAnimationFrame(animationRef.current);
+                clearTimeout(animationRef.current);
             }
         };
     }, []);
 
     const resetAnimation = () => {
         setVisitedCells([]);
-        setGrid(prev => prev.map(row =>
-            row.map(cell => ({ ...cell, isVisited: false, isPath: false }))
-        ));
-        if (animationRef.current) {
-            cancelAnimationFrame(animationRef.current);
-        }
+        setGrid(prev =>
+            prev.map(row =>
+                row.map(cell => ({ ...cell, isVisited: false, isPath: false }))
+            )
+        );
+        if (animationRef.current) clearTimeout(animationRef.current);
     };
 
     const startWormAnimation = () => {
-        const path = [];
+        const path: [number, number][] = [];
         let currentRow = 0;
         let currentCol = 0;
 
@@ -83,7 +92,12 @@ const Dihstra = () => {
                     if (Math.random() < 0.5) currentRow++;
                     else currentCol++;
                 } else {
-                    const directions = [[0, 1], [1, 0], [0, -1], [-1, 0]];
+                    const directions: [number, number][] = [
+                        [0, 1],
+                        [1, 0],
+                        [0, -1],
+                        [-1, 0],
+                    ];
                     const [dr, dc] = directions[Math.floor(Math.random() * directions.length)];
                     const newRow = currentRow + dr;
                     const newCol = currentCol + dc;
@@ -101,23 +115,22 @@ const Dihstra = () => {
         const animate = () => {
             if (index < path.length) {
                 const [row, col] = path[index];
+
                 setGrid(prev => {
-                    const newGrid = [...prev];
-                    newGrid[row] = [...newGrid[row]];
-                    newGrid[row][col] = {
-                        ...newGrid[row][col],
-                        isVisited: true,
-                        isPath: true
-                    };
+                    const newGrid = prev.map(r => r.map(c => ({ ...c })));
+                    newGrid[row][col].isVisited = true;
+                    newGrid[row][col].isPath = true;
                     return newGrid;
                 });
+
                 setVisitedCells(prev => [...prev, `${row}-${col}`]);
                 index++;
-                animationRef.current = requestAnimationFrame(() => {
-                    setTimeout(() => animate(), 20);
-                });
+
+                animationRef.current = setTimeout(() => {
+                    animate();
+                }, ANIMATION_SPEED);
             } else {
-                setTimeout(() => {
+                animationRef.current = setTimeout(() => {
                     resetAnimation();
                     setTimeout(() => startWormAnimation(), 100);
                 }, 300);
@@ -125,19 +138,23 @@ const Dihstra = () => {
         };
 
         animate();
-    }
+    };
 
     return (
-        <div id="dijkstra-section" className="min-h-screen w-full flex items-center justify-center bg-black relative overflow-hidden py-20">
-
+        <div
+            id="dijkstra-section"
+            className="min-h-screen w-full flex items-center justify-center bg-black relative overflow-hidden py-20"
+        >
             <div className="absolute inset-0 bg-gradient-to-br from-emerald-950/10 via-black to-green-950/10"></div>
 
-
-            <div className="absolute inset-0 opacity-5" style={{
-                backgroundImage: `linear-gradient(rgba(21, 128, 61, 0.2) 1px, transparent 1px),
-                                  linear-gradient(90deg, rgba(21, 128, 61, 0.2) 1px, transparent 1px)`,
-                backgroundSize: '50px 50px'
-            }}></div>
+            <div
+                className="absolute inset-0 opacity-5"
+                style={{
+                    backgroundImage: `linear-gradient(rgba(21, 128, 61, 0.2) 1px, transparent 1px),
+                                      linear-gradient(90deg, rgba(21, 128, 61, 0.2) 1px, transparent 1px)`,
+                    backgroundSize: '50px 50px',
+                }}
+            ></div>
 
             <motion.div
                 initial={{ opacity: 0, y: 20 }}
@@ -146,6 +163,7 @@ const Dihstra = () => {
                 transition={{ duration: 0.6 }}
                 className="relative w-full max-w-6xl mx-auto px-4"
             >
+                {/* Title */}
                 <div className="text-center mb-12">
                     <motion.h1
                         initial={{ opacity: 0, y: -20 }}
@@ -165,8 +183,8 @@ const Dihstra = () => {
                     </motion.p>
                 </div>
 
+                {/* Grid */}
                 <div className="flex flex-col lg:flex-row gap-30 items-center justify-center">
-
                     <motion.div
                         initial={{ opacity: 0, scale: 0.9 }}
                         whileInView={{ opacity: 1, scale: 1 }}
@@ -188,9 +206,11 @@ const Dihstra = () => {
                                         const isStart = r === 0 && c === 0;
                                         const isEnd = r === rows - 1 && c === cols - 1;
                                         const cellId = `${r}-${c}`;
-                                        const isWormHead = visitedCells.length > 0 && cellId === visitedCells[visitedCells.length - 1];
+                                        const isWormHead =
+                                            visitedCells.length > 0 &&
+                                            cellId === visitedCells[visitedCells.length - 1];
 
-                                        let cellStyle = {
+                                        let cellStyle: React.CSSProperties = {
                                             width: '28px',
                                             height: '28px',
                                             transition: 'all 0.3s ease',
@@ -233,7 +253,7 @@ const Dihstra = () => {
                         </div>
                     </motion.div>
 
-
+                    {/* Legend & Stats */}
                     <motion.div
                         initial={{ opacity: 0, x: 20 }}
                         whileInView={{ opacity: 1, x: 0 }}

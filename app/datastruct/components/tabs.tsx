@@ -53,14 +53,6 @@ const Tabss = ({ algo, setAlgo }: any) => {
 
     const currentAlgo = algoInfo[algo];
 
-    let whichcode = [];
-    if (algo === 'bubble-sort') {
-        whichcode = codeBubble;
-    } else if (algo === 'merge-sort') {
-        whichcode = codeMerge;
-    } else if (algo === 'quick-sort') {
-        whichcode = codeQuick;
-    }
 
     return (
         <div className="w-full mb-6">
@@ -94,10 +86,7 @@ const Tabss = ({ algo, setAlgo }: any) => {
 
 
             </div>
-            {showCode && (
 
-                <Code whichcode={whichcode} highlightedLine={highlightedLine} />
-            )}
         </div>
     );
 };

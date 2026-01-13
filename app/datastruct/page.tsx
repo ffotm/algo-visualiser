@@ -3,7 +3,7 @@ import React, { use, useRef } from 'react'
 import Tabss from './components/tabs'
 import { useState, useEffect } from 'react'
 import Tree from './components/treevis'
-import { buildBST, fixViolations, rnbInsert, buildHeap, RedBlackTree, traverseInOrder, rotateLeft, rotateRight, insertBST, traversePostOrder, traversePreOrder, TreeNode, balanceFactor, updateHeights, buildAVLTree, isAvlBalanced, isHeapValid, buildHeap2 } from './components/tree'
+import { buildBST, fixViolations, buildHeap, RedBlackTree, traverseInOrder, rotateLeft, rotateRight, insertBST, traversePostOrder, traversePreOrder, TreeNode, balanceFactor, updateHeights, buildAVLTree, isAvlBalanced, isHeapValid, buildHeap2 } from './components/tree'
 import Avl from './components/avl'
 import { animateRotationWithQueue } from './components/animate'
 import Rnb from './components/rnb'
@@ -20,13 +20,13 @@ import { useAlgoContext } from '../algoContext'
 
 
 const datapage = () => {
-    const [root, setRoot] = useState(null);
+    const [root, setRoot] = useState<TreeNode | null>(null);
     const [treeSize, setTreeSize] = useState(7);
     const [speed, setSpeed] = useState(500);
     const [isRunning, setIsRunning] = useState(false);
     const [manualInput, setManualInput] = useState('');
-    const [highlightedNodes, setHighlightedNodes] = useState([]);
-    const [traversalResult, setTraversalResult] = useState([]);
+    const [highlightedNodes, setHighlightedNodes] = useState<number[]>([]);
+    const [traversalResult, setTraversalResult] = useState<number[]>([]);
     const [currentStep, setCurrentStep] = useState(0);
     const [algo, setAlgo] = useState('bst-tree');
     const [showParameters, setShowParameters] = useState(true);
@@ -35,8 +35,8 @@ const datapage = () => {
     const [inputValue, setInputValue] = useState('');
     const [heaptype, setHeaptype] = useState('max-heap');
     const [showIndex, setShowIndex] = useState(true);
-    const [indices, setIndices] = useState([]);
-    const [heapArray, setHeapArray] = useState([]);
+    const [indices, setIndices] = useState<number[] | any>([]);
+    const [heapArray, setHeapArray] = useState<number[] | any>([]);
 
     const initRBT = () => {
         treeRef.current = new RedBlackTree()
@@ -140,7 +140,7 @@ const datapage = () => {
 
     };
 
-    const animateTraversal = async (nodeOrder: number[]) => {
+    const animateTraversal = async (nodeOrder: any[]) => {
         setIsRunning(true)
         setHighlightedNodes([])
         setCurrentStep(0)
@@ -194,10 +194,10 @@ const datapage = () => {
     };
 
 
-    const getNodeValues = (node, idList) => {
+    const getNodeValues = (node: TreeNode | null, idList: number[]) => {
         if (!node) return [];
-        const idToValue = {};
-        const buildMap = (n) => {
+        const idToValue: { [key: number]: number } = {};
+        const buildMap = (n: TreeNode | null) => {
             if (!n) return;
             idToValue[n.id] = n.value;
             buildMap(n.left);
@@ -223,10 +223,10 @@ const datapage = () => {
         })
     }
 
-    const getredNodes = (node: TreeNode | null) => {
-        const redNodes = [];
+    const getredNodes = (node: TreeNode | null): number[] => {
+        const redNodes: number[] = [];
 
-        if (!node) return;
+        if (!node) return [];
         if (node.type === 'red') {
             redNodes.push(node.id);
         }
@@ -236,9 +236,9 @@ const datapage = () => {
     }
 
     const generateRandomrnb = () => {
-        treeRef.current = new RedBlackTree();
+        treeRef.current = new RedBlackTree() || null;
         const values = Array.from({ length: treeSize }, () => Math.floor(Math.random() * 100) + 1);
-        values.forEach(v => treeRef.current.rnbInsert(v));
+        values.forEach(v => treeRef.current!.rnbInsert(v));
         setRoot({ ...treeRef.current.root! });
     };
     let NODE_ID = 0;
@@ -252,9 +252,11 @@ const datapage = () => {
             .filter(v => !isNaN(v));
 
         if (vals.length === 0) return;
-        const i = [];
-        const h = [];
-        let t = [];
+        const i: number[] | any = [];
+        const h: number[] = [];
+        let t: number[] | null = null;
+
+
 
         if (algo === 'red-black-tree') {
             i.push(...vals);

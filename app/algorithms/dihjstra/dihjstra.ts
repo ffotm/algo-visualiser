@@ -1,6 +1,6 @@
 
 
-export default function createGrid(rows, cols) {
+export default function createGrid(rows: number, cols: number) {
     const arr = [];
     for (let i = 0; i < rows; i++) {
         const row = [];
@@ -23,7 +23,7 @@ export default function createGrid(rows, cols) {
 }
 
 
-export function dihstra(grid, start, end) {
+export function dihstra(grid: any, start: any, end: any) {
     console.log("start, end", start, end)
     const visitedNodes = [];
     start.isStart = true;
@@ -47,11 +47,11 @@ export function dihstra(grid, start, end) {
     return visitedNodes;
 }
 
-function sortNodesByDistance(unvisitedNodes) {
+function sortNodesByDistance(unvisitedNodes: any[]) {
     unvisitedNodes.sort((nodeA, nodeB) => nodeA.distance - nodeB.distance);
 }
 
-export function updateNeighbors(node, grid) {
+export function updateNeighbors(node: any, grid: any) {
     const neighbors = getNeighbors(node, grid);
     for (const neighbor of neighbors) {
         const newDist = node.distance + 1;
@@ -62,7 +62,7 @@ export function updateNeighbors(node, grid) {
     }
 }
 
-export function getNeighbors(node, grid) {
+export function getNeighbors(node: any, grid: any) {
     const neighbors = [];
     const { row, col } = node;
     if (row > 0) neighbors.push(grid[row - 1][col]);
@@ -72,7 +72,7 @@ export function getNeighbors(node, grid) {
     return neighbors;
 }
 
-export function getPath(endNode) {
+export function getPath(endNode: any) {
     const path = [];
     let currentNode = endNode;
     while (currentNode !== null) {

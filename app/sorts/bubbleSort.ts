@@ -1,6 +1,6 @@
 
 
-export default function getBubbleSortAnimations(array) {
+export default function getBubbleSortAnimations(array: number[]) {
     const animations = [];
     const arr = array.slice();
 

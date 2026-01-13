@@ -301,7 +301,7 @@ class RedBlackTree {
         }
 
         // BST insert
-        let current = this.root;
+        let current: TreeNode | null = this.root;
         let parent: TreeNode | null = null;
 
         while (current) {
@@ -425,5 +425,5 @@ class RedBlackTree {
 
 
 
-export { RedBlackTree, isHeapValid, buildHeap, buildHeap2, TreeNode, rotateLeft, rotateRight, fixViolations, rnbInsert, buildBST, insertBST, isAvlBalanced, updateHeights, balanceFactor, buildAVLTree, traverseInOrder, traversePreOrder, traversePostOrder };
+export { RedBlackTree, isHeapValid, buildHeap, buildHeap2, TreeNode, rotateLeft, rotateRight, fixViolations, buildBST, insertBST, isAvlBalanced, updateHeights, balanceFactor, buildAVLTree, traverseInOrder, traversePreOrder, traversePostOrder };
 

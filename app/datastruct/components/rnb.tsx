@@ -3,7 +3,7 @@ import { TreeNode } from './tree';
 
 type TreeProps = {
     root: TreeNode | null;
-    highlightedNodes: number[];
+    highlightedNodes: number[] | any[];
     chosenColor: string;
 };
 
