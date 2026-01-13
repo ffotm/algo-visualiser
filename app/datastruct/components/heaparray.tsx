@@ -17,6 +17,8 @@ const HeapArray: React.FC<HeapArrayProps> = ({ heaptype, heapArray, highlight = 
             <h3 className="text-green-400 font-bold mb-2">Heap Array Representation</h3>
 
             <div className="flex gap-4">
+                {heapArray.length === 0 && (<p className="text-gray-500">/</p>
+                )}
                 {
                     heapArray.map((val, idx) => {
                         const isHighlighted = highlight.includes(idx);
