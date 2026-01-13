@@ -74,16 +74,17 @@ const Menu = () => {
                             className="flex flex-col sm:flex-row gap-4"
                         >
                             <button className="group px-6 py-2 bg-gradient-to-r from-green-700 to-emerald-800 rounded-xl font-semibold transition-all duration-300 hover:from-green-600 hover:to-emerald-700 hover:shadow-lg hover:shadow-green-900/50 hover:scale-105">
-                                <span className="flex items-center gap-2">
-                                    Get Started
-                                    <svg className="w-5 h-5 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                                    </svg>
-                                </span>
+                                <a href="/datastruct" >
+                                    <span className="flex items-center gap-2">
+                                        Get Started
+                                        <svg className="w-5 h-5 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                                        </svg>
+                                    </span></a>
                             </button>
 
                             <button className="px-6 py-2 border border-green-800/50 rounded-xl font-semibold transition-all duration-300 hover:bg-green-950/30 hover:border-green-700/50">
-                                View Algorithms
+                                <a href="/datastruct"> View Algorithms</a>
                             </button>
                         </motion.div>
 
